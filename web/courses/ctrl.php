@@ -39,11 +39,11 @@ switch($_POST['do']){
             $R['display_name']=$meta['display_name'];
             //$R['short_desc']=substr($edxCourse->shortDescription(), 0, 32);
             
-            //$R['start']=date('Y-m-d', $edxCourse->start_date());
-            //$R['end']=date('Y-m-d', $edxCourse->end_date());
+            $R['start']=date('Y-m-d', $edxCourse->startDate($course_id));
+            $R['end']=date('Y-m-d', $edxCourse->endDate());
 
             //$R['youtube']=$edxCourse->youtubeid();
-            //$R['chapters']=count($edxCourse->chapters());
+            $R['chapters']=count($edxCourse->chapters($course_id));
 
             //$R['units']=$edxCourse->unitCount();
             $R['enroll']=$edxapp->enrollCount($course_id);// start date

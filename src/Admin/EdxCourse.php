@@ -156,26 +156,34 @@ class EdxCourse
 
 
 
-
-    public function start_date()
+    /**
+     * Get the start date of a given course
+     * @return [type] [description]
+     */
+    public function startDate($course_id = '')
     {
-        //$meta=$this->metadata();
-        if (isset($this->metadata()['start'])) {
+        $metadata=$this->metadata($course_id);
+        //echo "<pre>";print_r($metadata['start']);exit;
+        if (@$metadata['start']) {
             /*
             if (preg_match("/^1970/", $this->metadata()['start'])) {
                 return false;
             }
             */
-            return strtotime($this->metadata()['start']);
+            return strtotime($metadata['start']);
         }
         return false;
     }
 
-
-    public function end_date()
+    /**
+     * Get the end fate, of a given coursse
+     * @return [type] [description]
+     */
+    public function endDate($course_id = '')
     {
-        if (isset($this->metadata()['end'])) {
-            return strtotime($this->metadata()['end']);
+        $metadata=$this->metadata($course_id);
+        if (isset($metadata['end'])) {
+            return strtotime($metadata['end']);
         }
         return false;
     }
