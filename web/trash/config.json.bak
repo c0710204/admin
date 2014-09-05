@@ -1,0 +1,27 @@
+{
+    "lte":{
+        "title":"Fbmx",
+        "skin":"skin-black",
+        "logo":"logosocgen.png"
+    },
+	"pdo":{
+        "host":     "127.0.0.1",
+        "host":     "54.236.231.29",
+        "host":     "192.168.33.10",
+        "name":     "edxapp",
+        "driver":   "mysql",
+        "pass":     "robotix",
+        "pass":     "autarie01",
+        "pass":     "",
+        "port":     "3306",
+        "user":     "cron",
+        "user":     "edx",
+        "user":     "root"
+	},
+    "mongo":{
+        "host": "192.168.33.10",
+        "user": "",
+        "pass": "",
+        "port": "27017"
+    }
+}

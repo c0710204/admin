@@ -1,0 +1,18 @@
+{
+    "Dashboard":{
+        "icon":"Fbmx",
+        "url":""
+    },
+	"Users":{
+        "icon":     "127.0.0.1",
+        "url":     "edxapp"
+	},
+    "Courses":{
+        "icon": "localhost",
+        "url": ""
+    },
+    "Groups":{
+        "icon":"test",
+        "url":"groups"
+    }
+}

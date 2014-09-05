@@ -1,0 +1,19 @@
+{
+	"name":"FBMAdmin",
+	"authors": [
+        {
+            "name": "Jambonbill",
+            "email": "jambonbill@gmail.com",
+            "homepage": "https://github.com/jambonbill"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Admin": "src/"
+        }
+    },
+    "require": {
+    	"php": ">=5.5.9",
+        "monolog/monolog": "~1.1"
+    }
+}

@@ -1,0 +1,4 @@
+
+
+
+mysqldump -h localhost -u XXXX -pXXXX DBNAME --compress --single-transaction --quick  --opt --order-by-primary | mysql --compress --host=AMAZONHOSTNAME --user=username --password DBNAME
