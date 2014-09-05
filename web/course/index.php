@@ -28,7 +28,7 @@ $edxForum = new EdxForum();
 
 // metadata
 //$meta = $edxapp->course_metadata($_GET['org'], $_GET['course']);
-$meta = $edxCourse->metadata();
+$meta = $edxCourse->metadata($course_id);
 
 
 // http://edx.readthedocs.org/projects/devdata/en/latest/course_data_formats/course_xml.html
@@ -44,9 +44,9 @@ echo "<input type='hidden' id='course_id' value='$course_id'>";
 <section class="content">
 
 <?php
-if (!$edxCourse->exist()) {
+if (!$edxCourse->exist($course_id)) {
     echo $admin->callout('Danger', 'Course "'.$course_id.'" not found', 'The course was not found or not available');
-    exit;
+    //exit;
 }
 ?>
 

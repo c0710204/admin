@@ -1,10 +1,8 @@
 <?php
-//course info
-//echo "<pre>".print_r($_GET, true)."</pre>";
+// course info
 
-
-$shortDesc = $edxCourse->shortDescription();
-$meta = $edxCourse->metadata();
+$shortDesc = $edxCourse->shortDescription($course_id);
+$meta = $edxCourse->metadata($course_id);
 
 //print_r($meta);
 
