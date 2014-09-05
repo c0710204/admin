@@ -314,11 +314,17 @@ class EdxCourse
      * Return course short description
      * @return [type] [description]
      */
-    public function shortDescription()
+    public function shortDescription($course_id = '')
     {
-
-        $data=$this->modulestore->findOne(["_id.course"=>$this->course, '_id.org'=>$this->org, "_id.name"=>"short_description"], ["_id"=>0, "metadata"=>0]);
-        if(!isset($data['definition']['data']['data'])){
+        if ($course_id) {
+            $x=explode("/", $course_id);
+            $filter=['_id.org'=>$x[0], "_id.course"=>$x[1],  "_id.name"=>"short_description"];
+        } else {
+            $filter=["_id.course"=>$this->course, '_id.org'=>$this->org, "_id.name"=>"short_description"];
+        }
+        //["_id.course"=>$this->course, '_id.org'=>$this->org, "_id.name"=>"short_description"]
+        $data=$this->modulestore->findOne($filter, ["_id"=>0, "metadata"=>0]);//
+        if (!isset($data['definition']['data']['data'])) {
             return false;
         }
         return $data['definition']['data']['data'];

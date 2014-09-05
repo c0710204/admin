@@ -30,24 +30,23 @@ switch($_POST['do']){
             $edxCourse->org($o[0]);//set
             $edxCourse->course($o[1]);//set
             $edxCourse->name($o[2]);//get
-            $meta=$edxCourse->metadata();
+            $meta=$edxCourse->metadata($course_id);
             
             $R['id']=$course_id;
             $R['org']=$o[0];
             $R['course']=$o[1];
             $R['name']=$o[2];
             $R['display_name']=$meta['display_name'];
-            $R['short_desc']=substr($edxCourse->shortDescription(), 0, 32);
+            //$R['short_desc']=substr($edxCourse->shortDescription(), 0, 32);
             
-            $R['start']=date('Y-m-d', $edxCourse->start_date());
-            $R['end']=date('Y-m-d', $edxCourse->end_date());
-            //$R['end']=0;
+            //$R['start']=date('Y-m-d', $edxCourse->start_date());
+            //$R['end']=date('Y-m-d', $edxCourse->end_date());
 
-            $R['youtube']=$edxCourse->youtubeid();
-            $R['chapters']=count($edxCourse->chapters());
+            //$R['youtube']=$edxCourse->youtubeid();
+            //$R['chapters']=count($edxCourse->chapters());
 
-            $R['units']=$edxCourse->unitCount();
-            $R['enroll']=$edxapp->enrollCount($course_id);// start date
+            //$R['units']=$edxCourse->unitCount();
+            //$R['enroll']=$edxapp->enrollCount($course_id);// start date
             
             $DATA[]=$R;
         }

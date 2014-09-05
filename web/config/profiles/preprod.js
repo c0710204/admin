@@ -6,10 +6,10 @@
     },
 	"pdo":{
         "host":     "",
-        "name":     "",
-        "driver":   "",
+        "name":     "edxapp",
+        "driver":   "mysql",
         "pass":     "",
-        "port":     "",
+        "port":     "3306",
         "user":     ""
 	},
     "mongo":{
