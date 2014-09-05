@@ -1,9 +1,9 @@
 # Vendor folder
 vendor/
 
-web/backup/archives/
-web/backup/dump/
-web/config/
+web/backup/archives/*
+web/backup/dump/*
+web/config/profiles/*.json
 web/test/
 
 # Compiled source #
@@ -38,6 +38,7 @@ web/test/
 ######################
 .DS_Store
 .DS_Store?
+.lock
 ._*
 .Spotlight-V100
 .Trashes
