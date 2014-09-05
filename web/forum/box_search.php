@@ -95,7 +95,7 @@ function renderList(json,target){
 	for(var i=0;i<json.length;i++)
     {
         o=json[i];
-        //console.log(o);
+        console.log(o);
         var date_start=$.datepicker.formatDate('yy-mm-dd', o.start);
         var date_end=$.datepicker.formatDate('yy-mm-dd', o.end);        
         //if(!isValidDate(o.start)||/1970/.test(date_start))date_start='';
@@ -104,7 +104,7 @@ function renderList(json,target){
         htm.push("<td>" + o.org);
         htm.push("<td><a href='../course/?id="+o.course_id+"'>" + o.course_id);
         htm.push("<td><a href='../user/?id="+o.author_id+"'>" + o.author_username);
-        htm.push("<td><a href='../forum+thread/?id="+o.id+"'>" + o.title);
+        htm.push("<td><a href='../forumthread/?id="+o.id+"'>" + o.title);
         htm.push("<td>" + o.comment_count);
         htm.push("<td>" + o.created_at);
         htm.push("<td>" + o.last_activity);

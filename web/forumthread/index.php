@@ -17,6 +17,7 @@ $admin->title("Forum thread");
 echo $admin->printPrivate();
 
 //print_r($_GET);
+//$_GET['id']='54059ed056c02c8cf1000001';
 if (!isset($_GET['id'])) {
     die("Error: no thread id");
 }

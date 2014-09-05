@@ -57,7 +57,9 @@ switch($_POST['do']){
         foreach ($contents as $r) {
             //$threads[]=$r;
             //print_r($r);exit;
+            //var_dump($r['_id']->$id);exit;
             $R=[];
+            $R['id']=$r['_id']->{'$id'};
             $R['org']=explode("/", $r['course_id'])[0];
             $R['course_id']=$r['course_id'];
             $R['author_id']=$r['author_id'];
