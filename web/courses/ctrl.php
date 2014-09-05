@@ -46,7 +46,7 @@ switch($_POST['do']){
             //$R['chapters']=count($edxCourse->chapters());
 
             //$R['units']=$edxCourse->unitCount();
-            //$R['enroll']=$edxapp->enrollCount($course_id);// start date
+            $R['enroll']=$edxapp->enrollCount($course_id);// start date
             
             $DATA[]=$R;
         }
