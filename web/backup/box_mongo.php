@@ -34,7 +34,7 @@ if (count($f)) {
     $body[]="</tbody>";
     $body[]="</table>";
 } else {
-    $body[]=$admin->callout("Danger", "No backup");
+    $body[]="<pre>No backup</pre>";
 }
 
 $foot=[];

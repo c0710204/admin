@@ -11,22 +11,50 @@ namespace Admin;
 */
 class AdminLte
 {
-
+    /**
+     * PDO Connection
+     * Should be reused by the other objects if possible
+     * @var [type]
+     */
     private $db = null;
 
+    /**
+     * Static path to assets
+     * @var string
+     */
     private $path = '../';// static path
-    private $csspath = '';// css path
+    
+    //private $csspath = '';// css path
+    
+    /**
+     * Admin title (display at top-left)
+     * @var string
+     */
     private $title='Admin';
+    
+    /**
+     * Organisation limit, set by the config
+     * @var string
+     */
     private $org='';// from config
+
 
     private $config = null;//admin config
 
     // user, to complete
     public $django = null;//UserDjango()
     public $session = null;//UserDjango::djangoSession()
+    
+    /**
+     * Django user data ()
+     * @var [type]
+     */
     public $user = [];//django user
-    //private $userId = 0;//css path
-
+    
+    /**
+     * AdminLte Constructor
+     * @param boolean $private [description]
+     */
     public function __construct ($private = true)
     {
         if ($private==false) {
@@ -168,6 +196,7 @@ class AdminLte
         echo $this->leftside();
         echo $this->scripts();
         echo '<aside class="right-side">';
+        return;
     }
 
     /**
@@ -188,12 +217,10 @@ class AdminLte
             echo "<div class='box-body'>";
             echo "<section class=content>";
             echo $this->callout("danger", "Login error", "You are not logged in.<br /><a href='".$this->path."/login/'>Please login</a>");
-
             echo "</div>";
-            exit;
             //print_r($this->session, true);
         }
-        //print_r($this->user);//debug
+        return;
     }
 
     /**
@@ -367,7 +394,6 @@ class AdminLte
         $HTML[]='<section class="sidebar">';
 
         if ($this->session) {
-
             // Sidebar user panel -->
             $HTML[]='<div class="user-panel">';
 
@@ -614,101 +640,14 @@ class AdminLte
     }
 
 
-    public function alert($type = '', $title = '', $body = '')
-    {
-        $HTML=[];
-        $HTML[]="<div class='alert alert-danger alert-dismissable'>";
-        $HTML[]="<i class='fa fa-ban'></i>";
-        $HTML[]="<button type=button class=close data-dismiss=alert aria-hidden=true>×</button>";
-        $HTML[]=$body;
-        $HTML[]="</div>";
-        return implode("\n", $HTML);
-
-    }
-
-    public function callout($type = '', $title = '', $body = '')
-    {
-        $HTML=[];
-        $HTML[]="<div class='callout callout-$type'>";
-        $HTML[]="<h4>".$title."</h4>";
-        if ($body) {
-            $HTML[]="<p>".$body."</p>";
-        }
-        $HTML[]="</div>";
-        return implode("\n", $HTML);
-    }
-
-
-    /**
-     * Display a lte style box
-     * @param  string $type  [description]
-     * @param  string $title [description]
-     * @param  string $body  [description]
-     * @return [type]        [description]
-     */
-    
-    /*
-    public function box($type = '', $title = '', $body = '', $footer = '', $collapse = '')
-    {
-        $HTML=[];
-        $HTML[]='<div class="box box-'.$type.'">';// box-solid
-
-        // box header
-        if ($title) {
-            $HTML[]='<div class="box-header">';
-            $HTML[]='<h3 class="box-title">'.$title.'</h3>';
-
-            //todo here
-
-            $HTML[]='<div class="pull-right box-tools">';
-            // reload
-            //$HTML[]='<button class="btn btn-'.$type.' btn-sm refresh-btn" data-toggle="tooltip" title="" data-original-title="Reload"><i class="fa fa-refresh"></i></button>';
-            // reduce
-            $HTML[]='<button class="btn btn-'.$type.' btn-sm" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>';
-            // close
-            //$HTML[]='<button class="btn btn-'.$type.' btn-sm" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-times"></i></button>';
-            $HTML[]='</div>';
-
-
-            $HTML[]='</div>';
-        }
-
-        //body
-        //<div class="box-body">
-        if (is_array($body)) {
-            $body=implode('', $body);
-        }
-        $HTML[]="<div class='box-body $collapse'>";
-        $HTML[]=$body;
-        $HTML[]='</div>';
-
-        //footer
-        if ($footer) {
-            if (is_array($footer)) {
-                $footer=implode('', $footer);
-            }
-            $HTML[]="<div class='box-footer $collapse'>";
-            $HTML[]=$footer;
-            $HTML[]='</div>';
-        }
-
-        //extras
-        $HTML[]='<div id=loader style="display:none">';
-        $HTML[]='<div class="overlay"></div>';
-        $HTML[]='<div class="loading-img"></div>';
-        $HTML[]='</div>';
-  
-
-        // end
-        $HTML[]='</div>';// /.box -->
-
-        return implode("", $HTML);
-    }
-    */
+   
 }
+
+
 
 /**
  * AdminLte Box Maker
+ * http://almsaeedstudio.com/AdminLTE/pages/widgets.html
  */
 class Box
 {
@@ -726,12 +665,16 @@ class Box
     private $removable=false;
     private $loading=false;
 
-    public function __construct ($private = true)
+    public function __construct ()
     {
         $this->id = md5(rand(0, time()));
     }
 
-
+    /**
+     * Box types : default|primary|danger|success|warning
+     * @param  string $type [description]
+     * @return [type]       [description]
+     */
     public function type($type = '')
     {
         if ($type) {
@@ -740,6 +683,11 @@ class Box
         return $this->type;
     }
     
+    /**
+     * The box title
+     * @param  string $title [description]
+     * @return [type]        [description]
+     */
     public function title($title = '')
     {
         if ($title) {
@@ -748,6 +696,12 @@ class Box
         return $this->title;
     }
     
+    /**
+     * Box icon class. Use font awesome names, ex: 'fa fa-user'
+     * You can pass multiple icons in a array, ex: ['fa fa-user','fa fa-file']
+     * @param  string $classname [description]
+     * @return [type]            [description]
+     */
     public function icon($classname = '')
     {
         if ($classname) {
@@ -756,6 +710,11 @@ class Box
         return $this->icon;
     }
 
+    /**
+     * A target link on the icon
+     * @param  string $url [description]
+     * @return [type]      [description]
+     */
     public function iconUrl($url = ''){
         if ($url) {
             $this->iconUrl=$url;
@@ -763,6 +722,11 @@ class Box
         return $this->iconUrl;
     }
 
+    /**
+     * Color Used for the 'tiles'
+     * @param  string $color [description]
+     * @return [type]        [description]
+     */
     public function color($color = '')
     {
         if ($color) {
@@ -771,7 +735,11 @@ class Box
         return $this->color;
     }
 
-
+    /**
+     * The box id (html property)
+     * @param  string $id [description]
+     * @return [type]     [description]
+     */
     public function id($id = '')
     {
         if ($id) {
@@ -780,6 +748,11 @@ class Box
         return $this->id;
     }
 
+    /**
+     * Box html body
+     * @param  string $body [description]
+     * @return [type]       [description]
+     */
     public function body($body = '')
     {
         if (is_array($body)) {
@@ -790,6 +763,11 @@ class Box
         return $this->body;
     }
     
+    /**
+     * Box html footer
+     * @param  string $footer [description]
+     * @return [type]         [description]
+     */
     public function footer($footer = '')
     {
         if ($footer) {
@@ -798,6 +776,12 @@ class Box
         return $this->footer;
     }
 
+    /**
+     * When set to true, the box show a overlay and a loading image
+     * You can hide it with $('#boxid .overlay, #boxid.loading-img').hide()
+     * @param  boolean $loading [description]
+     * @return boolean
+     */
     public function loading($loading = false)
     {
         if ($loading) {
@@ -805,6 +789,7 @@ class Box
         }
         return $this->loading;
     }
+
 
     public function collapsed($collapsed = false)
     {
@@ -814,6 +799,11 @@ class Box
         return $this->collapsed;
     }
 
+    /**
+     * Add a top-right "x" button that allow box desctruction
+     * @param  boolean $removable [description]
+     * @return [type]             [description]
+     */
     public function removable($removable = false)
     {
         if ($removable) {
@@ -931,6 +921,8 @@ class Box
     }
 }
 
+
+
 /**
  * SolidBox
  */
@@ -1012,7 +1004,6 @@ class SolidBox extends Box
     }
 }
 
-// http://almsaeedstudio.com/AdminLTE/pages/widgets.html
 
 /**
  * Mini boites avec icon pour homepage (gros bouton)
@@ -1097,5 +1088,59 @@ class Tile extends Box
         $HTML[]='</div>';//<!-- /.box-body -->
         $HTML[]='</div>';
         return implode('', $HTML);
+    }
+}
+
+/**
+ * AdminLte Alert
+ */
+/*
+ Class Alert
+ { 
+    public function __construct ($type = '', $title = '', $body = '')
+    {
+        //$this->id = md5(rand(0, time()));
+    }
+
+    function html($type = '', $title = '', $body = '')
+    {
+        $HTML=[];
+        $HTML[]="<div class='alert alert-danger alert-dismissable'>";
+        $HTML[]="<i class='fa fa-ban'></i>";
+        $HTML[]="<button type=button class=close data-dismiss=alert aria-hidden=true>×</button>";
+        $HTML[]=$body;
+        $HTML[]="</div>";
+        return implode("\n", $HTML);
+    }  
+}
+*/
+
+
+/**
+ * AdminLte Callout
+ */
+Class Callout
+{
+    private $type ='type';
+    private $title='title';
+    private $body ='body';
+
+    public function __construct ($type = '', $title = '', $body = '')
+    {
+        $this->type = $type;
+        $this->title = $title;
+        $this->body = $body;
+    }
+
+    public function __toString()
+    {
+        $HTML=[];
+        $HTML[]="<div class='callout callout-".$this->type."'>";
+        $HTML[]="<h4>".$this->title."</h4>";
+        if ($this->body) {
+            $HTML[]="<p>".$this->body."</p>";
+        }
+        $HTML[]="</div>";
+        return implode("\n", $HTML);
     }
 }

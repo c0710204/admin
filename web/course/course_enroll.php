@@ -47,7 +47,10 @@ if (count($enrolled)) {
         $htm[]="<tr>";
         $htm[]="<td width=50>".$r['user_id'];//print_r($r, 1);
         $htm[]="<td><a href='../user/?id=".$r['user_id']."'>".$edxapp->username($r['user_id'])."</a>";//print_r($r, 1);
-        $progress=($edxapp->courseUnitSeen($course_id, $r['user_id'])/$unitCount)*100;
+        $progress=0;
+        if ($unitCount>0) {
+            $progress=($edxapp->courseUnitSeen($course_id, $r['user_id'])/$unitCount)*100;
+        }
         $htm[]="<td class='text-right'><a href=../progress/?user_id=".$r['user_id']."&course_id=$course_id>".round($progress).'%';
         $htm[]="<td width=150>".substr($r['created'], 0, 16);
     }

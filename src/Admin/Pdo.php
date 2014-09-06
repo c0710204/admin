@@ -4,7 +4,6 @@ namespace Admin;
 
 class Pdo
 {
-
     protected static $db_host     = '';
     protected static $db_name     = '';
     protected static $db_driver   = '';
@@ -57,66 +56,4 @@ class Pdo
         }
         return self::$db;
     }
-
-    /*
-    private function __clone()
-    {
-    }
-    */
-
-
-
-    /*
-    public static function getDatabase ()
-    {
-        if (self::$failed == false && is_null($this->db)) {
-            $db_host     = 'localhost';
-            $db_name     = 'edxapp';
-            $db_driver   = 'mysql';
-            $db_user     = 'cron';
-            $db_password = 'robotix';
-            $dsn = "${db_driver}:host=${db_host};dbname=${db_name}";
-
-            try {
-                $this->db = new \PDO($dsn, $db_user, $db_password);
-            } catch (PDOException $e) {
-                self::$failed = true;
-                echo "<li>" . $e->getMessage();
-            }
-        }
-
-        if (self::$failed) {
-            return false;
-        } else {
-            return $this->db;
-        }
-    }
-    */
-
-    /*
-    public static function getDatabase ()
-    {
-        if (self::$failed == false && is_null(self::$db)) {
-            $db_host     = 'localhost';
-            $db_name     = 'edxapp';
-            $db_driver   = 'mysql';
-            $db_user     = 'cron';
-            $db_password = 'robotix';
-            $dsn = "${db_driver}:host=${db_host};dbname=${db_name}";
-
-            try {
-                self::$db = new \PDO($dsn, $db_user, $db_password);
-            } catch (PDOException $e) {
-                self::$failed = true;
-                echo "<li>" . $e->getMessage();
-            }
-        }
-
-        if (self::$failed) {
-            return false;
-        } else {
-            return self::$db;
-        }
-    }
-    */
 }

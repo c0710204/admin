@@ -45,7 +45,7 @@ echo "<input type='hidden' id='course_id' value='$course_id'>";
 
 <?php
 if (!$edxCourse->exist($course_id)) {
-    echo $admin->callout('Danger', 'Course "'.$course_id.'" not found', 'The course was not found or not available');
+    echo new Admin\Callout('Danger', 'Course "'.$course_id.'" not found', 'The course was not found or not available');
     //exit;
 }
 ?>

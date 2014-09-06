@@ -5,7 +5,7 @@ $body=[];
 //$body[]="<pre>".`mysqldump --version`."</pre>";
 $f=glob("archives/*.sql.gz");
 if (count($f)) {
-    $body[]="<table class='table table-condensed'>";
+    $body[]="<table class='table table-condensed table-striped'>";
     $body[]="<thead>";
     $body[]="<th>Filename</th>";
     $body[]="<th>Size</th>";

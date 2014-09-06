@@ -36,7 +36,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
     if ($admin->django->login($_POST['email'], $_POST['password'])) {
         // login
-        $msg=$admin->callout("info", "Please wait", "You are being redirected...");
+        $msg=new Admin\Callout("info", "Please wait", "You are being redirected...");
         
         $box=new Admin\Box;
         $box->type("success");
@@ -51,7 +51,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         // nope
         $msg ="<p>Please try again</p>";
 
-        $callout=$admin->callout("danger", "<i class='fa fa-ban'></i> Invalid login and/or password", $msg);
+        $callout=new Admin\Callout("danger", "<i class='fa fa-ban'></i> Invalid login and/or password", $msg);
         $foot=[];
         $foot[]="<a href='index.php' class='btn btn-default'><i class='fa fa-sign-in'></i> Try again</a>";
         

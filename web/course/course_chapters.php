@@ -20,7 +20,7 @@ if (is_array($chapters) && count($chapters)) {
     }
     $htm[]="</ol>";
 } else {
-    $htm[]=$admin->callout("danger", "Course error: no chapters");
+    $htm[]=new Admin\Callout("danger", "Course error: no chapters");
 }
 
 $foot=[];

@@ -10,7 +10,7 @@ $stat['log']=$edxapp->mgdb()->log->command(['dbStats' => 1]);
 
 $dbs=['cs_comments_service_development', 'edxapp', 'log'];
 
-$body[]="<table class='table'>";
+$body[]="<table class='table table-condensed table-striped'>";
 $body[]="<thead>";
 $body[]="<th>Name</th>";
 $body[]="<th width=60 title='Collections'>Col.</th>";

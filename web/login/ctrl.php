@@ -42,7 +42,8 @@ switch ($_POST['do']) {
             $result = exec("ping -c 1 -W 1 ".$conf->pdo->host);
             if (!$result) {
                 $msg="Couldnt reach ".$conf->pdo->host;
-                echo $admin->callout("danger", "<i class='fa fa-ban'></i> Host error", $msg);
+                //echo $admin->callout("danger", "<i class='fa fa-ban'></i> Host error", $msg);
+                echo new Admin\Callout("danger", "<i class='fa fa-ban'></i> Host error", $msg);
                 exit;
             }
 
@@ -61,7 +62,8 @@ switch ($_POST['do']) {
                 $dsn = "mysql:host=".$conf->pdo->host.";dbname=edxapp";
                 $db = new \PDO($dsn, $conf->pdo->user, $conf->pdo->pass);
                  //echo "dsn=$dsn";
-                 echo $admin->callout("success", "<i class='fa fa-thumbs-o-up'></i> PDO Connection Ok", "<pre>$dsn</pre>");
+                 //echo $admin->callout("success", "<i class='fa fa-thumbs-o-up'></i> PDO Connection Ok", "<pre>$dsn</pre>");
+                 echo new Admin\Callout("success", "<i class='fa fa-thumbs-o-up'></i> PDO Connection Ok", "<pre>$dsn</pre>");
             } catch (PDOException $e) {
                 //echo "<li>" . $e->getMessage();
                 echo $admin->callout("danger", "<i class='fa fa-ban'></i> PDO Connection error", $e->getMessage());
@@ -86,9 +88,9 @@ switch ($_POST['do']) {
             }
             */
             if (isset($mgdb->connected)) {
-                echo $admin->callout("success", "<i class='fa fa-thumbs-o-up'></i> MongoDB Connection Ok", "<pre>$str</pre>");//ok
+                echo new Admin\Callout("success", "<i class='fa fa-thumbs-o-up'></i> MongoDB Connection Ok", "<pre>$str</pre>");//ok
             } else {
-                echo $admin->callout("danger", "<i class='fa fa-ban'></i> Mongo Connection error", "$err");
+                echo new Admin\Callout("danger", "<i class='fa fa-ban'></i> Mongo Connection error", "$err");
             }
 
             //

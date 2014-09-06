@@ -11,10 +11,6 @@ $admin = new AdminLte();
 $admin->ctrl();
 $conf=$admin->config();
 
-$backup= new EdxBackup();
-
-
-sleep(1);
 //print_r($_POST);
 
 switch($_POST['do']){
