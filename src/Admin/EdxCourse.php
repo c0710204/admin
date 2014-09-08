@@ -448,9 +448,16 @@ class EdxCourse
      * Return course overview (html)
      * @return [type] [description]
      */
-    public function video()
+    public function video($course_id = '')
     {
-        $filter=["_id.course"=>$this->course, '_id.org'=>$this->org, "_id.name"=>"video"];
+        
+        if ($course_id) {
+            $x=explode('/', $course_id);
+            $filter=['_id.org'=>$x[0], '_id.course'=>$x[1],  '_id.name'=>'video'];
+        } else {
+            $filter=['_id.org'=>$this->org, '_id.course'=>$this->course, '_id.name'=>'video'];
+        }
+        
         $data=$this->modulestore->findOne($filter);//, ["_id"=>0, "metadata"=>0]
         if (!isset($data['definition']['data']['data'])) {
             return false;
@@ -463,9 +470,9 @@ class EdxCourse
      * Return course desc. youtube id
      * @return [type] [description]
      */
-    public function youtubeid()
+    public function youtubeid($course_id = '')
     {
-        $html=$this->video();
+        $html=$this->video($course_id);
         //echo htmlentities($html);
         if (preg_match("/\bembed\/([a-z0-9_-]{10,})/i", $html, $o)) {
             return $o[1];
@@ -653,11 +660,11 @@ class EdxCourse
             $org=$o[0];
             $course=$o[1];
             $name=$o[2];
-            $filter=['_id.org'=>$org,'_id.course'=>$course, '_id.name'=>$name, '_id.category'=>'course'];
+            $filter=['_id.org'=>$org,'_id.course'=>$course, '_id.category'=>'course'];
         } else {
-            $filter=['_id.org'=>$this->org,'_id.course'=>$this->course, '_id.name'=>$this->name, '_id.category'=>'course'];
+            $filter=['_id.org'=>$this->org,'_id.course'=>$this->course, '_id.category'=>'course'];//'_id.name'=>$this->name,
         }
-
+        //print_r($filter);
         $course=$this->modulestore->findOne($filter);
 
         if (!isset($course['definition'])) {

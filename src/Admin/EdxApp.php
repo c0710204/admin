@@ -13,10 +13,19 @@ namespace Admin;
 class EdxApp
 {
 
+    /**
+     * [$config description]
+     * @var [type]
+     */
     private $config=null;//config object
     private $db=null;//myslq db connection
     private $mgdb=null;//myslq db connection
     private $modulestore=null;//mongo db connection
+    
+    /**
+     * [$org description]
+     * @var string
+     */
     private $org='';//org limit
 
     public function __construct ()
@@ -841,6 +850,7 @@ class EdxApp
 
         $ICON=[];
         $ICON['course']="<i class='fa fa-book' title='Course'></i>";
+        $ICON['combinedopenended']="<i class='fa fa-book' title='combinedopenended'></i>";
         $ICON['chapter']="<i class='fa fa-bookmark' title='Chapter'></i>";
         $ICON['discussion']="<i class='fa fa-comments' title='Discussion'></i>";
         $ICON['sequential']="<i class='fa fa-caret-square-o-right' title='Sequencial'></i>";
@@ -848,6 +858,7 @@ class EdxApp
         $ICON['vertical']="<i class='fa fa-arrow-down' title='Vertical'></i>";
         $ICON['html']="<i class='fa fa-code' title='Html'></i>";
         $ICON['video']="<i class='fa fa-film' title='Video'></i>";
+        $ICON['peergrading']="<i class='fa fa-question' title='Peergrading'></i>";
         $ICON['problem']="<i class='fa fa-question-circle' title='Problem'></i>";
         return $ICON[$category];
     }
