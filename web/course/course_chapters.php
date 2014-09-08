@@ -36,7 +36,4 @@ $box = new Admin\SolidBox;
 $box->title("Course chapters $small");
 $box->icon('fa fa-sitemap');
 $box->iconUrl("../course_structure/?id=$course_id");//todo here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-$box->body($htm);
-$box->footer($foot);
-//echo $box("primary", "<i class='fa fa-sitemap'></i> Course structure $small", $htm, $foot);
-echo $box->html();
+echo $box->html($htm, $foot);

@@ -975,15 +975,14 @@ class SolidBox extends Box
         
         $HTML[]='</div>';
         $HTML[]='</div>';
-        $HTML[]='<div class="box-body">';
+        $HTML[]='<div class="box-body collapsed-box">';//
         $HTML[]=$this->body();
         $HTML[]='</div>';//<!-- /.box-body -->
         
 
         // footer
         if ($this->footer()) {
-            
-            $HTML[]="<div class='box-footer'>";// $collapse
+            $HTML[]="<div class='box-footer collapsed-box'>";// $collapse
             if (is_array($this->footer())) {
                 $HTML[]=implode('', $this->footer());
             } else {
