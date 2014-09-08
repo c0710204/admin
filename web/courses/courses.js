@@ -92,6 +92,9 @@ function renderList(json,target){
         htm.push("<td>" + o.course);
         //htm.push("<td>" + o.name);
         htm.push("<td><a href='../course/?id="+o.id+"'>" + o.display_name);
+        if(o.youtube){
+            htm.push(" <i class='fa fa-youtube' title='"+o.youtube+"'></i>");
+        }
         //htm.push("<td>" + o.short_desc);
         //if(o.is_staff)htm.push(" <span class='label label-success'>Staff</span>");
         //if(o.is_superuser)htm.push(" <span class='label label-danger'>SU</span>");

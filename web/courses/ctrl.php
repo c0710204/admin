@@ -42,7 +42,7 @@ switch($_POST['do']){
             $R['start']=date('Y-m-d', $edxCourse->startDate($course_id));
             $R['end']=date('Y-m-d', $edxCourse->endDate());
 
-            //$R['youtube']=$edxCourse->youtubeid();
+            $R['youtube']=$edxCourse->youtubeid($course_id);
             $R['chapters']=count($edxCourse->chapters($course_id));
 
             //$R['units']=$edxCourse->unitCount();
