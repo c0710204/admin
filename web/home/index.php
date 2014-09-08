@@ -38,7 +38,7 @@ $user=$admin->user;
         <!-- Left col -->
         <section class="col-lg-6 connectedSortable">
         <?php
-        include "box_user.php";//new users
+        include "box_enrollments.php";
         //include "box_registrations.php";//new regs
         include "linechart.php";
         ?>
@@ -47,7 +47,8 @@ $user=$admin->user;
         <!-- right col (We are only adding the ID to make the widgets sortable)-->
         <section class="col-lg-6 connectedSortable">
         <?php
-        include "box_enrollments.php";
+        include "box_user.php";//new users
+        
         //include "box_recentEnrollments.php";
         include "box_recentActivity.php";
         //include "box_session.php";

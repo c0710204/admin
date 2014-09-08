@@ -13,7 +13,7 @@ while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
 $body=[];
 $body[]="<table class='table table-condensed table-striped'>";
 $body[]="<thead>";
-$body[]="<th>Org</th>";
+//$body[]="<th>Org</th>";
 $body[]="<th>Course</th>";
 $body[]="<th width=80>Enrollments</th>";
 $body[]="</thead>";
@@ -23,13 +23,8 @@ $body[]="<tbody>";
 foreach ($dat as $r) {
     //print_r($r);
     $class="";
-    /*
-    if (!$r['is_active']) {
-        $class="text-muted";
-    }
-    */
     $body[]="<tr class=$class>";
-    $body[]="<td>".explode("/", $r['course_id'])[0];
+    //$body[]="<td>".explode("/", $r['course_id'])[0];
     $body[]="<td><a href='../course/?id=".$r['course_id']."'>".$edxcourse->displayName($r['course_id']);
     $body[]="<td style='text-align:right'>".number_format($r['n']);
     //$body[]="<td>".$admin->dateRelative($r['created']);

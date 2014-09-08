@@ -11,7 +11,7 @@ $body=[];
 $body[]="<table class='table table-condensed table-striped'>";
 $body[]="<thead>";
 //$body[]="<th>#</th>";
-$body[]="<th>Username</th>";
+//$body[]="<th>Username</th>";
 $body[]="<th>Email</th>";
 $body[]="<th>Date joined</th>";
 $body[]="</thead>";
@@ -25,8 +25,8 @@ while ($r=$q->fetch()) {
     }
     $body[]="<tr class=$class>";
     //$body[]="<td>".$r['id'];
-    $body[]="<td><a href='../user/?id=".$r['id']."'>".$r['username'];
-    $body[]="<td>".$r['email'];
+    //$body[]="<td><a href='../user/?id=".$r['id']."'>".$r['username'];
+    $body[]="<td><a href='../user/?id=".$r['id']."'>".$r['email'];
     //$body[]="<td>".$r['is_active'];
 
     $body[]="<td>".$admin->dateRelative($r['date_joined']);
