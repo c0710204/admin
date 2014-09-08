@@ -28,7 +28,6 @@ $count=$q->fetchColumn();
 include "box_search.php";
 ?>
 </div>
-</div>
 
 <!-- Main row -->
 <div class="row">

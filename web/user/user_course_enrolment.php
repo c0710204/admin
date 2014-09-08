@@ -66,7 +66,6 @@ echo $box->html($body, $footer);
 <div id='moreEnroll'></div>
 
 <script>
-
 function enroll(){
     var course_id=$('#course').val();
     if(!course_id)return false;
@@ -78,8 +77,7 @@ function enroll(){
     })
 }
 
-function disEnroll(course_id)
-{
+function disEnroll(course_id){
 	if(!confirm("Remove enrollment "+course_id+" ?"))return false;
 	var userid=$('#userid').val();
     $('#moreEnroll').load("ctrl.php",{'do':'disenroll','user_id':userid,'course_id':course_id},function(x){
@@ -87,6 +85,4 @@ function disEnroll(course_id)
         catch(e){alert(x);}
     })
 }
-
-
 </script>
