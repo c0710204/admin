@@ -14,7 +14,7 @@ if (is_array($chapters) && count($chapters)) {
     //$htm[]=$chapters;
     foreach ($chapters as $chapter) {
         $htm[]="<li>";
-        $htm[]="<a href=../chapter/?unit_id=".$chapter[0].">".$chapter[1]."</a>";
+        $htm[]="<a href=../course_chapter/?unit_id=".$chapter[0].">".$chapter[1]."</a>";
         //<small class='pull-right'>test</small>
         $htm[]="</li>";
     }
