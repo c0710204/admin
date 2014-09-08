@@ -389,6 +389,7 @@ class AdminLte
     public function leftside()
     {
         $HTML=[];
+        $HTML[]='<div class="wrapper row-offcanvas row-offcanvas-left">';
         $HTML[]='<aside class="left-side sidebar-offcanvas">';
         // sidebar: style can be found in sidebar.less -->
         $HTML[]='<section class="sidebar">';
@@ -396,7 +397,6 @@ class AdminLte
         if ($this->session) {
             // Sidebar user panel -->
             $HTML[]='<div class="user-panel">';
-
             // avatar
             $HTML[]='<div class="pull-left image">';
             $HTML[]='<img src="'.$this->path.'img/avatar5.png" class="img-circle" alt="User Image" />';
