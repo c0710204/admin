@@ -2,8 +2,8 @@
 // course image
 
 
-$meta = $edxCourse->metadata();
-$shortDesc = $edxCourse->shortDescription();
+//$meta = $edxCourse->metadata();
+//$shortDesc = $edxCourse->shortDescription();
 
 
 $body=[];

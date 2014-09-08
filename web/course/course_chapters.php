@@ -4,8 +4,8 @@
 $htm=[];
 //$htm[]="<pre>$course_id</pre>";
 
-$chapters=$edxCourse->chapters();
-$unitCount=$edxCourse->unitCount();
+$chapters=$edxCourse->chapters($course_id);
+$unitCount=$edxCourse->unitCount($course_id);
 
 //echo "<li>unitCount=$unitCount;<br />";
 

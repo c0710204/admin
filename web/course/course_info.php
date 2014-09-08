@@ -17,13 +17,13 @@ $body=[];
 // display name
 $body[]='<div class="form-group">';
 $body[]='<label>Display name</label>';
-$body[]='<input type="text" class="form-control" id="displayName" value="'.$edxCourse->displayName().'">';
+$body[]='<input type="text" class="form-control" id="displayName" value="'.$edxCourse->displayName($course_id).'">';
 $body[]='</div>';
 
 // short description
 $body[]='<div class="form-group">';
 $body[]='<label>Short description</label>';
-$body[]='<input type="text" class="form-control" id="shortDescription" value="'.$edxCourse->shortDescription().'">';
+$body[]='<input type="text" class="form-control" id="shortDescription" value="'.$edxCourse->shortDescription($course_id).'">';
 $body[]='</div>';
 
 
