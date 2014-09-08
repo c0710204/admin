@@ -2,26 +2,7 @@
 //admin :: files filter
 
 $body=[];
-/*
-<div class="row">
-    <div class="col-lg-6">
-        <div class="input-group">
-            <span class="input-group-addon">
-                <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div>
-            </span>
-            <input type="text" class="form-control">
-        </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-    <div class="col-lg-6">
-        <div class="input-group">
-            <span class="input-group-addon">
-                <div class="iradio_minimal" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="radio" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div>
-            </span>
-            <input type="text" class="form-control">
-        </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-</div>
-*/
+
 
 $body[]="<div class='row'>";
 
@@ -93,8 +74,11 @@ $footer=[];
 
 
 
-
-echo $admin->box("danger", "<i class='fa fa-search'></i> Filter", $body, $footer);
+$box = new Admin\SolidBox;
+$box->type("danger");
+$box->icon('fa fa-search');
+$box->title('Filter');
+echo $box->html($body, $footer);
 ?>
 
 
@@ -109,14 +93,17 @@ function searchFiles()
         'contentType':$('#contentType').val()
     };
 
-    $('#more').html("Searching files");
+    $('#boxfiles .overlay,#boxfiles .loading-img').show();
     $('#more').load('ctrl.php',p,function(x){
         try{
             dat = jQuery.parseJSON(x);
             //console.log(obj);
             printFiles($('#more'));
+            $('#boxfiles .overlay,#boxfiles .loading-img').hide();
         }
-        catch(e){alert(x);}
+        catch(e){
+            alert(x);
+        }
     });
 }
 

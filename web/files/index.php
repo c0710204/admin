@@ -36,11 +36,13 @@ echo $admin->printPrivate();
 
     <!-- Right col -->
     <section class="col-lg-6 connectedSortable">
-
         <?php
-        echo $admin->box("success", "Results", "<div id='more'></div>");
-        //include "files_upload.php";
-        //include "files_debug.php";
+        $box=new Admin\SolidBox;
+        $box->id("boxfiles");
+        $box->type("success");
+        $box->title("Results");
+        $box->loading(true);
+        echo $box->html("<div id='more'></div>");
         ?>
     </section>
 </div>

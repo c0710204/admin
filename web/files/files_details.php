@@ -1,5 +1,8 @@
 <?php
 // admin :: file info
 
-
-echo $admin->box("success", "<i class='fa fa-info'></i> File info", "<div id='fileinfo'></div>");
+$box = new Admin\SolidBox;
+$box->type("success");
+$box->icon("fa fa-info");
+$box->title("File info");
+echo $box->html("<div id='fileinfo'></div>");
