@@ -1,8 +1,8 @@
 <?php
 //course video
 $body=[];
-$video=$edxCourse->video();
-$youtubeid=$edxCourse->youtubeid();
+$video=$edxCourse->video($course_id);
+$youtubeid=$edxCourse->youtubeid($course_id);
 
 $footer=[];
 $footer[]="<button class='btn btn-primary' onclick='setVideo()'>Set video</button>";
@@ -20,16 +20,11 @@ $footer[]="<span id='moreVideo'></span>";
 $small="<small><a href='https://www.youtube.com/watch?v=$youtubeid' target=_blank>$youtubeid</a></small>";
 
 $box=new Admin\SolidBox;
-//$box->type("primary");
 $box->icon('fa fa-video-camera');
 $box->title("Video $small");
 $box->body($body);
 $box->footer($footer);//, 'collapse');
 echo $box->html();
-
-//echo "Course metadata : ";
-//$meta=$edxapp->course_metadata($org, $course);
-//echo "<pre>".print_r($meta, true)."</pre>";
 ?>
 <script>
 function setVideo(){
@@ -40,7 +35,6 @@ function setVideo(){
         'course_id':$('#course_id').val(),
         'youtubeid':youtubeid
     };
-
     $('#moreVideo').html("Saving...");
     $('#moreVideo').load("ctrl.php",p,function(x){
         try{eval(x);}
@@ -62,5 +56,4 @@ function trashVideo(){
         catch(e){alert(x);}
     });
 }
-
 </script>
