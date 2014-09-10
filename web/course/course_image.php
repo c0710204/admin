@@ -28,21 +28,20 @@ if (isset($meta['course_image'])) {
     $body[]='<div class="form-group">No course image</div>';
 }
 
-
+/*
 $body[]='<form action="image_upload.php" id=fileform method=POST target=_blank enctype="multipart/form-data">';
 //$body[]='<label>File input</label>';
 $body[]='<input type="file" name=file id="imageFile">';//file
 //$body[]='<p class="help-block">Try to be nice.</p>';
 $body[]='<input type="hidden" name="course_id" value="'.$course_id.'">';//course_id
 $body[]='</form>';
+*/
 $body[]='</div>';
 
 // FOOTER
 $footer=[];
-$footer[]="<button class='btn btn-primary' onclick='uploadImg()''><i class='fa fa-save'></i> Upload</button>";
-$footer[]="&nbsp;";
-$footer[]="<button class='btn' onclick='updateImg()''><i class='fa fa-save'></i> Update</button>";
-$footer[]="&nbsp;";
+//$footer[]="<button class='btn btn-primary' onclick='uploadImg()''><i class='fa fa-save'></i> Upload</button>&nbsp;";
+//$footer[]="<button class='btn' onclick='updateImg()''><i class='fa fa-save'></i> Update</button>&nbsp;";
 $footer[]="<button class='btn' title='files' onclick='gotofiles()'><i class='fa fa-folder'></i> Browse</button>";
 $footer[]="<span id='courseImg'></span>";
 if (isset($meta['course_image'])) {
@@ -56,7 +55,7 @@ $box->icon('fa fa-info');
 $box->title("Course image $small");
 $box->body($body);
 $box->footer($footer);
-//'collapse');
+$box->collapsed(true);
 echo $box->html();
 ?>
 <script>

@@ -43,6 +43,7 @@ if (count($enrolled)) {
     $htm[]="</thead>";
 
     $htm[]="<tbody>";
+    $i=0;
     foreach ($enrolled as $r) {
         $htm[]="<tr>";
         $htm[]="<td width=50>".$r['user_id'];//print_r($r, 1);
@@ -53,8 +54,9 @@ if (count($enrolled)) {
         }
         $htm[]="<td class='text-right'><a href=../progress/?user_id=".$r['user_id']."&course_id=$course_id>".round($progress).'%';
         $htm[]="<td width=150>".substr($r['created'], 0, 16);
+        $i++;
+        if($i>10)continue;
     }
-
     $htm[]="</tbody>";
     $htm[]="</table>";
 

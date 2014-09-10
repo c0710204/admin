@@ -883,21 +883,31 @@ class Box
         
         $HTML[]='</div>';
         
-        //body
-        //<div class="box-body">
+        // body
+        if ($this->collapsed()) {
+            $HTML[]='<div class="box-body collapsed-box" style="display:none;">';//
+        } else {
+            $HTML[]="<div class='box-body'>";
+        }
         
-        $HTML[]="<div class='box-body'>";
         if (is_array($this->body)) {
             $HTML[]=implode('', $this->body);
         } else {
             $HTML[]=$this->body;
         }
-        $HTML[]='</div>';
+        
+        $HTML[]='</div>';// body end
 
-        //footer
+        // footer
         if ($this->footer()) {
             
-            $HTML[]="<div class='box-footer'>";// $collapse
+            if ($this->collapsed()) {
+                $HTML[]="<div class='box-footer collapsed-box' style='display:none;'>";// $collapse
+            } else {
+                $HTML[]="<div class='box-footer'>";// $collapse
+            }
+            
+            
             if (is_array($this->footer())) {
                 $HTML[]=implode('', $this->footer());
             } else {
@@ -928,7 +938,6 @@ class Box
  */
 class SolidBox extends Box
 {
-
 
     public function html($body = '', $footer = '')
     {
@@ -975,14 +984,23 @@ class SolidBox extends Box
         
         $HTML[]='</div>';
         $HTML[]='</div>';
-        $HTML[]='<div class="box-body collapsed-box">';//
+        if ($this->collapsed()) {
+            $HTML[]='<div class="box-body collapsed-box" style="display:none">';//
+        } else {
+            $HTML[]='<div class="box-body">';//
+        }
         $HTML[]=$this->body();
         $HTML[]='</div>';//<!-- /.box-body -->
         
 
         // footer
         if ($this->footer()) {
-            $HTML[]="<div class='box-footer collapsed-box'>";// $collapse
+            if ($this->collapsed()) {
+                $HTML[]="<div class='box-footer collapsed-box' style='display:none'>";// $collapse
+            } else {
+                $HTML[]="<div class='box-footer'>";// $collapse
+            }
+
             if (is_array($this->footer())) {
                 $HTML[]=implode('', $this->footer());
             } else {

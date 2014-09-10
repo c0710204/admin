@@ -19,6 +19,7 @@ $box->id("dropmore");
 $box->type("Danger");
 $box->icon("fa fa-trash-o");
 $box->title("Drop course");
+$box->collapsed(true);
 echo $box->html($HTM, $footer);
 ?>
 <script>

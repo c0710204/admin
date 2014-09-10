@@ -24,6 +24,7 @@ $box->icon('fa fa-video-camera');
 $box->title("Video $small");
 $box->body($body);
 $box->footer($footer);//, 'collapse');
+$box->collapsed(true);//, 'collapse');
 echo $box->html();
 ?>
 <script>
