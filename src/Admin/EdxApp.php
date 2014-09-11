@@ -246,7 +246,7 @@ class EdxApp
 
 
     /**
-     * [updatePassword description]
+     * Update user Password
      * @param  integer $user_id [description]
      * @param  string  $pass    [description]
      * @return [type]           [description]
@@ -440,6 +440,25 @@ class EdxApp
     }
 
 
+
+    /**
+     * Return the last modified record from edxapp.course
+     * @param  integer $userid [description]
+     * @return [type]          [description]
+     */
+    public function userLastAction($user_id = 0)
+    {
+        $user_id*=1;
+        if (!$user_id) {
+            return false;
+        }
+
+        $sql="SELECT * FROM edxapp.courseware_studentmodule WHERE student_id=$user_id ORDER BY modified DESC LIMIT 1;";
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        return $q->fetch(\PDO::FETCH_ASSOC);
+    }
+
+
     /**
      * Return groups for a given user
      * @param  integer $userid [description]
@@ -491,10 +510,9 @@ class EdxApp
         }
         $sql.= "ORDER BY created DESC;";
         
-        $q=$this->db->query($sql);
+        $q = $this->db->query($sql);
         
         //echo "<pre>$sql</pre>\n";
-
         $DAT=[];
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             $DAT[]=$r;
@@ -861,5 +879,52 @@ class EdxApp
         $ICON['peergrading']="<i class='fa fa-question' title='Peergrading'></i>";
         $ICON['problem']="<i class='fa fa-question-circle' title='Problem'></i>";
         return $ICON[$category];
+    }
+
+    /**
+     * Remove course related data, as enrollments, courseware_studentmodule, etc
+     * @param  [type] $course_id [description]
+     * @return [type]            [description]
+     */
+    public function deleteCourseData($course_id = '')
+    {
+        if (preg_match("/^([a-z0-9_-]+)\/([a-z0-9_-]+)\/([a-z0-9_-]+)/i", $course_id, $o)) {
+            //echo "<li>mysql format detect";exit;
+            $org=$o[1];
+            $course=$o[2];
+            $name=$o[3];
+        } else {
+            return $course_id;
+        }
+        
+        $sql="SELECT DISTINCT id FROM edxapp.courseware_studentmodule WHERE module_id LIKE 'i4x://$org/$course/%';";
+        echo "<pre>$sql</pre>";
+
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        
+        $ids=[];
+        while ($r=$q->fetch()) {
+            $ids[]=$r['id'];
+        }
+        
+        
+        // DELETE courseware_studentmodulehistory
+        if (count($ids)) {
+            $sql = "DELETE FROM edxapp.courseware_studentmodulehistory WHERE student_module_id IN (".implode(',', $ids).");";
+            $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true)."<hr />$sql");
+        }
+        
+        // DELETE courseware_studentmodule
+        $sql = "DELETE FROM edxapp.courseware_studentmodule WHERE module_id LIKE 'i4x://$org/$course/%';";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true)."<hr />$sql");
+
+
+        // Delete enrollment
+        $sql = "DELETE FROM edxapp.student_courseenrollment WHERE course_id LIKE '$course_id';";
+        $q = $this->db->query($sql)  or die(print_r($this->db->errorInfo(), true));
+
+
+
+        return true;
     }
 }

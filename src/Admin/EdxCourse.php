@@ -86,6 +86,34 @@ class EdxCourse
         return $this->org.'/'.$this->course.'/'.$this->name;
     }
 
+    /**
+     * return the course unit ids as list
+     * userfull to compare with the user progression
+     * @param  string $courseid [description]
+     * @return [type]           [description]
+     */
+    public function courseUnitIds($course_id = '')
+    {
+        if ($course_id && preg_match("/([a-z 0-9\/\._-]+)/i", $course_id, $o)) {
+            $o=explode("/", $course_id);
+            $filter=['_id.org'=>$o[0],'_id.course'=>$o[1]];
+        } else {
+            $filter=['_id.org'=>$this->org,'_id.course'=>$this->course];
+        }
+
+        $units=$this->modulestore->find($filter);
+        $DAT=[];
+        foreach ($units as $u) {
+            //echo "<pre>".print_r($u,  true)."</pre>";//exit;
+            //$children=$u['definition']['children'];
+            $idstring=$u['_id']['tag'].'://'.$u['_id']['org'].'/'.$u['_id']['course'].'/'.$u['_id']['category'].'/'.$u['_id']['name'];
+            //$parent = $u[];
+            $DAT[]=$idstring;
+        }
+        return $DAT;
+    }
+
+
     //set org
     public function org($str)
     {
@@ -647,6 +675,19 @@ class EdxCourse
         return $units->count();//todo :: imp
     }
 
+    public function units($course_id = '')
+    {
+        if ($course_id && preg_match("/([a-z 0-9\/\._-]+)/i", $course_id, $o)) {
+            $o=explode("/", $course_id);
+            $filter=['_id.org'=>$o[0],'_id.course'=>$o[1]];
+        } else {
+            $filter=['_id.org'=>$this->org,'_id.course'=>$this->course];
+        }
+        $units=$this->modulestore->find($filter);
+        return $units;
+    }
+
+
 
     /**
      * Return he list of chapters
@@ -684,17 +725,18 @@ class EdxCourse
 
 
     /**
-     * Delete one course
+     * Delete one course from mongodbd collection
+     * Warning : do not deleted mysql data
      * @param  [type] $modulestore [description]
      * @param  string $org         [description]
      * @param  string $course      [description]
      * @return bool              [description]
      */
-    public function delete()
+    public function delete($course_id = '')
     {
-        //$collection = $this->mgdb->edxapp->modulestore;
-        //$course = $this->course;
-        //$org= $this->org;
+
+
+        //todo :  complete here
 
         // delete course data
         $del = $this->modulestore->remove(["_id.course"=>$this->course, "_id.org"=>$this->org]);
