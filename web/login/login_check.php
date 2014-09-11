@@ -36,6 +36,8 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
     if ($admin->django->login($_POST['email'], $_POST['password'])) {
         // login
+        $logstr=date("c")."\tlogin\t".$_POST['email']."\t".basename($_SESSION['configfile'])."\n";
+        $log = error_log($logstr, 3, '/var/tmp/admin_login.log');
         $msg=new Admin\Callout("info", "Please wait", "You are being redirected...");
         
         $box=new Admin\Box;
@@ -46,9 +48,13 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         echo $box->html();
 
         echo "<script>document.location.href='../home/index.php';</script>";
+    
     } else {
 
         // nope
+        $logstr = date("c")."\tlogfail\t".$_POST['email']."\t".basename($_SESSION['configfile'])."\n";
+        $log = error_log($logstr, 3, '/var/tmp/admin_login.log');
+        
         $msg ="<p>Please try again</p>";
 
         $callout=new Admin\Callout("danger", "<i class='fa fa-ban'></i> Invalid login and/or password", $msg);
