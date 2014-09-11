@@ -25,6 +25,7 @@ $body[]='</div>';
 
 
 // First name / Last name
+/*
 $body[]='<div class="row">';
 
 $body[]='<div class="col-lg-6">';
@@ -40,7 +41,7 @@ $body[]='</div>';
 $body[]='</div>';
 
 $body[]='</div>';
-
+*/
 
 
 // checkboxes //
@@ -68,17 +69,15 @@ $footer[]="<button class='btn pull-right' onclick='resetPassword()'><i class='fa
 $title="<i class='fa fa-user'></i> User profile <small>".$usr['username']."</small>";
 
 $box=new Admin\Box;
+$box->id("boxuserinfo");
 $box->type("primary");
 $box->title($title);
-$box->body($body);
-$box->footer($footer);
-echo $box->html();
+echo $box->html($body, $footer);
 
 echo "<div id=more></div>";
 
 ?>
 <script>
-
 function saveUserInfo(){
     var userid=$('#userid').val();
 
@@ -113,5 +112,4 @@ $(function(){
         console.log("click",o);
     });
 })
-
 </script>
