@@ -96,8 +96,8 @@ switch ($_POST['do']) {
     case 'drop':
         //print_r($_POST);
         $course = new EdxCourse($_POST['course_id']);
-        if ($course->exist()) {
-            $course->delete();
+        if ($course->exist($_POST['course_id'])) {
+            $course->delete($_POST['course_id']);
             die("document.location.href='../courses/';");
         } else {
             die("Course not found");
