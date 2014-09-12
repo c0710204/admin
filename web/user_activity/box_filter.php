@@ -96,5 +96,4 @@ $box=new Admin\SolidBox;
 $box->type("danger");
 $box->title("Filter");
 $box->icon("fa fa-search");
-$box->body($body);
-echo $box->html();
+echo $box->html($body);
