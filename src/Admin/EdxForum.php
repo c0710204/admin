@@ -49,8 +49,8 @@ class EdxForum
             throw new \Exception('Error: no mongo connection');
         } else {
             $this->contents=$this->mgdb->cs_comments_service_development->contents;
-            $this->subscriptions=$this->mgdb->cs_comments_service_development->contents;
-            $this->users=$this->mgdb->cs_comments_service_development->contents;
+            $this->subscriptions=$this->mgdb->cs_comments_service_development->subscriptions;
+            $this->users=$this->mgdb->cs_comments_service_development->users;
         }
         
     }

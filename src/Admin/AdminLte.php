@@ -511,6 +511,7 @@ class AdminLte
 
         // jquery tablesorter
         $PATH[]="js/jquery-tablesorter.min.js";
+        $PATH[]="js/jquery.cookie.js";
 
         // Bootstrap -->
         $PATH[]="js/bootstrap.min.js";

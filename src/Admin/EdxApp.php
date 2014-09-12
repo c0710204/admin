@@ -586,7 +586,7 @@ class EdxApp
         }
         $WHERE=implode(" AND ", $WHERE);
 
-        $sql = "SELECT * FROM courseware_studentmodule WHERE $WHERE ORDER BY modified DESC LIMIT $limit;";// ORDER BY id DESC
+        $sql = "SELECT * FROM edxapp.courseware_studentmodule WHERE $WHERE ORDER BY modified DESC LIMIT $limit;";// ORDER BY id DESC
         $q=$this->db->query($sql) or die("<pre>error:$sql</pre>");
         //echo "$sql\n";
         $DAT=[];
