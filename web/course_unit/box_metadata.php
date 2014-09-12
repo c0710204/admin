@@ -11,5 +11,5 @@ $box=new Admin\SolidBox;
 //$box->type("primary");
 $box->icon('fa fa-save');
 $box->title('Metadata');
-$box->body($body);
-echo $box->html();
+$box->collapsed(true);
+echo $box->html($body);

@@ -6,7 +6,7 @@ $body=$foot=[];
 
 
 $db=$admin->db();
-$sql="SELECT student_id, state, modified, grade, max_grade FROM edxapp.courseware_studentmodule WHERE module_id='$unit_id' ORDER BY modified DESC;";
+$sql="SELECT id, student_id, state, modified, grade, max_grade FROM edxapp.courseware_studentmodule WHERE module_id='$unit_id' ORDER BY modified DESC;";
 $q=$db->query($sql) or die("<pre>$sql</pre>");
 
 $dat=[];
@@ -21,6 +21,7 @@ if (count($dat)) {
 
     $body[]="<table class='table table-condensed table-striped'>";
     $body[]="<thead>";
+    $body[]="<th>#</th>";
     $body[]="<th>Student</th>";
     $body[]="<th>State</th>";
     $body[]="<th>Grade</th>";
@@ -31,6 +32,7 @@ if (count($dat)) {
         //print_r($r);
         $user=$edxapp->user($r['student_id']);
         $body[]="<tr>";
+        $body[]="<td>".$r['id'];
         $body[]="<td><a href='../user/?id=".$r['student_id']."'>".$user['username'];
         $body[]="<td><a href=# title='".$r['state']."'>state</a>";//.$r['state'];
         if (isset($r['grade'])) {

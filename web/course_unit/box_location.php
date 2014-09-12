@@ -33,10 +33,27 @@ if (count($parents)) {
     $body[]="</ul>";
 }
 
+//childrens
+if (isset($definition['children'])) {
+    $body[]="<label>Children(s):</label>";
+    $body[]="<ol>";
+    foreach ($definition['children'] as $children) {
+        $u=$edxCourse->unit($children);
+        $category=$u['_id']['category'];
+        $childName=$edxCourse->unitName($children);
+
+        $body[]="<li>";
+        $body[]=$edxapp->categoryIcon($category);
+        $body[]=" <a href='?id=$children' title='$category'>".$childName."</a>";
+        $body[]="<br />";
+    }
+    $body[]="</ol>";
+}
+
 $box=new Admin\SolidBox;
 //$box->type("primary");
 $box->icon('fa fa-crosshairs');
-$box->title('Location');
+$box->title('Unit location');
 $box->body($body);
 echo $box->html();
 

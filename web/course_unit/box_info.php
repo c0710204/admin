@@ -7,7 +7,7 @@ if (!isset($metadata['start'])) {
 
 $body=[];
 
-
+/*
 // org
 $body[]='<div class="col-lg-6">';
 $body[]='<div class="form-group">';
@@ -34,15 +34,18 @@ $body[]='<label>Course: </label> '.$ID['course'];
 $body[]='</div>';
 $body[]='</div>';
 
-
+*/
 
 
 
 // display name
+/*
 $body[]='<div class="form-group">';
 $body[]='<label>Display name</label>';
 $body[]='<input type="text" class="form-control" id="displayName" value="'.@$metadata['display_name'].'">';
 $body[]='</div>';
+*/
+
 
 // start
 if ($metadata['start']) {

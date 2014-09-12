@@ -13,7 +13,6 @@ $admin = new AdminLte();
 $admin->title("Course unit");
 echo $admin->printPrivate();
 
-
 $edxapp = new EdxApp();
 $edxCourse = new EdxCourse();
 
@@ -39,6 +38,12 @@ $course_id = $ID['org'].'/'.$ID['course'].'/permanent';
 ?>
 <section class="content-header">
     <h1><a href='../course/?course_id=<?php echo $course_id?>'><i class='fa fa-book'></i></a> Course unit : <?php echo $unitName?></h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-book"></i> <?php echo $ID['org']?></a></li>
+        <li class="active"><?php echo $ID['course']?></li>
+        <li class="active"><?php echo $ID['course']?></li>
+        
+    </ol>
 </section>
 
 <!-- Main content -->
@@ -50,13 +55,15 @@ $course_id = $ID['org'].'/'.$ID['course'].'/permanent';
     <!-- Left col -->
     <section class="col-lg-6 connectedSortable">
         <?php
-        include "box_info.php";
+        //include "box_info.php";
+        include "box_location.php";
         /*
         if ($unit['_id']['category']!='course') {
             include "box_location.php";
         }
         */
         include "box_userlog.php";
+        include "box_user.php";
         include "box_metadata.php";
         ?>
     </section>
