@@ -37,6 +37,10 @@ if (!$unit_id) {
 ?>
 <section class="content-header">
     <h1><a href='../course/?course_id=<?php echo $course_id;?>'><i class='fa fa-book'></i></a> Chapter : <?php echo $unitName;?><small></small></h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-book"></i> <?php echo $ID['org']?></a></li>
+        <li class="active"> <?php echo $ID['course']?></li>
+    </ol>
 </section>
 
 
@@ -49,6 +53,7 @@ if (!$unit_id) {
     <section class="col-lg-6 connectedSortable">
         <?php
         include "chapter_info.php";
+        include "chapter_info2.php";
         //include "chapter_structure.php";
         ?>
     </section>
@@ -59,6 +64,7 @@ if (!$unit_id) {
         //include "chapter_location.php";
         //include "chapter_structure.php";
         include "chapter_structure2.php";
+        include "chapter_structure3.php";
         ?>
     </section>
 </div>

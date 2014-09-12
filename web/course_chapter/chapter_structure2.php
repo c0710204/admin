@@ -39,11 +39,12 @@ foreach ($unit['definition']['children'] as $sequence_id) {
 
 $body[]="</table>";
 
-$box=new Admin\Box;
+$box=new Admin\SolidBox;
 //$box->title("$unitName");
 $box->title("Chapter structure II");
 $box->icon('fa fa-sitemap');
+
 $foot=[];
-$foot[]="<a href=# class='btn btn-success>success</a> youpu";
-$box->footer($foot);
-echo $box->html($body);
+$foot[]="<a href=# class='btn btn-success'>success</a>";
+
+echo $box->html($body, $foot);
