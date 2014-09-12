@@ -1,10 +1,6 @@
 <?php
 // box thread info
-$r = $forum->contents->findOne(["_id"=>$mongoId]);
-if (!$r) {
-    echo $admin->callout("danger", "Forum thread not found");
-    exit;
-}
+
 $title=$r['title'];
 
 $body=$foot=[];
@@ -55,8 +51,8 @@ $body[]='</div>';//box-body chat
 
 $body[]='<hr />';
 
-
-
+$body[]="(this post is about <a href=#>???</a>)";
+$body[]='<hr />';
 
 
 // row thread info
@@ -146,7 +142,7 @@ if (!$r['closed']) {
 
 $foot[]="<a href=# class='btn btn-danger pull-right' onclick='trashThread()'><i class='fa fa-trash-o'></i> Delete thread</a> ";
 
-$box=new Admin\SolidBox;
+$box=new Admin\Box;
 $box->type("success");
 $box->icon('fa fa-bullhorn');
 $box->title($title);
