@@ -53,9 +53,11 @@ if (count($enrolled)) {
             $progress=($edxapp->courseUnitSeen($course_id, $r['user_id'])/$unitCount)*100;
         }
         $htm[]="<td class='text-right'><a href=../progress/?user_id=".$r['user_id']."&course_id=$course_id>".round($progress).'%';
-        $htm[]="<td width=150>".substr($r['created'], 0, 16);
+        $htm[]="<td width=150>".substr($r['created'], 0, 10);
         $i++;
-        if($i>10)continue;
+        if ($i>10) {
+            continue;
+        }
     }
     $htm[]="</tbody>";
     $htm[]="</table>";

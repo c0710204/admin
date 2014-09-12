@@ -57,10 +57,10 @@ $footer[]="<a class='btn btn-default pull-right' title='files' onclick='gotofile
 
 $footer[]="<span id='courseDesc'></span>";
 
-$box=new Admin\SolidBox;
+$box=new Admin\Box;
 $box->type("danger");
 $box->icon("fa fa-info");
-$box->title("Course info <small><a href=#>$course_id</a></small>");
+$box->title("Course info");// <small><a href=#>$course_id</a></small>
 $box->body($body);
 $box->footer($footer);
 echo $box->html();

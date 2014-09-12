@@ -23,6 +23,7 @@ if (is_array($chapters) && count($chapters)) {
     $htm[]=new Admin\Callout("danger", "Course error: no chapters");
 }
 
+
 $foot=[];
 $foot[]="<a href='../course_structure/?id=$course_id' class='btn btn-default'><i class='fa fa-sitemap'></i> Structure details</a>";
 
