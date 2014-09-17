@@ -647,7 +647,7 @@ class EdxCourse
         $filter=["_id.org"=>$org, "_id.course"=>$course, "_id.name"=>$name];
 
         $dat=$this->modulestore->findOne($filter);
-        if (isset($dat['metadata']['display_name'])) {
+        if (isset($dat['metadata']['display_name']) && $dat['metadata']['display_name']) {
             return $dat['metadata']['display_name'];
         } else {
             return $unit_id;
