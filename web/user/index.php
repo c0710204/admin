@@ -24,9 +24,13 @@ $up =$edxApp->userprofile($USERID);
 ?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><i class='fa fa-user'></i>User #<?php echo $USERID?> - <?php echo $usr['username']?>
+    <h1><i class='fa fa-user'></i> <?php echo $usr['username']?>
         <small> <a href='../users/'><i class='fa fa-search'></i>Search users</a></small>
     </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> <?php echo $usr['email']?></a></li>
+        <li class="active">#<?php echo $usr['id']?></li>
+    </ol>
 </section>
 
 <!-- Main content -->
@@ -70,9 +74,3 @@ if (!$usr || !$up) {
 
 
 
-<script>
-$(function(){
-    $('table').tablesorter();
-    console.log("ready");
-})
-</script>
