@@ -38,10 +38,10 @@ switch($_POST['do']){
 
     case 'getlist':
 
+        // save search params //
+
         $WHERE=[];
         
-        //print_r($_POST);
-
         if (preg_match("/^[0-9]+$/", $_POST['search'])) {
             $WHERE[]="id=".$_POST['search']*1;
         } else {
@@ -58,9 +58,11 @@ switch($_POST['do']){
             case 'active':
                 $WHERE[]="is_active=1";
                 break;
+            
             case 'inactive':
                 $WHERE[]="is_active=0";
                 break;
+
             case 'staff':
                 $WHERE[]="is_staff=1";
                 break;
@@ -116,7 +118,14 @@ switch($_POST['do']){
         //echo "<h3>Mail : $user[email]</h3>";
         echo "<h4>Date joined: ".substr($user['date_joined'], 0, 16)."</h4>";
         echo "<h4>Last login : ".substr($user['last_login'], 0, 16)."</h4>";
-        
+        // courseware (what is that last user action)
+        $lastunit = $edxapp->userLastAction($user['id']);
+        if ($lastunit) {
+
+            echo "<h4>Last action : <a href='../course_unit/?id=".$lastunit['module_id']."'>".$lastunit['modified']." ";
+            echo basename($lastunit['module_id'])."</a></h4>";
+            //echo "<pre>";print_r($lastunit);echo "</pre>";
+        }
         
         echo "<hr />";
         
@@ -133,15 +142,16 @@ switch($_POST['do']){
 
         } else {
             echo "<h4><b>No enrollment</b></h4>";
-            //echo $admin->callout("danget","No enrollment");
         }
+
+
 
         echo "<hr />";
         echo "<a href='../user/?id=".$user['id'].">' class='btn btn-primary'><i class='fa fa-arrow-circle-right'></i> More about ".$user['username']."</a>";
 
         if (!$user['password']) {
             echo "<hr />";
-            echo $admin->callout("danger", "Warning", "No password");
+            echo "<pre>Warning: No password</pre>";
         }
         exit;
         break;
