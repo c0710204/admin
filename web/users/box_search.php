@@ -7,19 +7,22 @@ $htm[]="<div class='row'>";
 $htm[]="<div class='col-lg-4'>";
 $htm[]="<div class='form-group'>";
 $htm[]="<label>Search</label>";
-$htm[]="<input type=text class=form-control id='searchStr' placeholder='Username, email, id ...'>";
+$htm[]="<input type=text class=form-control id='searchStr' value='searchStr' placeholder='Username, email, id ...'>";
 $htm[]="</div></div>";
 
 // Status
+$values=['active','inactive','staff','superuser'];
 $htm[]="<div class='col-lg-2'>";
 $htm[]="<div class='form-group'>";
 $htm[]="<label>Status</label>";
 $htm[]="<select class='form-control' id='status'>";
 $htm[]="<option value=''>Select";
-$htm[]="<option value='active'>Active";
-$htm[]="<option value='inactive'>Inactive";
-$htm[]="<option value='staff'>Staff";
-$htm[]="<option value='superuser'>SuperUser";
+foreach ($values as $value) {
+    $htm[]="<option value='".$value."'>".$value;
+}
+//$htm[]="<option value='inactive'>Inactive";
+//$htm[]="<option value='staff'>Staff";
+//$htm[]="<option value='superuser'>SuperUser";
 $htm[]="</select>";
 $htm[]="</div></div>";
 
@@ -50,6 +53,5 @@ $box=new Admin\SolidBox;
 $box->type("primary");
 $box->icon('fa fa-search');
 $box->title('Filter');
-$box->body($htm);
-//echo $box("success", "<i class='fa fa-search'></i> Search", $htm);
-echo $box->html();
+echo $box->html($htm);
+

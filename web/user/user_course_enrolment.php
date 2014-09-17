@@ -9,7 +9,7 @@ if (count($courses)) {
 
     $body[]="<table class='table table-condensed table-striped'>";
     $body[]= "<thead>";
-    $body[]= "<th>Org</th>";
+    //$body[]= "<th>Org</th>";
     $body[]= "<th>Course</th>";
     $body[]= "<th>Progress</th>";
     $body[]= "<th width=100>Created</th>";
@@ -20,7 +20,7 @@ if (count($courses)) {
         //print_r($r);
         $body[]= "<tr>";
         //$body[]= "<td>".$r['id'];
-        $body[]= "<td>".explode("/", $r['course_id'])[0];
+        //$body[]= "<td>".explode("/", $r['course_id'])[0];//org
 
         $body[]= "<td><a href=../course/?course_id=".$r['course_id']." title='".$r['course_id']."'>".$edxApp->courseName($r['course_id']);
 
@@ -34,7 +34,7 @@ if (count($courses)) {
             $progress=($edxApp->courseUnitSeen($r['course_id'], $USERID)/$unitCount)*100;
         }
 
-        $body[]= "<td>".round($progress)."%";//progress
+        $body[]= "<td><a href='../progress/?course_id=".$r['course_id']."&user_id=$USERID'>".round($progress)."%";//progress
         $body[]= "<td>".substr($r['created'], 0, 10);
         $body[]= "<td><i class='fa fa-trash-o' onclick=disEnroll('".$r['course_id']."');></i>";
         $body[]= "</tr>";

@@ -8,6 +8,5 @@ $title="<i class='fa fa-certificate'></i> Certificates <small>certificates_gener
 $box=new Admin\SolidBox;
 //$box->type("danger");
 $box->title($title);
-$box->body("<pre>$sql</pre>");
-//$box->footer($footer);
-echo $box->html();
+$box->collapsed(true);
+echo $box->html("<pre>$sql</pre>");

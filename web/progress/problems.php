@@ -48,8 +48,14 @@ foreach ($sections as $section_id) {
 
         if (count($problems)) {
             //print_r($problems);
-            foreach($problems as $problem_id){
-                echo "<li><a href='../course_unit/?id=$problem_id'>".$edxCourse->unitName($problem_id)."</a></li>\n";
+            foreach ($problems as $problem_id) {
+                $unitName=$edxCourse->unitName($problem_id);
+                /*
+                if (!$unitName) {
+                    $unitName=$problem_id;
+                }
+                */
+                echo "<li><a href='../course_unit/?id=$problem_id'>".$unitName."</a></li>\n";
             }
         } else {
             echo "<li>No problem scores in this section</li>";

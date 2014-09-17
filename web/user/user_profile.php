@@ -24,6 +24,29 @@ $body[]='</div>';
 $body[]='</div>';
 
 
+// Date joined / Last login
+
+$body[]='<div class="row">';
+
+$body[]='<div class="col-lg-6">';
+$body[]='<div class=form-group><label>Date joined :</label> ' . substr($usr['date_joined'], 0, 10);
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='<div class="col-lg-6">';
+$body[]='<div class=form-group><label>Last login :</label> ';
+if (preg_match("/0000/", $usr['last_login'])) {
+    $body[]="<i class=text-muted>No login</i>";
+} else {
+    $body[]=substr($usr['last_login'], 0, 10);
+}
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='</div>';
+
+
+
 // First name / Last name
 /*
 $body[]='<div class="row">';
