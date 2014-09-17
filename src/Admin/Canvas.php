@@ -36,7 +36,7 @@ class Canvas
      */
     public function courses()
     {
-        $sql="SELECT id, name, account_id, course_code FROM courses WHERE account_id=1;";// WHERE 1
+        $sql="SELECT id, name, account_id, course_code FROM courses WHERE account_id>=1;";// WHERE 1
         $q = $this->db->query($sql);
         
         $DAT=[];
@@ -87,10 +87,50 @@ class Canvas
         
         $DAT=[];
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            if ($r['course_id']==2) continue;// TEST (à ne pas utiliser)
+            if ($r['course_id']==3) continue;// Test Dev
+            if ($r['course_id']==7) continue;// Demo
             $r['created_at']=substr($r['created_at'], 0, 19);
+            $r['edx_id']=$this->edxCourseRelation($r['course_id']);
             $DAT[]=$r;
         }
         return $DAT;
+    }
+
+
+    /**
+     * [edxCourseRelation description]
+     * @param  integer $canvas_course_id [description]
+     * @return [type]                    [description]
+     */
+    public function edxCourseRelation($canvas_course_id = 0)
+    {
+        
+        $canvas_course_id*=1;
+
+        switch ($canvas_course_id) {
+            
+            case 1: // Analyse Financière
+                return "FFI/FFIf001/Q413";
+
+            case 4: // Financial Analysis MOOC
+                return "FFI/FFIe001/Q114";
+
+            case 5: // Wall Street MOOC
+                return "FFI/FFIe002/Q114";
+
+            case 6: // Analyse Financière #2
+                return "FFI/FFIf002/Q114";
+
+            case 8:// Informer et communiquer sur les réseaux sociaux
+                return "MJ/001/001";
+            
+            case 9:// Marché des changes
+                return "FFI/FFIf003/Q114";
+
+            default:
+                return false;
+        }
     }
 
 
@@ -130,8 +170,9 @@ class Canvas
             return false;
         }
 
-        $sql="SELECT id, name, sortable_name, created_at, updated_at FROM users WHERE id=$user_id;";
-        $q=$this->db()->query($sql) or die(print_r($this->db()->errorInfo(), true));
+        $sql="SELECT id, name, sortable_name, created_at, updated_at FROM users WHERE id=$user_id AND workflow_state!='deleted';";
+        //echo "<pre>$sql</pre>";
+        $q=$this->db()->query($sql) or die(print_r($this->db()->errorInfo(), true)."<hr /> $sql");
         
         if ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             @$r['first_name']=trim(explode(',', $r['sortable_name'])[1]);
@@ -147,49 +188,3 @@ class Canvas
         return false;
     }
 }
-
-
-/*
-La liste des cours sont stockes dans la table 'courses'
-
-Les users sont stockes dans la table 'users'
-
-Les accounts, c'est quoi : ?? Je sais pas, mais c'est dans la table 'accounts'.
-Il y en a 3 : [1]First Business MOOC, [2]Site Admin, [3]Cours créés manuellement
-Les users sont lies aux 'accounts' dans la table user_account_associations
-
-On va garder les users de lies au [1]
-
-
-Il y a une table course_account_associations. Je sais pas a quoi elle sert.
-
-
-
-
-Les emails des users sont dans la table 'communication_channels'
-
-
-
-
-
-des fragments de cours dans les tables : 
-
-context_id et context_code sont les id des cours.
-Par exemple context_id=1 == context_code=course_1 == MOOC Analyse financière
-
-asset_user_accesses
-assignments (pas mal de choses)
-attachments (fichiers lies au cours)
-
-content_tags
-context_modules
-
-conversation_messages : Un espece de forum/chat dans la table 
-
-course_account_associations
-
-course_sections : presque la liste des cours
-
-courses : la liste des cours. tout simplement
-
-*/
