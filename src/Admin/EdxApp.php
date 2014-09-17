@@ -279,8 +279,8 @@ class EdxApp
         }
 
         $sql.="username=".$this->db->quote($data['username']).", ";
-        $sql.="first_name=".$this->db->quote($data['first_name']).", ";
-        $sql.="last_name=".$this->db->quote($data['last_name']).", ";
+        //$sql.="first_name=".$this->db->quote($data['first_name']).", ";
+        //$sql.="last_name=".$this->db->quote($data['last_name']).", ";
         $sql.="email=".$this->db->quote($data['email'])." ";
         $sql.="WHERE id='$user_id' LIMIT 1;";
 
