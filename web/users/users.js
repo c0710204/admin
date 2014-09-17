@@ -1,6 +1,7 @@
 
 //var dbug;
 function getUserData(){
+
     $("#boxlist .overlay, #boxlist .loading-img").show();
 	var p={
 		'do':'getlist',
@@ -9,6 +10,11 @@ function getUserData(){
 		'status':$('#status').val(),
 		'limit':$('#limit').val()
 	};
+	
+	$.cookie('searchStr', $('#searchStr').val());
+	$.cookie('date_joined', $('#date_joined').val());
+	$.cookie('status', $('#status').val());
+	$.cookie('limit', $('#limit').val());
 
 	var r=$.ajax({
   		type: "POST",
@@ -133,6 +139,14 @@ $( document ).ready(function() {
     $('#searchStr, #date_joined, #status, #limit').change(function(){
     	getUserData();
     });
-    getUserData();
-    $("#userList").focus();
+    
+    $('#searchStr').val($.cookie('searchStr'));
+	$('#date_joined').val($.cookie('date_joined'));
+	$('#status').val($.cookie('status'));
+	$('#limit').val($.cookie('limit'));
+	
+	getUserData();
+    
+	$("#userList").focus();
+
 });
