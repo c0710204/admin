@@ -109,58 +109,7 @@ class EdxApp
         //var_dump($m);
     }
 
-    /**
-     * Create a new, empty course
-     * @param  [type] $org    [description]
-     * @param  [type] $course [description]
-     * @param  [type] $name   [description]
-     * @return [type]         [description]
-     */
-    /*
-    public function createCourse($org, $course, $name)
-    {
-
-        //todo, check if course do not extist
-        if(!$org)return false;
-        if(!$course)return false;
-        if(!$name)return false;
-
-
-        $dat=[];
-        // id
-        $dat["_id"]["tag"]="i4x";
-        $dat["_id"]["org"]=$org;
-        $dat["_id"]["course"]=$course;
-        $dat["_id"]["category"]="course";
-        $dat["_id"]["name"]="$name";
-        $dat["_id"]["revision"]=null;
-        // data
-        $dat["definition"]["children"]=[];
-        $dat["definition"]["data"]["wiki_slug"]="$org.$course.$name";
-        //metadata
-        $dat["metadata"]["tabs"]=[];
-        $dat["metadata"]["display_name"]=$name;
-        $dat["discussion_topics"]["General"]["id"]="i4x-".$org."-".$course."-course-".$name;
-        $this->modulestore->insert($dat);
-
-
-        $dat=[];
-        // id
-        $dat["_id"]["tag"]="i4x";
-        $dat["_id"]["org"]=$org;
-        $dat["_id"]["course"]=$course;
-        $dat["_id"]["category"]="about";
-        $dat["_id"]["name"]="overview";
-        $dat["_id"]["revision"]=null;
-        // data
-        $dat["metadata"]["tabs"]=[];
-        $dat["definition"]["data"]["data"]="<section class=about><h2>Course overview</h2></section>";
-        $this->modulestore->insert($dat);
-
-        return true;
-    }
-    */
-
+    
 
     /**
      * Return enrollments order by created date (recents first)
@@ -203,21 +152,59 @@ class EdxApp
      * @param  integer $userid    [description]
      * @return [type]             [description]
      */
-    public function enroll($course_id = '', $user_id = 0)
+    public function enroll($course_id = '', $user_id = 0, $created = '')
     {
         $user_id*=1;
         if (!$course_id || !$user_id) {
             return false;
         }
 
-        //todo :: make sure the right mode is 'honor'
-        $sql="INSERT INTO edxapp.student_courseenrollment (user_id, course_id, created, is_active, mode) ";
-        $sql.="VALUES ($user_id, '$course_id', NOW(), 1, 'honor');";
+        // todo :: check $created date format
+        if (!$created) {
+            $created="NOW()";
+        } else {
+            $created="'$created'";
+        }
 
-        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        // check previous enrollment 
+        if ($enrid=$this->enrolled($user_id, $course_id)) {
+            return $enrid;
+        }
+
+        // todo :: make sure the right mode is 'honor'
+        $sql="INSERT INTO edxapp.student_courseenrollment (user_id, course_id, created, is_active, mode) ";
+        $sql.="VALUES ($user_id, '$course_id', $created, 1, 'honor');";
+
+        $q=$this->db->query($sql) or die("Error:".print_r($this->db->errorInfo(), true));
         return $this->db->lastInsertId();
     }
 
+
+
+
+    /**
+     * Return enrollment id for a given user/course
+     * @param  integer $user_id   [description]
+     * @param  string  $course_id [description]
+     * @return [type]             [description]
+     */
+    public function enrolled($user_id = 0, $course_id = '')
+    {
+        $user_id*=1;
+        
+        if (!$user_id) {
+            return false;
+        }
+
+        $sql="SELECT id FROM edxapp.student_courseenrollment WHERE user_id=$user_id AND course_id LIKE '$course_id';";
+        $q=$this->db->query($sql) or die("Error:".print_r($this->db->errorInfo(), true));
+        
+        if ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            return $r['id'];
+        }
+
+        return false;
+    }
 
 
     /**
@@ -348,12 +335,13 @@ class EdxApp
     }
 
 
+
     /**
      * [userprofile description]
      * @param  integer $userid [description]
-     * @return [type]          [description]
+     * @return array          auth_userprofile record
      */
-    public function userprofile($userid = 0)
+    public function userProfile($userid = 0)
     {
         $userid*=1;
         if (!$userid) {
@@ -366,38 +354,74 @@ class EdxApp
     }
 
 
+
     /**
      * Create a inactive django user
      * @param  string $email [description]
      * @return [type]        [description]
      */
-    public function userCreate($email = '')
+    public function userCreate($email = '', $first_name = '', $last_name = '', $date_joined = '')
     {
-        $email=trim($email);
+        
+        //echo "userCreate();\n";
 
-        if (!$email) {
+        $email=trim(strtolower($email));
+
+        if (!$email) {//email is the primary identifier in edx
             return false;
         }
 
-        $n=explode("@", $email);
-        $name=$n[0];
+        if ($uid = $this->userExist($email)) {
+            return $uid;
+        }
 
-        $sql = "INSERT INTO edxapp.auth_user (username, email, is_active, date_joined)";
-        $sql.=" VALUES ('$name', '$email', 1, NOW());";
+        $username=explode("@", $email)[0];// we take the first part of the email as username if we dont have anything better
+        $username=$email;// since username and emails have both to be unique...
 
-        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        /*
+        if ($first_name) {
+            $username=$first_name;//username
+        }
+        */
+        
+        // date joined
+        if (!$date_joined) {
+            $date_joined="NOW()";
+        } else {
+            $date_joined="'$date_joined'";
+        }
+
+        $sql = "INSERT INTO edxapp.auth_user (username, first_name, last_name, email, is_active, date_joined)";
+        $sql.=" VALUES (".$this->db->quote($username).", ".$this->db->quote($first_name).", ".$this->db->quote($last_name).", '$email', 1, $date_joined);";
+
+        $q=$this->db->query($sql) or die("Errror:".print_r($this->db->errorInfo(), true)."<hr />$sql");
 
         $userid=$this->db->lastInsertId();
 
         if ($userid) {
             $sql = "INSERT INTO edxapp.auth_userprofile (user_id, name, courseware, allow_certificate)";
-            $sql.=" VALUES ('$userid','$name', 'course.xml', 1);";
+            $sql.=" VALUES ('$userid', ".$this->db->quote($username).", 'course.xml', 1);";
             $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
         } else {
             return false;
         }
 
         return $userid;
+    }
+
+
+    /**
+     * Return the user id of the user for a given email adress
+     * @return [type] [description]
+     */
+    public function userExist($email = '')
+    {
+        $email=trim($email);
+        $sql="SELECT id FROM edxapp.auth_user WHERE email LIKE '$email';";
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        
+        $r=$q->fetch(\PDO::FETCH_ASSOC);
+        return $r['id'];
     }
 
 
@@ -898,7 +922,7 @@ class EdxApp
         }
         
         $sql="SELECT DISTINCT id FROM edxapp.courseware_studentmodule WHERE module_id LIKE 'i4x://$org/$course/%';";
-        echo "<pre>$sql</pre>";
+        //echo "<pre>$sql</pre>";
 
         $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
         
