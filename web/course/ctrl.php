@@ -98,6 +98,10 @@ switch ($_POST['do']) {
         $course = new EdxCourse($_POST['course_id']);
         if ($course->exist($_POST['course_id'])) {
             $course->delete($_POST['course_id']);
+            
+            $edxApp = new EdxApp();
+            $edxApp->deleteCourseData($_POST['course_id']);
+            
             die("document.location.href='../courses/';");
         } else {
             die("Course not found");
@@ -106,8 +110,8 @@ switch ($_POST['do']) {
 
     case 'enroll':
         //print_r($_POST);
-        $course = new EdxApp();
-        if ($course->enroll($_POST['course_id'], $_POST['user_id'])) {
+        $edxApp = new EdxApp();
+        if ($edxApp->enroll($_POST['course_id'], $_POST['user_id'])) {
             //$course->enroll($_POST['course_id'], $_POST['user_id']);// todo finish this
             die("document.location.href='../courses/';");
         } else {
