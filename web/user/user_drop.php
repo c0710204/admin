@@ -10,9 +10,8 @@ $foot="<a href=# class='btn btn-danger'><i class='fa fa-trash'></i> Drop</a>";
 $box=new Admin\Box;
 $box->type("danger");
 $box->title($title);
-$box->body($body);
-$box->footer($foot);
-echo $box->html();
+$box->collapsed(true);
+echo $box->html($body, $foot);
 ?>
 <script>
 function dropUser()
