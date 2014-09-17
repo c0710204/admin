@@ -14,7 +14,7 @@
 function enrolled($course_id = '')
 {
     global $admin;
-    $sql="SELECT * FROM edxapp.student_courseenrollment WHERE course_id LIKE '$course_id';";
+    $sql="SELECT * FROM edxapp.student_courseenrollment WHERE course_id LIKE '$course_id' LIMIT 10;";
     $q=$admin->db()->query($sql) or die("<pre>".print_r($admin->db()->errorInfo(), true)."</pre>");
     $dat=[];
     while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
