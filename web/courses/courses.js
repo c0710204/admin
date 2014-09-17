@@ -66,8 +66,9 @@ function renderList(json,target){
 	htm.push('<th>Course</th>');
 	//htm.push('<th>Name</th>');
 	htm.push('<th>Display name</th>');
-	htm.push('<th>Chpt.</th>');
-	htm.push('<th>Enr.</th>');
+	htm.push('<th title="Enrollments">Enr.</th>');
+    htm.push('<th title="Chapters">Chpt.</th>');
+	
 	htm.push('<th>Start</th>');
 	htm.push('<th>End</th>');
 	htm.push('</thead>');
@@ -98,8 +99,9 @@ function renderList(json,target){
         //htm.push("<td>" + o.short_desc);
         //if(o.is_staff)htm.push(" <span class='label label-success'>Staff</span>");
         //if(o.is_superuser)htm.push(" <span class='label label-danger'>SU</span>");
+        htm.push("<td style='text-align:right'>" + o.enroll);
         htm.push("<td>" + o.chapters);
-        htm.push("<td>" + o.enroll);
+        
         htm.push("<td>" + date_start);
         htm.push("<td>" + date_end);
 
