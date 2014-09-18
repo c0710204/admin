@@ -36,15 +36,54 @@ class Canvas
      */
     public function courses()
     {
-        $sql="SELECT id, name, account_id, course_code FROM courses WHERE account_id>=1;";// WHERE 1
+        $sql="SELECT id, name, account_id, start_at, conclude_at, course_code, restrict_enrollments_to_course_dates FROM courses WHERE account_id>=1;";// WHERE 1
         $q = $this->db->query($sql);
         
         $DAT=[];
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $r['edx_id']=$this->edxCourseRelation($r['id']);
             $DAT[]=$r;
         }
         return $DAT;
     }
+
+
+    /**
+     * [courseEnrollCount description]
+     * @param  integer $course_id [description]
+     * @return [type]             [description]
+     */
+    public function courseEnrollCount($course_id = 0)
+    {
+        $course_id*=1;
+        
+        $sql="SELECT COUNT(*) FROM enrollments WHERE course_id=$course_id;";
+        $q = $this->db->query($sql) or die("Error: $sql");
+        $r=$q->fetch(\PDO::FETCH_ASSOC);
+        //print_r($r);
+        return $r['count'];
+    }
+
+
+    /**
+     * [courseEnrollment description]
+     * @param  integer $course_id [description]
+     * @return [type]             [description]
+     */
+    public function courseEnrollments($course_id = 0)
+    {
+        $course_id*=1;
+        
+        $sql="SELECT * FROM enrollments WHERE course_id=$course_id;";
+        $q = $this->db->query($sql) or die("Error: $sql");
+        
+        $dat=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $dat[]=$r;
+        }
+        return $dat;
+    }
+
 
     /**
      * Return user email for a given user_id
