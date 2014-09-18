@@ -11,7 +11,8 @@ $admin->title("Canvas");
 
 echo $admin->printPrivate();
 
-$edxapp= new Admin\EdxApp();
+$edxApp= new Admin\EdxApp();
+$edxCourse= new Admin\EdxCourse();
 $canvas= new Admin\Canvas();
 ?>
 
@@ -39,6 +40,8 @@ $htm[]= "<th>Conclude at</th>";
 $htm[]= "<th title='restrict_enrollments_to_course_dates'>RestrictEnr.</th>";
 $htm[]= "<th title='enrollments'>Enr.</th>";
 $htm[]= "<th>Edx Relation</th>";
+$htm[]= "<th>Edx start</th>";
+$htm[]= "<th>Edx end</th>";
 $htm[]= "</thead>";
 
 foreach ($courses as $course) {
@@ -51,6 +54,10 @@ foreach ($courses as $course) {
     $htm[]= "<td>".$course['restrict_enrollments_to_course_dates'];
     $htm[]= "<td style='text-align:right'><a href='canvas_enrollments.php?id=".$course['id']."'>".number_format($canvas->courseEnrollCount($course['id']));
     $htm[]= "<td><a href='../course/?id=".$course['edx_id']."'>".$course['edx_id'];
+    $meta=$edxCourse->metadata($course['edx_id']);
+    //print_r($meta);
+    $htm[]= "<td>".substr(@$meta['start'], 0, 10);
+    $htm[]= "<td>".substr(@$meta['end'], 0, 10);
     $htm[]= "</tr>";
 }
 $htm[]= "</table>";
