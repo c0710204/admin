@@ -117,26 +117,33 @@ class EdxApp
      * @param  integer $userid    [description]
      * @return [type]             [description]
      */
-    public function enrollments($limit = 5)
+    public function enrollments($course_id = '', $limit = 0)
     {
         $limit*=1;
-        if ($limit < 1) {
-            return false;
-        }
 
         $sql ="SELECT *  FROM edxapp.student_courseenrollment ";
         $sql.="WHERE 1 ";
         
-        if ($this->org) {
+        if ($course_id) {// todo :: check course_id format
+            $sql.=" AND course_id LIKE '".$course_id."' ";
+        }
+
+        if ($this->org) {// org restriction
             $sql.=" AND course_id LIKE '".$this->org."/%' ";
         }
 
-        $sql.="ORDER BY created DESC LIMIT $limit;";
+        if ($limit>0) {
+            $LIMIT="LIMIT $limit";
+        } else {
+            $LIMIT='';
+        }
+
+        $sql.="ORDER BY created DESC $LIMIT;";
         
         //echo "<pre>$sql</pre>";
         $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
         $dat=[];
-        while ($r=$q->fetch()) {
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             $dat[]=$r;
         }
         return $dat;
