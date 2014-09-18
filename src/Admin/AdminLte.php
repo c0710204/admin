@@ -324,7 +324,9 @@ class AdminLte
             // Add the class icon to your logo image or logo icon to add the margining -->
             //$HTML[]='Admin';
             $title=$this->config->lte->title;
-            if(!$title)$title="Admin";
+            if (!$title) {
+                $title="Admin";
+            }
             //$HTML[]='<a href="?" class="logo">';
             //$HTML[]="<a href=? class=logo><img src='".$this->path."/img/logosocgen.png' width=180></i></a>";
             $HTML[]="<a href=? class=logo>$title</a>";
@@ -334,46 +336,46 @@ class AdminLte
         }
 
         // Header Navbar: style can be found in header.less -->
-            $HTML[]='<nav class="navbar navbar-static-top" role="navigation">';
-            // Sidebar toggle button-->
-            $HTML[]='<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button" title="Toggle navigation">';
-            $HTML[]='<span class="sr-only">Toggle navigation</span>';
-            $HTML[]='<span class="icon-bar"></span>';
-            $HTML[]='<span class="icon-bar"></span>';
-            $HTML[]='<span class="icon-bar"></span>';
+        $HTML[]='<nav class="navbar navbar-static-top" role="navigation">';
+        // Sidebar toggle button-->
+        $HTML[]='<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button" title="Toggle navigation">';
+        $HTML[]='<span class="sr-only">Toggle navigation</span>';
+        $HTML[]='<span class="icon-bar"></span>';
+        $HTML[]='<span class="icon-bar"></span>';
+        $HTML[]='<span class="icon-bar"></span>';
+        $HTML[]='</a>';
+
+        if ($this->session) {
+
+            //Navbar right
+            $HTML[]='<div class="navbar-right">';
+            $HTML[]='<ul class="nav navbar-nav">';
+
+            // User name
+            $HTML[]='<li class="dropdown user user-menu">';
+            $HTML[]='<a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+            $HTML[]='<i class="glyphicon glyphicon-user"></i>';
+            $HTML[]='<span>'.$this->user['username'].' <i class="caret"></i></span>';
             $HTML[]='</a>';
 
-            if ($this->session) {
 
-                //Navbar right
-                $HTML[]='<div class="navbar-right">';
-                $HTML[]='<ul class="nav navbar-nav">';
+            $HTML[]='<ul class="dropdown-menu">';
 
-                // User name
-                $HTML[]='<li class="dropdown user user-menu">';
-                $HTML[]='<a href="#" class="dropdown-toggle" data-toggle="dropdown">';
-                $HTML[]='<i class="glyphicon glyphicon-user"></i>';
-                $HTML[]='<span>'.$this->user['username'].' <i class="caret"></i></span>';
-                $HTML[]='</a>';
+            // User image -->
+            $HTML[]='<li class="user-header bg-light-blue">';
+            //$HTML[]='<img src="../../img/avatar3.png" class="img-circle" alt="User Image">';
+            //$HTML[]='<p>'.$this->user['username'].'</p>';//<small>Member since Nov. 2012</small>
+            $HTML[]='<p><a href=../login/logout.php>Logout</a></p>';
 
+            $HTML[]='</li>';
+            $HTML[]='</ul>';
 
-                $HTML[]='<ul class="dropdown-menu">';
-
-                // User image -->
-                $HTML[]='<li class="user-header bg-light-blue">';
-                //$HTML[]='<img src="../../img/avatar3.png" class="img-circle" alt="User Image">';
-                //$HTML[]='<p>'.$this->user['username'].'</p>';//<small>Member since Nov. 2012</small>
-                $HTML[]='<p><a href=../login/logout.php>Logout</a></p>';
-
-                $HTML[]='</li>';
-                $HTML[]='</ul>';
-
-                $HTML[]='</ul>';
-                $HTML[]='</div>';
-            }
+            $HTML[]='</ul>';
+            $HTML[]='</div>';
+        }
 
 
-           $HTML[]='</nav>';
+        $HTML[]='</nav>';
         $HTML[]='</header>';
 
         return implode("\n", $HTML);
@@ -447,6 +449,9 @@ class AdminLte
         // courses
         $HTML[]='<li><a href="'.$this->path.'courses/"><i class="fa fa-book"></i> <span>Courses</span></a></li>';
         
+        //canvas
+        $HTML[]='<li><a href="'.$this->path.'canvas/"><i class="fa fa-retweet"></i> <span>Canvas</span></a></li>';
+        
         // files
         // $HTML[]='<li><a href="'.$this->path.'files/"><i class="fa fa-folder"></i> <span>Files</span></a></li>';
 
@@ -512,6 +517,12 @@ class AdminLte
         // jquery tablesorter
         $PATH[]="js/jquery-tablesorter.min.js";
         $PATH[]="js/jquery.cookie.js";
+
+        // InputMask -->
+        $PATH[]="/js/plugins/input-mask/jquery.inputmask.js";
+        $PATH[]="/js/plugins/input-mask/jquery.inputmask.date.extensions.js";
+        $PATH[]="/js/plugins/input-mask/jquery.inputmask.extensions.js";
+
 
         // Bootstrap -->
         $PATH[]="js/bootstrap.min.js";
