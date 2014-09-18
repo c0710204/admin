@@ -67,6 +67,7 @@ if (!$edxCourse->exist($course_id)) {
         
         include "course_video.php";
         include "course_image.php";
+        
         //include "course_tabs.php";
         //include "course_outline.php";
         //include "course_textbooks.php";
@@ -78,7 +79,6 @@ if (!$edxCourse->exist($course_id)) {
     <section class="col-lg-6 connectedSortable">
         <?php
         //include "course_overview.php";
-
         //include "course_grading.php";//grading policy
         include "course_enroll.php";
         include "course_forum.php";
