@@ -45,7 +45,12 @@ $htm[]= "<th>Edx end</th>";
 $htm[]= "</thead>";
 
 foreach ($courses as $course) {
-    $htm[]= "<tr>";
+    if ($course['edx_id']) {
+        $htm[]= "<tr>";
+    } else {
+        $htm[]= "<tr class='text-muted'>";
+    }
+    
     //echo "<td>".print_r($course, true);
     $htm[]= "<td>".$course['id'];
     $htm[]= "<td>".$course['name'];
