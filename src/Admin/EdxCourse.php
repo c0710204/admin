@@ -290,13 +290,20 @@ class EdxCourse
      * @param  [type] $date [description]
      * @return [type]       [description]
      */
-    public function updateCourseStartDate($date)
+    public function updateCourseStartDate($date = '')
     {
         //echo __FUNCTION__."($date)\n";
         //$date=trim($date);
+        
+        // format date as ISO
+        if (preg_match("/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", $date)) {
+            $date=implode("-", array_reverse(explode("/", $date)));
+        }
+
         if (is_string($date)) {
             $date=strtotime("$date");
         }
+
 
         $filter=['_id.course' => $this->course, '_id.org'=>$this->org, '_id.category'=>'course'];
         $data=$this->modulestore->findOne($filter);
@@ -308,21 +315,40 @@ class EdxCourse
     {
         //$collection = $this->mgdb->edxapp->modulestore;
         //$data=$this->category("metadata");
+        
+        // format date as ISO
+        if (preg_match("/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", $date)) {
+            $date=implode("-", array_reverse(explode("/", $date)));
+        }
+
         if (is_string($date)) {
             $date=strtotime($date);
         }
-
+        /*
+        if (preg_match("/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", $date)) {
+            $date=implode("-", array_reverse(explode("/", $date)));
+        }
+        */
         $filter=['_id.course' => $this->course, '_id.org'=>$this->org, '_id.category'=>'course'];
         $data=$this->modulestore->findOne($filter);
         $data['metadata']['end']=date('c', $date);
         return $this->modulestore->update($filter, $data);
     }
 
+
+
     public function updateEnrollStartDate($date = '')
     {
+        
+        // format date as ISO
+        if (preg_match("/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", $date)) {
+            $date=implode("-", array_reverse(explode("/", $date)));
+        }
+
         if (is_string($date)) {
             $date=strtotime("$date");
         }
+
         $filter=['_id.course' => $this->course, '_id.org'=>$this->org, '_id.category'=>'course'];
         $data=$this->modulestore->findOne($filter);
         $data['metadata']['enrollment_start']=date('c', $date);
@@ -331,6 +357,11 @@ class EdxCourse
 
     public function updateEnrollEndDate($date = '')
     {
+        // format date as ISO
+        if (preg_match("/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", $date)) {
+            $date=implode("-", array_reverse(explode("/", $date)));
+        }
+
         if (is_string($date)) {
             $date=strtotime("$date");
         }
@@ -734,7 +765,6 @@ class EdxCourse
      */
     public function delete($course_id = '')
     {
-
 
         //todo :  complete here
 
