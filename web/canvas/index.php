@@ -18,58 +18,14 @@ $canvas= new Admin\Canvas();
 ?>
 
 <section class="content-header">
-    <h1><i class="fa fa-book"></i> Canvas <small></small></h1>
+    <h1><i class="fa fa-book"></i> Canvas tools<small></small></h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
-<pre>
-<?php
 
-/*
-$sql="SELECT workflow_state, count(workflow_state) FROM users GROUP BY workflow_state;";
-$q=$canvas->db()->query($sql) or die("error $sql");
-while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
-    print_r($r);
-}
-exit;
-*/
+<li><a href='canvas_courses.php'>Canvas courses</a>
+<li><a href='canvas_users.php'>Canvas users</a>
+<li><a href='import.php'>User migration</a>
 
-
-//$courses=$canvas->courses();
-//print_r($courses);exit;
-
-$user_ids=$canvas->userIds();
-//die("count:".count($user_ids));
-
-
-//$user_ids=[];
-//$user_ids[]=36;//jean baptiste camus
-
-foreach ($user_ids as $user_id) {
-
-    //
-    $usr=$canvas->user($user_id);
-    echo $usr['email']."\n";
-    //print_r($usr);
-    
-    // register user
-    $edx_user_id=$edxapp->userCreate($usr['email'], $usr['first_name'], $usr['last_name'], $usr['created_at']);
-    
-    echo "edx_user_id=$edx_user_id\n";
-
-    //enrollments
-    $enrolls=$canvas->userEnrollments($usr['id']);
-    
-    //echo count($enrolls)." enrollments\n";
-    foreach ($enrolls as $enr) {
-        //print_r($enr);
-        $edxapp->enroll($enr['edx_id'], $edx_user_id, $enr['created_at']);
-    }
-
-    //$edxapp->enroll($course_id = '', $user_id = 0);
-    //
-}
-die("done\n");
-?>
 </section>
