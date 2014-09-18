@@ -17,7 +17,9 @@ switch ($_POST['do']) {
 
     //course info
     case "saveDesc":
-        //echo "<pre>"; print_r($_POST);
+        
+        //echo "<pre>"; print_r($_POST);echo "</pre>";exit;
+        
         $course = new EdxCourse($_POST['course_id']);
 
         if (!$course->exist()) {
@@ -28,14 +30,14 @@ switch ($_POST['do']) {
         $course->updateShortDescription($_POST['shortDescription']);
 
         //dates
-        $dates=explode(" - ", $_POST['courseStartEnd']);
-        $course->updateCourseStartDate($dates[0]);
-        $course->updateCourseEndDate($dates[1]);
-
-        $dates=explode(" - ", $_POST['enrollStartEnd']);
-        $course->updateEnrollStartDate($dates[0]);
-        $course->updateEnrollEndDate($dates[1]);
-
+        //$dates=explode(" - ", $_POST['courseStartEnd']);
+        $course->updateCourseStartDate($_POST['courseStart']);
+        $course->updateCourseEndDate($_POST['courseEnd']);
+        
+        //$dates=explode(" - ", $_POST['enrollStartEnd']);
+        $course->updateEnrollStartDate($_POST['enrollStart']);
+        $course->updateEnrollEndDate($_POST['enrollEnd']);
+        
         die("document.location.href='?course_id=".$_POST['course_id']."';");
 
         break;
@@ -119,6 +121,28 @@ switch ($_POST['do']) {
         }
         exit;
         break;
+
+    case 'listEnroll':
+        //print_r($_POST);
+        //echo json_encode($_POST);
+        $edxApp = new EdxApp();
+        $course_id=$_POST['course_id'];
+        $limit=5;
+        
+        $sql= "SELECT id, user_id, created FROM edxapp.student_courseenrollment ";
+        $sql.="WHERE course_id LIKE '$course_id' LIMIT $limit;";
+        
+        $q=$admin->db()->query($sql) or die("<pre>".print_r($admin->db()->errorInfo(), true)."</pre>");
+        $dat=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $r['created']=substr($r['created'], 0, 10);
+            $r['username']=$edxApp->userName($r['user_id']);
+            $dat[]=$r;
+        }
+        echo json_encode($dat);
+        exit;
+        break;
+
 
     default:
         die('Error : unknow action');
