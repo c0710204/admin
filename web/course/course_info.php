@@ -4,7 +4,7 @@
 $shortDesc = $edxCourse->shortDescription($course_id);
 $meta = $edxCourse->metadata($course_id);
 
-//print_r($meta);
+//echo "<pre>"; print_r($meta); echo "</pre>";
 
 $start=@strtotime($meta['start']);
 $end=@strtotime($meta['end']);
@@ -29,45 +29,73 @@ $body[]='</div>';
 
 //Dates
 $body[]='<div class=row>';
-// course start-end
-$startDates=date("d/m/Y", $start)." - ".date("d/m/Y", $end);
+
+//$startDates=date("d/m/Y", $start)." - ".date("d/m/Y", $end);
+
+// course start
 $body[]='<div class="col-lg-6">';
-$body[]='<div class="form-group">';
-$body[]='<label>Course Start-End</label>';
-$body[]='<input type="text" class="form-control" id="courseStartEnd" value="'.$startDates.'">';
+$body[]='<label>Course Start</label>';
+$body[]='<div class="input-group">';
+$body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
+$body[]='<input type="text" class="form-control" id="courseStart" value="'.date("d/m/Y", $start).'">';
 $body[]='</div>';
 $body[]='</div>';
+
+// course end
+$body[]='<div class="col-lg-6">';
+$body[]='<label>Course End</label>';
+$body[]='<div class="input-group">';
+$body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
+$body[]='<input type="text" class="form-control" id="courseEnd" value="'.date("d/m/Y", $end).'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='</div>';
+
 
 // enroll start-end
-$enrollDates=date("d/m/Y", $enrollment_start)." - ".date("d/m/Y", $enrollment_end);
+$body[]='<div class=row>';
+
 $body[]='<div class="col-lg-6">';
-$body[]='<div class="form-group">';
-$body[]='<label>Enroll Start-End</label>';
-$body[]='<input type="text" class="form-control" id="enrollStartEnd" value="'.$enrollDates.'">';
+$body[]='<label>Enrollment Start</label>';
+$body[]='<div class="input-group">';
+$body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
+$body[]='<input type="text" class="form-control" id="enrollStart" value="'.date("d/m/Y", $enrollment_start).'">';
+$body[]='</div>';
+$body[]='</div>';
+
+// course end
+$body[]='<div class="col-lg-6">';
+$body[]='<label>Enrollment End</label>';
+$body[]='<div class="input-group">';
+$body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
+$body[]='<input type="text" class="form-control" id="enrollEnd" value="'.date("d/m/Y", $enrollment_end).'">';
 $body[]='</div>';
 $body[]='</div>';
 
 $body[]='</div>';
+
 
 
 $footer=[];
-$footer[]="<button class='btn btn-primary' onclick='saveDesc()''><i class='fa fa-save'></i> Save</button> ";
+$footer[]="<button class='btn btn-primary' onclick='saveDesc()''><i class='fa fa-save'></i> Save course info</button> ";
 //$footer[]="<a class='btn btn-default' href='export.php'><i class='fa fa-export'></i> Export</a> ";
-$footer[]="<a class='btn btn-default pull-right' title='files' onclick='gotofiles()'><i class='fa fa-folder'></i> Files</a>";
+//$footer[]="<a class='btn btn-default pull-right' title='files' onclick='gotofiles()'><i class='fa fa-folder'></i> Files</a>";
 
 $footer[]="<span id='courseDesc'></span>";
 
 $box=new Admin\Box;
+$box->id("boxinfo");
 $box->type("danger");
 $box->icon("fa fa-info");
 $box->title("Course info");// <small><a href=#>$course_id</a></small>
-$box->body($body);
-$box->footer($footer);
-echo $box->html();
+$box->loading(true);// <small><a href=#>$course_id</a></small>
+echo $box->html($body, $footer);
 
 ?>
 <div id='more'></div>
 <script>
+
 function saveDesc(){
 
     var p={
@@ -75,10 +103,13 @@ function saveDesc(){
         'course_id':$('#course_id').val(),
         'displayName':$('#displayName').val(),
         'shortDescription':$('#shortDescription').val(),
-        'courseStartEnd':$('#courseStartEnd').val(),
-        'enrollStartEnd':$('#enrollStartEnd').val()
+        'courseStart':$('#courseStart').val(),
+        'courseEnd':$('#courseEnd').val(),
+        'enrollStart':$('#enrollStart').val(),
+        'enrollEnd':$('#enrollEnd').val()
     };
 
+    $('#boxinfo .loading-img, #boxinfo .overlay').show();
     $('#courseDesc').html("Saving...");
     $('#courseDesc').load('ctrl.php',p,function(x){
         try{
@@ -88,15 +119,24 @@ function saveDesc(){
             console.log(e);
         }
     });
-
 }
-
 
 $(function() {
     //Date range picker with time picker
     //$('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-    $('#courseStartEnd').daterangepicker();
-    $('#enrollStartEnd').daterangepicker();
+    
+    //$('#courseStart').datepicker();
+    //$('#courseEnd').datepicker();
+
+    //Datemask dd/mm/yyyy
+    $("#courseStart").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    //Datemask2 mm/dd/yyyy
+    $("#courseEnd").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    
+    $("#enrollStart").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    $("#enrollEnd").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+
+    $('#boxinfo .loading-img, #boxinfo .overlay').hide();
     console.log("ready");
 });
 </script>

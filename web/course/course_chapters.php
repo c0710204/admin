@@ -37,4 +37,5 @@ $box = new Admin\SolidBox;
 $box->title("Course chapters $small");
 $box->icon('fa fa-sitemap');
 $box->iconUrl("../course_structure/?id=$course_id");//todo here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$box->collapsed(true);
 echo $box->html($htm, $foot);

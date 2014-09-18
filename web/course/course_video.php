@@ -11,13 +11,15 @@ if ($video) {
     $body[]=$video;
     $footer[]="&nbsp;";
     $footer[]="<button class='btn pull-right' onclick='trashVideo()'><i class='fa fa-trash-o'></i></button>";
+    $small="<small><a href='https://www.youtube.com/watch?v=$youtubeid' target=_blank>$youtubeid</a></small>";
 } else {
     $body="<pre>No video</pre>";
+    $small="<small>No video</small>";
 }
 
 $footer[]="<span id='moreVideo'></span>";
 
-$small="<small><a href='https://www.youtube.com/watch?v=$youtubeid' target=_blank>$youtubeid</a></small>";
+
 
 $box=new Admin\SolidBox;
 $box->icon('fa fa-video-camera');

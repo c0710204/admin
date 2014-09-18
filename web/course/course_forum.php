@@ -32,7 +32,7 @@ $box=new Admin\Box;
 $box->type("success");
 $box->icon('fa fa-comments');
 $box->title("Forum threads <small>".$threads->count()." threads</small>");
-$box->body($htm);
-$box->footer($footer);
-echo $box->html();
+$box->collapsed(!$threads->count());
+
+echo $box->html($htm, $footer);
 //echo $admin->box("danger", "<i class='fa fa-comments'></i> Forum threads <small>".$threads->count()." threads</small>", $htm, $footer);
