@@ -10,16 +10,21 @@ use Admin\EdxApp;
 use Admin\EdxCourse;
 
 $admin = new AdminLte();
-$admin->path("../");
 $admin->title("Course");
 echo $admin->printPrivate();
 
-//$course_id=@$_GET['course_id'];
+$course_id=@$_GET['id'];
 $edxapp = new EdxApp();
 $edxCourse = new EdxCourse();
 ?>
+
 <section class="content-header">
     <h1><i class='fa fa-book'></i> Course structure</h1>
+    <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-book"></i> <?php echo explode('/', $course_id)[0]?></li>
+        <li class="active"><?php echo explode('/', $course_id)[1]?></li>
+        <li class="active"><a href='../course/?id=<?php echo $course_id?>'><?php echo explode('/', $course_id)[2]?></a></li>
+    </ol>
 </section>
 
 
