@@ -219,6 +219,7 @@ class AdminLte
             echo "<pre>You are not logged in.<br /><a href='".$this->path."/login/'>Please login</a></pre>";
             echo "</div>";
             //print_r($this->session, true);
+            exit;
         }
         return;
     }
