@@ -47,6 +47,35 @@ echo "</tbody>";
 echo "</table>";
 
 
+
+echo "<pre>";
+
+
+// Duplicate user names
+$sql = "SELECT name, count(name) as count FROM users GROUP BY name ORDER BY count DESC;";
+$q = $canvas->db()->query($sql) or die("error $sql");
+$Duplicate=0;
+while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
+    if($r['count']<2)continue;
+    print_r($r);
+    $Duplicate++;
+}
+
+echo "$Duplicate Duplicate names\n";
+
+/*
+// find the longest user names
+$sql="SELECT name, LENGTH(name) as len FROM users ORDER BY len DESC LIMIT 100;";
+$q = $canvas->db()->query($sql) or die("error $sql");
+while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
+    print_r($r);
+}
+*/
+
+
+
+
+
 //$courses=$canvas->courses();
 //print_r($courses);exit;
 

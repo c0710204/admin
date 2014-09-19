@@ -31,8 +31,10 @@ if (!@($_SESSION['canvas']['connected'])) {
 <section class="content">
 
 
-<li><a href='canvas_courses.php'>Canvas courses</a>
-<li><a href='canvas_users.php'>Canvas users</a>
-<li><a href='import.php'>User migration</a>
+<a href='canvas_courses.php' class='btn btn-default'><i class='fa fa-book'></i> Canvas courses</a> 
+<a href='canvas_users.php' class='btn btn-default'><i class='fa fa-users'></i> Canvas users</a> 
+<a href='canvas_duplicate_names.php' class='btn btn-default'><i class='fa fa-users'></i> Canvas duplicate names</a> 
+<a href='canvas_emails.php' class='btn btn-default'><i class='fa fa-mail'></i> Canvas emails</a> 
+<a href='import.php' class='btn btn-default'><i class='fa fa-retweet'></i> User migration</a> 
 
 </section>
