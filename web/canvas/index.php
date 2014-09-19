@@ -11,18 +11,25 @@ $admin->title("Canvas");
 
 echo $admin->printPrivate();
 
-$edxapp= new Admin\EdxApp();
-//$edxCourse= new Admin\EdxCourse();
-//$edxTest= new Admin\EdxTest();
-$canvas= new Admin\Canvas();
+//$edxapp= new Admin\EdxApp();
+//$canvas= new Admin\Canvas();
 ?>
 
 <section class="content-header">
     <h1><i class="fa fa-book"></i> Canvas tools<small></small></h1>
 </section>
 
+<?php
+if (!@($_SESSION['canvas']['connected'])) {
+    include "canvas_config.php";
+    exit;
+}
+?>
+
+
 <!-- Main content -->
 <section class="content">
+
 
 <li><a href='canvas_courses.php'>Canvas courses</a>
 <li><a href='canvas_users.php'>Canvas users</a>

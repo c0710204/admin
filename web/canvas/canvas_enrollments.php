@@ -45,7 +45,7 @@ $html[]="<table class='table table-condensed'>";
 while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
     $dat[]=$r;
     $html[]="<tr>";
-    $html[]="<td><a href=#list>".$r['workflow_state']."</a>";
+    $html[]="<td><a href='canvas_userlist.php?course_id=$course_id&type=".$r['workflow_state']."'>".$r['workflow_state']."</a>";
     $html[]="<td>".$r['count'];
 }
 $html[]="</table>";
