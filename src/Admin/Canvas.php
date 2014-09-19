@@ -14,22 +14,86 @@ class Canvas
 
     public function __construct()
     {
+        if (isset($_SESSION['canvas']['connected']) && $_SESSION['canvas']['connected']==true) {
+            $this->connect();
+        }
+    }
+
+    /**
+     * Connect to Canvas db
+     * @return [type] [description]
+     */
+    private function connect()
+    {
+        $host=$_SESSION['canvas']['host'];
+        $database=$_SESSION['canvas']['database'];
+        $user=$_SESSION['canvas']['user'];
+        $pass=$_SESSION['canvas']['pass'];
+        
         try {
-            $dsn     = "pgsql:host=localhost;dbname=canvas_production";
-            //echo "dsn=$dsn";
-            $this->db = new \PDO($dsn, 'toto', 'caca');
+            $dsn     = "pgsql:host=$host;dbname=".$database;
+            //echo "dsn=$dsn";  
+            $this->db = new \PDO($dsn, $user, $pass);
         } catch (PDOException $e) {
             //$failed = true;
-            echo "<li>error" . $e->getMessage();
+            //echo "<li>error" . $e->getMessage();
         }
     }
     
+    public function dbtest()
+    {
+        $host=$_SESSION['canvas']['host'];
+        $database=$_SESSION['canvas']['database'];
+        $user=$_SESSION['canvas']['user'];
+        $pass=$_SESSION['canvas']['pass'];
+        
+        try {
+            
+            $dsn     = "pgsql:host=$host;dbname=".$database;
+            echo "<li>dsn=$dsn";
+
+            return new \PDO($dsn, $user, $pass);
+        } catch (PDOException $e) {
+            //$failed = true;
+            echo "<li>error" . $e->getMessage();
+            return false;
+        }
+        return false;
+    }
+
+
     public function db()
     {
         return $this->db;
     }
 
 
+
+    /**
+     * Bring the list of courses
+     * @return [type] [description]
+     */
+    public function course($course_id = 0)
+    {
+        $course_id*=1;
+        if ($course_id<1) {
+            return false;
+        }
+
+        $sql="SELECT * FROM courses WHERE id=$course_id;";// WHERE 1
+        $q = $this->db->query($sql) or die("Error: $sql");
+        
+        
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $r['edx_id']=$this->edxCourseRelation($r['id']);
+            return $r;
+        }
+        return false;
+    }
+
+
+
+    
     /**
      * Bring the list of courses
      * @return [type] [description]
@@ -37,7 +101,7 @@ class Canvas
     public function courses()
     {
         $sql="SELECT id, name, account_id, start_at, conclude_at, course_code, restrict_enrollments_to_course_dates FROM courses WHERE account_id>=1;";// WHERE 1
-        $q = $this->db->query($sql);
+        $q = $this->db->query($sql) or die("Error: $sql");
         
         $DAT=[];
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
@@ -46,6 +110,9 @@ class Canvas
         }
         return $DAT;
     }
+
+
+
 
 
     /**
@@ -70,11 +137,16 @@ class Canvas
      * @param  integer $course_id [description]
      * @return [type]             [description]
      */
-    public function courseEnrollments($course_id = 0)
+    public function courseEnrollments($course_id = 0, $workflow_state = '')
     {
         $course_id*=1;
         
-        $sql="SELECT * FROM enrollments WHERE course_id=$course_id;";
+        $sql ="SELECT * FROM enrollments ";
+        $sql.="WHERE course_id=$course_id";
+        if ($workflow_state) {
+            $sql.=" AND workflow_state LIKE '$workflow_state' ";
+        }
+        
         $q = $this->db->query($sql) or die("Error: $sql");
         
         $dat=[];
