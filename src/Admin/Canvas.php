@@ -253,9 +253,9 @@ class Canvas
     public function userIds($limit = 0)
     {
         if ($limit>1) {
-            $sql="SELECT DISTINCT user_id FROM user_account_associations WHERE account_id=1 LIMIT $limit;";
+            $sql="SELECT DISTINCT user_id FROM user_account_associations LIMIT $limit;";//WHERE account_id=1 
         } else {
-            $sql="SELECT DISTINCT user_id FROM user_account_associations WHERE account_id=1;";
+            $sql="SELECT DISTINCT user_id FROM user_account_associations;";// WHERE account_id=1
         }
 
         $q = $this->db->query($sql) or die(print_r($canvas->db()->errorInfo(), true));
@@ -281,7 +281,7 @@ class Canvas
             return false;
         }
 
-        $sql="SELECT id, name, sortable_name, created_at, updated_at FROM users WHERE id=$user_id AND workflow_state!='deleted';";
+        $sql="SELECT id, name, sortable_name, created_at, updated_at FROM users WHERE id=$user_id;";// AND workflow_state!='deleted'
         //echo "<pre>$sql</pre>";
         $q=$this->db()->query($sql) or die(print_r($this->db()->errorInfo(), true)."<hr /> $sql");
         
@@ -292,7 +292,7 @@ class Canvas
             $r['created_at']=substr($r['created_at'], 0, 19);
             $r['updated_at']=substr($r['updated_at'], 0, 19);
 
-            $r['email']=$this->userEmail($r['id']);
+            //$r['email']=$this->userEmail($r['id']);//slow?
 
             return $r;
         }
