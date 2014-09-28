@@ -63,6 +63,8 @@ $htm[]= "<table class='table table-striped table-condensed'>";
 $htm[]= "<thead>";
 //$htm[]= "<th width=30>#</th>";
 $htm[]= "<th>User</th>";
+$htm[]= "<th>Username</th>";
+$htm[]= "<th>Email</th>";
 $htm[]= "<th>Type</th>";
 $htm[]= "<th>Workflow st.</th>";
 $htm[]= "<th>Created</th>";
@@ -77,6 +79,8 @@ foreach ($enrs as $enr) {
     
     //$htm[]= "<td>".$enr['id'];
     $htm[]= "<td><a href='canvas_user.php?id=".$enr['user_id']."'>".$enr['user_id'];
+    $htm[]= "<td>".$canvas->user($enr['user_id'])['name'];
+    $htm[]= "<td>".$canvas->userEmail($enr['user_id']);
     $htm[]= "<td>".$enr['type'];
     $htm[]= "<td>".$enr['workflow_state'];
     $htm[]= "<td>".substr($enr['created_at'], 0, 10);

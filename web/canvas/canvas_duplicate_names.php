@@ -30,15 +30,16 @@ echo date('c')."\n";
 echo "<hr />";
 
 // Duplicate user names //
-
 $sql = "SELECT name, count(name) as count FROM users GROUP BY name ORDER BY count DESC;";
 $q = $canvas->db()->query($sql) or die("error $sql");
 
 while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
-    if($r['count']<2)continue;
-    //print_r($r);
-    autorename($r['name']);
-    //die("done");
+    
+    if ($r['count']<2) {
+        continue;
+    } else {
+        autorename($r['name']);
+    }
 }
 
 die("done");
@@ -49,6 +50,8 @@ function autorename($username = '')
 {
     global $canvas;
     
+    //$username=strtolower($username);
+
     echo "autorename($username);\n";
 
     $sql = "SELECT id FROM users WHERE name LIKE ".$canvas->db()->quote($username).";";
@@ -56,7 +59,7 @@ function autorename($username = '')
     
     $i=1;
 
-    while($r=$q->fetch(PDO::FETCH_ASSOC)){
+    while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
         
         //print_r($r);
         $id=$r['id'];

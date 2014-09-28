@@ -5,6 +5,7 @@ session_start();
 
 require __DIR__."/../../vendor/autoload.php";
 
+set_time_limit(600);
 
 $admin = new Admin\AdminLte();
 $admin->title("Canvas");
@@ -35,26 +36,38 @@ $user_ids=$canvas->userIds();
 
 //$user_ids[]=36;// jean baptiste camus
 
-// grab all canvas user data
+
+
+// grab all canvas user data in one time
 $sql="SELECT id, name, sortable_name, created_at, updated_at FROM users;";
 $q=$canvas->db()->query($sql) or die("error");
 $userdata=[];
 while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+    if ($r['name']=='test') {
+        continue;
+    }
     $userdata[$r['id']]=$r;
 }
-//die("done in ".(time()-$start)." sec\n");
+
+
+
 
 // grab all canvas email data
 $sql="SELECT user_id, path as email, workflow_state FROM communication_channels WHERE path_type='email';";
 $q = $canvas->db()->query($sql) or die("error $sql");
-
 $emaildata=[];
 while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
-    //return $r['email'];
     $emaildata[$r['user_id']]=[$r['email'], $r['workflow_state']];
 }
-//die("done in ".(time()-$start)." sec\n");
 
+echo "data grab done in ".(time()-$start)." sec\n";
+
+
+
+
+
+// fore each canvas users
+$import=0;
 foreach ($user_ids as $user_id) {
     
     // get user data 
@@ -66,10 +79,9 @@ foreach ($user_ids as $user_id) {
         continue;
     }
     
-    //print_r($usr);exit;
-
+    // print_r($usr);exit;
     // register user
-    echo $emaildata[$user_id][0]."\t".$emaildata[$user_id][1]."\n";
+    echo "[$import] ".$emaildata[$user_id][0]."\t".$emaildata[$user_id][1]."\n";
 
     $edx_user_id = $edxapp->userCreate($emaildata[$user_id][0], $usr['name'], $usr['name'], $usr['sortable_name'], substr($usr['created_at'], 0, 10));
     if (!$edx_user_id) {
@@ -77,17 +89,13 @@ foreach ($user_ids as $user_id) {
         continue;
     }
     
-   
-
-    // enrollments
-    /*
-    $enrolls=$canvas->userEnrollments($usr['id']); 
+    // enrollments 
+    $enrolls=$canvas->userEnrollments($usr['id']);
     foreach ($enrolls as $enr) {
-        //$edxapp->enroll($enr['edx_id'], $edx_user_id, $enr['created_at']);
+        $edxapp->enroll($enr['edx_id'], $edx_user_id, $enr['created_at']);
     }
-    */
 
+    $import++;
 }
+
 die("done in ".(time()-$start)." sec\n");
-?>
-</section>
