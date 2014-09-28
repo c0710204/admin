@@ -44,7 +44,7 @@ class EdxApp
             $this->config = json_decode(file_get_contents($configfile));
 
             // mongo
-            $this->mongoConnect();
+            // $this->mongoConnect();//temporary off
 
             // pdo mysql
             $this->db = Pdo::getDatabase();
@@ -363,15 +363,18 @@ class EdxApp
 
 
     /**
-     * Create a inactive django user
-     * @param  string $email [description]
-     * @return [type]        [description]
+     * Create a active django user
+     * @param  string $email       must be unique, 75 chars max
+     * @param  string $username    must be unique, 30 chars max
+     * @param  string $first_name  first name, 30 chars max
+     * @param  string $last_name   last name, 30 chars max
+     * @param  string $date_joined datetime
+     * @return integer             user_id
      */
-    public function userCreate($email = '', $first_name = '', $last_name = '', $date_joined = '')
+    public function userCreate($email = '', $username = '', $first_name = '', $last_name = '', $date_joined = '')
     {
         
-        //echo "userCreate();\n";
-
+        // echo "userCreate();\n";
         $email=trim(strtolower($email));
 
         if (!$email) {//email is the primary identifier in edx
@@ -382,9 +385,8 @@ class EdxApp
             return $uid;
         }
 
-        $username=explode("@", $email)[0];// we take the first part of the email as username if we dont have anything better
-        $username=$email;// since username and emails have both to be unique...
-
+        // $username=explode("@", $email)[0];// we take the first part of the email as username if we dont have anything better
+        
         /*
         if ($first_name) {
             $username=$first_name;//username

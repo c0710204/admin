@@ -16,6 +16,8 @@ class Canvas
     {
         if (isset($_SESSION['canvas']['connected']) && $_SESSION['canvas']['connected']==true) {
             $this->connect();
+        } else {
+            throw new \Exception("Error Processing class Canvas", 1);
         }
     }
 
@@ -50,7 +52,7 @@ class Canvas
         try {
             
             $dsn     = "pgsql:host=$host;dbname=".$database;
-            echo "<li>dsn=$dsn";
+            //echo "<li>dsn=$dsn";
 
             return new \PDO($dsn, $user, $pass);
         } catch (PDOException $e) {
