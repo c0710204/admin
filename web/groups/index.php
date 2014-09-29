@@ -9,6 +9,7 @@ require __DIR__."/../../vendor/autoload.php";
 
 $admin = new Admin\AdminLte();
 $edxApp= new Admin\EdxApp();
+$edxCourse= new Admin\EdxCourse();
 
 echo $admin->printPrivate();
 
@@ -26,7 +27,7 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
 
 
 <section class="content-header">
-    <h1><i class="fa fa-book"></i> Groups <small>Group info</small></h1>
+    <h1><i class="fa fa-users"></i> Groups <small>Group info</small></h1>
 </section>
 
 <!-- Main content -->
@@ -73,9 +74,14 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
         $htm[]= "<td><a href='../group/?id=".$r['id']."'>".$r['id']."</a>";
         $htm[]= "<td>".explode("_", $r['name'])[0];
         $htm[]= "<td>".$r['name'];
-        $coursename=preg_replace('/^(beta_testers|instructor|staff)_/', '', $r['name']);
-        $coursename=str_replace('.', '/', $coursename);
-        $htm[]= "<td><a href='../course/?id=$coursename'>".$coursename;
+        $course_id=preg_replace('/^(beta_testers|instructor|staff)_/', '', $r['name']);
+        $course_id=str_replace('.', '/', $course_id);
+        
+        if (!$edxCourse->exist($course_id)) {
+            $htm[]="<td><b>Not found</b>";
+        } else {
+            $htm[]= "<td><a href='../course/?id=$course_id'>".$course_id;
+        }
 
     }
     $htm[]= "</table>";

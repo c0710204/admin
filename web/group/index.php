@@ -1,22 +1,22 @@
 <?php
 // admin :: group
-
 header('Content-Type: text/html; charset=utf-8');
 session_start();
 
 require __DIR__."/../../vendor/autoload.php";
 
-// use Admin\AdminLte;
 
 $admin = new Admin\AdminLte();
 $edxApp= new Admin\EdxApp();
 
 echo $admin->printPrivate();
-// print_r($GC);
+
+$group_id=@$_GET['id']*1;
+
 ?>
 
 <section class="content-header">
-    <h1><i class="fa fa-book"></i> Groups <small>Group info</small></h1>
+    <h1><i class="fa fa-users"></i> Group <small>Group info</small></h1>
 </section>
 
 <!-- Main content -->
@@ -26,15 +26,18 @@ echo $admin->printPrivate();
 <div class="row">
     <!-- Left col -->
     <section class="col-lg-6 connectedSortable">
+    <input type=hidden id='group_id' value='<?php echo $group_id?>'>
     <?php
-    print_r($_GET);
+    include "group_info.php";
     ?>
+    <div id='more'></div>
     </section>
+
 
     <!-- col -->
     <section class="col-lg-6 connectedSortable">
     <?php
-    print_r($_GET);
+    include "group_users.php";
     ?>
     </section>
 
@@ -44,13 +47,24 @@ echo $admin->printPrivate();
 <script>
 $(function(){
     $("table").tablesorter();
+    $("#btndel").click(function(){
+        if(!confirm("Delete this group ?"))return false;
+        var p={
+            'do':'delete',
+            'group_id':$('#group_id').val()
+        };
+        
+        $("#more").load("ctrl.php",p,function(x){
+            try{eval(x);}
+            catch(e){alert(x);}
+        });
+    });
+
 });
 </script>
 
 
 <?php
-
-
 
 // auth_group_permissions
 // auth_user_groups
