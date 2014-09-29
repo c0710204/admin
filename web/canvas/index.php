@@ -22,6 +22,7 @@ echo $admin->printPrivate();
 <?php
 if (!@($_SESSION['canvas']['connected'])) {
     include "canvas_config.php";
+    print_r($_SESSION);
     exit;
 }
 ?>
