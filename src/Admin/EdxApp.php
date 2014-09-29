@@ -28,7 +28,7 @@ class EdxApp
      */
     private $org='';//org limit
 
-    public function __construct ()
+    public function __construct ($settings = [])
     {
         $configfile='';
 
@@ -44,8 +44,12 @@ class EdxApp
             $this->config = json_decode(file_get_contents($configfile));
 
             // mongo
-            // $this->mongoConnect();//temporary off
-
+            if (isset($settings['nomongo'])) {
+                // no mongo connection scotch
+            } else {
+                $this->mongoConnect();//temporary off
+            }
+            
             // pdo mysql
             $this->db = Pdo::getDatabase();
 
@@ -237,6 +241,100 @@ class EdxApp
 
 
 
+    public function group($groupid = 0)
+    {
+        $groupid*=1;
+        if (!$groupid) {
+            return false;
+        }
+
+        $sql="SELECT * FROM edxapp.auth_group WHERE id = '$groupid';";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        //echo "<pre>$sql</pre>";
+
+        $r=$q->fetch(\PDO::FETCH_ASSOC);
+        
+        if (!$r) {
+            return false;
+        }
+
+        $type=explode("_", $r['name'])[0];
+        $r["type"]=$type;
+
+        $course_id=preg_replace('/^(beta_testers|instructor|staff)_/', '', $r['name']);
+        $course_id=str_replace('.', '/', $course_id);
+        $r["course_id"]=$course_id;
+        
+        return $r;
+    }
+
+
+
+    /**
+     * Delete one auth user group and data
+     * @param  integer $groupid [description]
+     * @return [type]           [description]
+     */
+    public function groupDelete($groupid = 0)
+    {
+        $groupid*=1;
+        
+        if (!$groupid) {
+            return false;
+        }
+
+        $sql="DELETE FROM edxapp.auth_user_groups WHERE group_id = '$groupid';";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+
+        $sql="DELETE FROM edxapp.auth_group WHERE id = '$groupid';";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+
+        return true;
+    }
+
+
+
+    /**
+     * Return the list of groups related to a given course
+     */
+    public function courseGroups($course_id = '')
+    {
+        if ($course_id && preg_match("/([a-z 0-9\/\._-]+)/i", $course_id, $o)) {
+            $o=explode("/", $course_id);
+            $org=$o[0];
+            $course=$o[1];
+            $name=$o[2];
+        } else {
+            return false;
+        }
+
+        $sql="SELECT * FROM edxapp.auth_group WHERE name LIKE '%_$org.$course.$name';";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        $dat=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $type=explode("_", $r['name'])[0];
+            $dat["$type"]=$r;
+        }
+        return $dat;
+    }
+    
+
+    // auth user groups
+    public function courseGroup($group_id = 0)
+    {
+        if ($group_id<1) {
+            return false;
+        }
+
+        $sql="SELECT id, user_id FROM edxapp.auth_user_groups WHERE group_id=$group_id;";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+
+        $dat=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $dat[]=$r;
+        }
+        return $dat;
+    }
 
 
     /**
@@ -939,7 +1037,13 @@ class EdxApp
         while ($r=$q->fetch()) {
             $ids[]=$r['id'];
         }
-        
+
+
+        // Delete groups
+        $groups=$this->courseGroups($course_id);
+        foreach ($groups as $k => $g) {
+            $this->groupDelete();
+        }
         
         // DELETE courseware_studentmodulehistory
         if (count($ids)) {
@@ -955,6 +1059,7 @@ class EdxApp
         // Delete enrollment
         $sql = "DELETE FROM edxapp.student_courseenrollment WHERE course_id LIKE '$course_id';";
         $q = $this->db->query($sql)  or die(print_r($this->db->errorInfo(), true));
+
 
 
 
