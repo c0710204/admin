@@ -4,15 +4,12 @@ header('Content-Type: text/html; charset=utf-8');
 session_start();
 
 require __DIR__."/../../vendor/autoload.php";
-
 //use Admin\AdminLte;
-
 $admin = new Admin\AdminLte();
 $edxApp= new Admin\EdxApp();
 $edxCourse= new Admin\EdxCourse();
 
 echo $admin->printPrivate();
-
 
 // group counts
 $sql="SELECT group_id, COUNT(user_id) as c FROM edxapp.auth_user_groups GROUP BY group_id;";
@@ -40,9 +37,37 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     <?php
     $box=new Admin\SolidBox;
     $box->icon("fa fa-search");
-    $box->title("Title");
+    $box->title("Group filter");
+    $box->type("danger");
     
     $htm=[];
+
+    $htm[]="<div class='row'>";//
+
+    // org
+    $htm[]="<div class='col-lg-2'>";
+    $htm[]="<div class='form-group'>";
+    $htm[]="<label>Org</label>";
+    $htm[]="<select class='form-control' id='org'>";
+
+    $list=$edxApp->orgs();
+    
+    if (count($list)==1) {
+        $htm[]="<option value='".$list[0]."'>".$list[0]."</option>";
+    } else {
+        $htm[]="<option value=''>Select org</option>";
+        foreach ($list as $org) {
+            $selected='';
+            $htm[]="<option value='$org' $selected>$org</option>";
+        }
+    }
+
+    $htm[]="</select>";
+    $htm[]="</div></div>";
+
+
+    // type
+    $htm[]="<div class='col-lg-2'>";
     $htm[]="<div class='form-group'>";
     $htm[]='<label>Group type</label>';
     $htm[]="<select class='form-control'>";
@@ -52,6 +77,19 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     $htm[]="<option value='staff'>staff</option>";
     $htm[]="</select>";
     $htm[]="</div>";
+    $htm[]="</div>";
+ 
+
+
+    // str
+    $htm[]="<div class='col-lg-4'>";
+    $htm[]="<div class='form-group'>";
+    $htm[]="<label>Search</label>";
+    $htm[]="<input type=text class=form-control id='searchStr' value='searchStr' placeholder='Username, email, id ...'>";
+    $htm[]="</div></div>";
+
+   
+    $htm[]="</div>";// row
 
     echo $box->html($htm);
 
@@ -65,6 +103,7 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     $htm[]= "<th>#</th>";
     $htm[]= "<th>Type</th>";
     $htm[]= "<th>Group name</th>";
+    $htm[]= "<th>Users</th>";
     $htm[]= "<th>Course</th>";
     $htm[]= "</thead>";
 
@@ -74,6 +113,8 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
         $htm[]= "<td><a href='../group/?id=".$r['id']."'>".$r['id']."</a>";
         $htm[]= "<td>".explode("_", $r['name'])[0];
         $htm[]= "<td>".$r['name'];
+        $htm[]= "<td>".$GC[$r['id']];
+
         $course_id=preg_replace('/^(beta_testers|instructor|staff)_/', '', $r['name']);
         $course_id=str_replace('.', '/', $course_id);
         
