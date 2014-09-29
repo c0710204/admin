@@ -18,7 +18,7 @@ echo $admin->printPrivate();
 
 if (isset($_GET['course_id'])) {
     $course_id=@$_GET['course_id'];
-} elseif(isset($_GET['id'])) {
+} elseif (isset($_GET['id'])) {
     $course_id=@$_GET['id'];
 } else {
     die("Error");
@@ -63,6 +63,7 @@ if (!$edxCourse->exist($course_id)) {
     <section class="col-lg-6 connectedSortable">
         <?php
         include "course_info.php";
+        
         include "course_chapters.php";
         
         include "course_video.php";
@@ -78,6 +79,7 @@ if (!$edxCourse->exist($course_id)) {
     <!-- Right col -->
     <section class="col-lg-6 connectedSortable">
         <?php
+        include "course_groups.php";
         //include "course_overview.php";
         //include "course_grading.php";//grading policy
         include "course_enroll.php";
