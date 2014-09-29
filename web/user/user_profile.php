@@ -24,6 +24,28 @@ $body[]='</div>';
 $body[]='</div>';
 
 
+
+// First name / Last name
+
+$body[]='<div class="row">';
+
+$body[]='<div class="col-lg-6">';
+$body[]='<div class=form-group><label>First name</label>';
+$body[]='<input type="text" class="form-control" id="first_name" value="'.$usr['first_name'].'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='<div class="col-lg-6">';
+$body[]='<div class=form-group><label>Last name</label>';
+$body[]='<input type="text" class="form-control" id="last_name" value="'.$usr['last_name'].'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='</div>';
+
+
+
+
 // Date joined / Last login
 
 $body[]='<div class="row">';
@@ -47,24 +69,7 @@ $body[]='</div>';
 
 
 
-// First name / Last name
-/*
-$body[]='<div class="row">';
 
-$body[]='<div class="col-lg-6">';
-$body[]='<div class=form-group><label>First name</label>';
-$body[]='<input type="text" class="form-control" id="first_name" value="'.$usr['first_name'].'">';
-$body[]='</div>';
-$body[]='</div>';
-
-$body[]='<div class="col-lg-6">';
-$body[]='<div class=form-group><label>Last name</label>';
-$body[]='<input type="text" class="form-control" id="last_name" value="'.$usr['last_name'].'">';
-$body[]='</div>';
-$body[]='</div>';
-
-$body[]='</div>';
-*/
 
 
 // checkboxes //
