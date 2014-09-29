@@ -12,12 +12,12 @@ $_SESSION['canvas']['database']='canvas_production';
 $_SESSION['canvas']['user']='toto';
 $_SESSION['canvas']['pass']='caca';
 $_SESSION['canvas']['connected']=true;
-$_SESSION['configfile']="../config/profiles/yy-preprod.json";
+$_SESSION['configfile']="../config/profiles/zz-prod.json";
 print_r($_SESSION);
 
 
 $admin = new Admin\AdminLte();// select config
-$edxapp= new Admin\EdxApp();
+$edxapp= new Admin\EdxApp(['nomongo'=>true]);
 $canvas= new Admin\Canvas();
 
 
