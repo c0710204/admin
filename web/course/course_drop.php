@@ -3,13 +3,13 @@
 
 $HTM=[];
 $footer=[];
-if ($edxapp->courseEnrollCount($course_id)) {
-    $HTM[]="Users must be un-enrolled first";
-    
+if ($count=$edxapp->courseEnrollCount($course_id)) {
+    $HTM[]="Warning : $count Users are enrolled to this course !";
 } else {
-    $HTM[]="You should be very careful with that one";
-    $footer[]="<button class='btn btn-danger' onclick='dropCourse()'><i class='fa fa-trash-o'></i> Drop</button>";
+    $HTM[]="You should be very careful with that one";    
 }
+
+$footer[]="<button class='btn btn-danger' onclick='dropCourse()'><i class='fa fa-trash-o'></i> Drop</button>";
 
 
 
