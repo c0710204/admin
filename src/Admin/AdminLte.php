@@ -128,6 +128,7 @@ class AdminLte
         return $this->db;
     }
 
+
     /**
      * return config object
      * @return [type] [description]
@@ -136,6 +137,7 @@ class AdminLte
     {
         return $this->config;
     }
+
 
     /**
      * Return config org
@@ -457,7 +459,7 @@ class AdminLte
         // $HTML[]='<li><a href="'.$this->path.'files/"><i class="fa fa-folder"></i> <span>Files</span></a></li>';
 
         // groups
-        $HTML[]='<li><a href="'.$this->path.'groups/"><i class="fa fa-dashboard"></i> <span>Groups</span></a></li>';
+        $HTML[]='<li><a href="'.$this->path.'groups/"><i class="fa fa-users"></i> <span>Groups</span></a></li>';
 
 
         // icons
