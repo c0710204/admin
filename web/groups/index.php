@@ -4,24 +4,13 @@ header('Content-Type: text/html; charset=utf-8');
 session_start();
 
 require __DIR__."/../../vendor/autoload.php";
-//use Admin\AdminLte;
+
 $admin = new Admin\AdminLte();
 $edxApp= new Admin\EdxApp();
 $edxCourse= new Admin\EdxCourse();
 
 echo $admin->printPrivate();
-
-// group counts
-$sql="SELECT group_id, COUNT(user_id) as c FROM edxapp.auth_user_groups GROUP BY group_id;";
-$q = $admin->db()->query($sql) or die("admin->db()->error");
-$GC=[];
-while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
-    $GC[$r['group_id']]=$r['c'];
-}
-// print_r($GC);
-
 ?>
-
 
 <section class="content-header">
     <h1><i class="fa fa-users"></i> Groups <small>Group info</small></h1>
@@ -70,8 +59,8 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     $htm[]="<div class='col-lg-2'>";
     $htm[]="<div class='form-group'>";
     $htm[]='<label>Group type</label>';
-    $htm[]="<select class='form-control'>";
-    $htm[]="<option>Select group type</option>";
+    $htm[]="<select class='form-control' id='grouptype'>";
+    $htm[]="<option value=''>Select group type</option>";
     $htm[]="<option value='beta_testers'>beta_testers</option>";
     $htm[]="<option value='instructor'>instructor</option>";
     $htm[]="<option value='staff'>staff</option>";
@@ -85,13 +74,54 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     $htm[]="<div class='col-lg-4'>";
     $htm[]="<div class='form-group'>";
     $htm[]="<label>Search</label>";
-    $htm[]="<input type=text class=form-control id='searchStr' value='searchStr' placeholder='Username, email, id ...'>";
+    $htm[]="<input type=text class=form-control id='searchStr' placeholder='Group name'>";
     $htm[]="</div></div>";
 
    
     $htm[]="</div>";// row
 
     echo $box->html($htm);
+
+
+
+
+    // group list
+    $box=new Admin\SolidBox;
+    $box->title("Groups");
+    $box->id("grouplist");
+    $box->icon("fa fa-list");
+    $box->loading(true);
+    echo $box->html("groups");
+
+    ?>
+    </section>
+
+</div>
+
+<div id='more'></div>
+
+<script src='groups.js'></script>
+
+
+<?php
+
+// auth_group_permissions
+// auth_user_groups
+
+
+// course_groups_courseusergroup
+// course_groups_courseusergroup_users
+// paid_group
+
+
+// student_usertestgroup
+// student_usertestgroup_users
+
+
+// waffle_flag_groups
+
+
+/*
 
     // auth_group
     $sql = "SELECT * FROM edxapp.auth_group ORDER BY id DESC;";
@@ -127,37 +157,6 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     }
     $htm[]= "</table>";
 
-    $box=new Admin\SolidBox;
-    $box->title("Groups");
-    echo $box->html($htm);
+    */
+   
 
-    ?>
-    </section>
-
-</div>
-
-<script>
-$(function(){
-    $("table").tablesorter();
-});
-</script>
-
-
-<?php
-
-
-
-// auth_group_permissions
-// auth_user_groups
-
-
-// course_groups_courseusergroup
-// course_groups_courseusergroup_users
-// paid_group
-
-
-// student_usertestgroup
-// student_usertestgroup_users
-
-
-// waffle_flag_groups
