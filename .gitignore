@@ -1,6 +1,7 @@
 # Vendor folder
 vendor/
 
+src/Admin/old/*
 web/backup/archives/*
 web/backup/dump/*
 web/config/profiles/*.json

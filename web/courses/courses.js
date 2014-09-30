@@ -63,7 +63,7 @@ function renderList(json,target){
 	htm.push('<table id=courselist class="table table-condensed table-striped">');
 	htm.push('<thead>');
 	htm.push('<th>Org</th>');
-	htm.push('<th>Course</th>');
+	//htm.push('<th>Course</th>');
 	//htm.push('<th>Name</th>');
 	htm.push('<th>Display name</th>');
 	htm.push('<th title="Enrollments">Enr.</th>');
@@ -90,17 +90,28 @@ function renderList(json,target){
 
         htm.push("<tr id=333>");
         htm.push("<td>" + o.org);
-        htm.push("<td>" + o.course);
+        //htm.push("<td>" + o.course);
         //htm.push("<td>" + o.name);
+        
+
         htm.push("<td><a href='../course/?id="+o.id+"'>" + o.display_name);
+        /*
         if(o.youtube){
             htm.push(" <i class='fa fa-youtube' title='"+o.youtube+"'></i>");
         }
+        */
+       
+       
         //htm.push("<td>" + o.short_desc);
         //if(o.is_staff)htm.push(" <span class='label label-success'>Staff</span>");
         //if(o.is_superuser)htm.push(" <span class='label label-danger'>SU</span>");
         htm.push("<td style='text-align:right'>" + o.enroll);
-        htm.push("<td>" + o.chapters);
+        
+        if(o.chapters>1){
+            htm.push("<td>" + o.chapters);
+        } else {
+            htm.push("<td>");
+        }
         
         htm.push("<td>" + date_start);
         htm.push("<td>" + date_end);

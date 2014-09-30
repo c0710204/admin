@@ -55,10 +55,10 @@ foreach ($edxApp->courseids() as $courseId) {
 }
 $footer[]="</select>";
 
-$title="<i class='fa fa-book'></i> Course enrollment <small>".count($courses)." course(s)</small>";//student_courseenrollment
+$title=count($courses)." course enrollment";//student_courseenrollment
 
 $box=new Admin\SolidBox;
-//$box->type("primary");
+$box->icon("fa fa-book");
 $box->title($title);
 $box->collapsed(true);
 echo $box->html($body, $footer);

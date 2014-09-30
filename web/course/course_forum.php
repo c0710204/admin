@@ -29,9 +29,13 @@ if ($threads->count()) {
 }
 
 $box=new Admin\Box;
-$box->type("success");
+if ($threads->count()) {
+    $box->type("success");
+} else {
+    $box->type("default");
+}
 $box->icon('fa fa-comments');
-$box->title("Forum threads <small>".$threads->count()." threads</small>");
+$box->title($threads->count()." forum thread(s)");
 $box->collapsed(!$threads->count());
 
 echo $box->html($htm, $footer);

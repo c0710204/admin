@@ -87,7 +87,7 @@ function renderList(json,target){
 	htm.push('<th><i class="fa fa-user"></i> Author</th>');
 	htm.push('<th>Thread title</th>');
 	htm.push('<th><i class="fa fa-comments-o" title=Comments></i></th>');
-	htm.push('<th>Created</th>');
+	//htm.push('<th>Created</th>');
 	htm.push('<th>Last activity</th>');
 	htm.push('</thead>');
 	htm.push('<tbody>');
@@ -106,7 +106,7 @@ function renderList(json,target){
         htm.push("<td><a href='../user/?id="+o.author_id+"'>" + o.author_username);
         htm.push("<td><a href='../forumthread/?id="+o.id+"'>" + o.title);
         htm.push("<td>" + o.comment_count);
-        htm.push("<td>" + o.created_at);
+        //htm.push("<td>" + o.created_at);
         htm.push("<td>" + o.last_activity);
     }
 	htm.push('</tbody>');
