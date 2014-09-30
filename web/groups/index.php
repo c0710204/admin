@@ -44,7 +44,7 @@ echo $admin->printPrivate();
     if (count($list)==1) {
         $htm[]="<option value='".$list[0]."'>".$list[0]."</option>";
     } else {
-        $htm[]="<option value=''>Select org</option>";
+        $htm[]="<option value=''>Any</option>";
         foreach ($list as $org) {
             $selected='';
             $htm[]="<option value='$org' $selected>$org</option>";
@@ -60,7 +60,7 @@ echo $admin->printPrivate();
     $htm[]="<div class='form-group'>";
     $htm[]='<label>Group type</label>';
     $htm[]="<select class='form-control' id='grouptype'>";
-    $htm[]="<option value=''>Select group type</option>";
+    $htm[]="<option value=''>Any</option>";
     $htm[]="<option value='beta_testers'>beta_testers</option>";
     $htm[]="<option value='instructor'>instructor</option>";
     $htm[]="<option value='staff'>staff</option>";

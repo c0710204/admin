@@ -17,7 +17,7 @@ switch($_POST['do']){
     case 'delete':
         //print_r($_POST);
         if ($edxApp->groupDelete($_POST['group_id'])) {
-            die("document.location.href='?';");
+            die("document.location.href='../groups/';");
             //die("Deleted");
         }
         die("Error");

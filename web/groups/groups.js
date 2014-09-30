@@ -41,9 +41,10 @@ function renderList(json,target){
 	htm.push('<table id=courselist class="table table-condensed table-striped">');
 	
 	htm.push('<thead>');
-	htm.push('<th>#</th>');
-	htm.push('<th>Type</th>');
+	//htm.push('<th>#</th>');
+
 	htm.push('<th>Group name</th>');
+	htm.push('<th>Type</th>');
 	//htm.push('<th>Users</th>');
 	htm.push('<th>Course</th>');
 	htm.push('</thead>');
@@ -56,11 +57,11 @@ function renderList(json,target){
         //console.log(o);
         
         htm.push("<tr>");
-        htm.push("<td><a href='../group/?id="+o.id+"'>" + o.id);
-        htm.push("<td>" + o.type);
-        htm.push("<td>" + o.name);
-        htm.push("<td><a href='../course/?id="+o.course_id+"'>"+o.courseName+"</a>");
+        //htm.push("<td><a href='../group/?id="+o.id+"'>" + o.id);
         
+        htm.push("<td><a href='../group/?id="+o.id+"'>"+o.name+"</a>");
+        htm.push("<td>" + o.type);
+        htm.push("<td><a href='../course/?id="+o.course_id+"'>"+o.courseName+"</a>");
         /*
         htm.push("<td>" + o.course);
         htm.push("<td><a href='../course/?id="+o.id+"'>" + o.display_name);

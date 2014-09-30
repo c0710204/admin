@@ -8,6 +8,7 @@ require __DIR__."/../../vendor/autoload.php";
 
 $admin = new Admin\AdminLte();
 $edxApp= new Admin\EdxApp();
+$edxCourse= new Admin\EdxCourse();
 
 echo $admin->printPrivate();
 

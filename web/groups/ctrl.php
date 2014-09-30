@@ -55,9 +55,19 @@ switch($_POST['do']){
         while ($r = $q->fetch(PDO::FETCH_ASSOC)) {
             preg_match('/^(beta_testers|instructor|staff)_/', $r['name'], $type);
             $r['type']=$type[1];
+
+
             $r['course_id']=preg_replace('/^(beta_testers|instructor|staff)_/', '', $r['name']);
             $r['course_id']=str_replace('.', '/', $r['course_id']);
-            $r['courseName']=$edxApp->courseName($r['course_id']);
+            $course_id = $edxCourse->exist($r['course_id']);
+            $r['course_id']= $course_id;
+
+            if ($course_id) {
+                $r['courseName']=$edxApp->courseName($course_id);
+            } else {
+                $r['courseName']='';
+            }
+            
             $dat[]=$r;
         }
         echo json_encode($dat);

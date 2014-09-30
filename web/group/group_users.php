@@ -18,8 +18,8 @@ $htm=[];
 $htm[]="<table class='table table-condensed table-striped'>";
 foreach ($dat as $r) {
     $htm[]="<tr>";
-    $htm[]="<td width=30>".$r['id'];
-    $htm[]="<td><a href='../user/?id=".$r['user_id']."'>".$edxApp->userName($r['user_id']);
+    //$htm[]="<td width=30>".$r['id'];
+    $htm[]="<td><i class='fa fa-user'></i> <a href='../user/?id=".$r['user_id']."'>".$edxApp->userName($r['user_id']);
     $htm[]="<td><a href=#del class='btn pull-right'><i class='fa fa-eraser'></i></a>";
 }
 $htm[]="</table>";

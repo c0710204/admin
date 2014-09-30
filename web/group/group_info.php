@@ -31,8 +31,16 @@ $htm[]='</div>';
 // group course
 $htm[]='<div class="form-group">';
 $htm[]='<label>Course:</label> ';
-$htm[]="<a href=#>".$group['course_id']."</a>";
-//$htm[]='<input type="text" class="form-control" id="shortDescription" value="'.$group['course_id'].'">';
+
+if ($course_id=$edxCourse->exist($group['course_id'])) {
+    //$htm[]="<a href='../course/?id=".$course_id."'>".$course_id."</a>";
+    $htm[]="<a href='../course/?id=".$course_id."'>".$edxApp->courseName($course_id)."</a>";
+    //$htm[]="<pre>$course_id</pre>";
+} else {
+    $htm[]= $group['course_id'];
+    $htm[]= " <span class='label label-danger'>Not found</span>";
+}
+
 $htm[]='</div>';
 
 
@@ -43,3 +51,13 @@ $foot[]="<a href='../groups/' class='btn btn-default'> Groups</a>";
 $foot[]="<a href=# id='btndel' class='btn btn-default pull-right'><i class='fa fa-eraser'></i> Delete group</a>";
 
 echo $box->html($htm, $foot);
+
+if (!$edxCourse->exist($group['course_id'])) {
+    echo "<pre>Warning : Course '".$group['course_id']."' not found</pre>";
+}
+
+
+?>
+<pre>
+http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/releasing_course/beta_testing.html
+</pre>
