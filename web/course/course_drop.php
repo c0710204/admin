@@ -33,7 +33,7 @@ function dropCourse()
         'course_id':$('#course_id').val()
     };
 
-    $("#dropmore").load("ctrl.php", p, function(x){
+    $("#dropmore .box-body").load("ctrl.php", p, function(x){
         try{ eval(x); }
         catch(e){ alert(x);}
     });
