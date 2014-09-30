@@ -95,19 +95,28 @@ switch ($_POST['do']) {
         }
         break;
 
+
+
     case 'drop':
         //print_r($_POST);
-        $course = new EdxCourse($_POST['course_id']);
-        
-        if ($course->exist($_POST['course_id'])) {
-            
-            $course->delete($_POST['course_id']);
+        $edxCourse = new EdxCourse();
+        if ($edxCourse->exist($_POST['course_id'])) {
             
             $edxApp = new EdxApp();
-            $edxApp->deleteCourseData($_POST['course_id']);
+            $delete=$edxApp->deleteCourseData($_POST['course_id']);
+            if (!$delete) {
+                echo "<li>Error1:deleteCourseData";
+            }
+
             
-            if ($course->exist($_POST['course_id'])) {
-                die("Error deleting course");
+            $delete=$edxCourse->delete($_POST['course_id']);
+            
+            if (!$delete) {
+                echo "<li>Error2:edxCourse->delete";
+            }
+            
+            if ($edxCourse->exist($_POST['course_id'])) {
+                die("Error deleting course ".$_POST['course_id']);
             }
 
             die("document.location.href='../courses/';");
@@ -116,6 +125,10 @@ switch ($_POST['do']) {
             die("Course not found");
         }
         break;
+
+
+
+
 
     case 'enroll':
         //print_r($_POST);
