@@ -136,26 +136,63 @@ class EdxCourse
 
     /**
      * Retun one record if course exist
-     * @return [type] [description]
+     * @return string [description]
      */
     public function exist($courseid = '')
     {
         $collection = $this->mgdb->edxapp->modulestore;
+
         if ($courseid && preg_match("/([a-z 0-9\/\._-]+)/i", $courseid, $o)) {
             $o=explode("/", $courseid);
             $org=$o[0];
             $course=$o[1];
             $name=$o[2];
-            return $collection->findOne(['_id.org'=>$org, "_id.course"=>$course]);
+            $filter=['_id.org'=>['$regex' => new \MongoRegex("/^$org/i")], "_id.course"=>['$regex' => new \MongoRegex("/^$course/i")]];
+            $filter["_id.category"]="course";// that's safe
+            $r=$collection->findOne($filter);
+            if (!$r) {
+                return false;
+            }
+            return $r['_id']['org'].'/'.$r['_id']['course'].'/'.$r['_id']['name'];
         } else {
+            // deprecated
+            return false;
             return $collection->findOne(['_id.org'=>$this->org, "_id.course"=>$this->course]);
         }
         return false;
     }
 
+    
 
+    /**
+     * Return the real course id (with correct case)
+     * @param  string $courseid [description]
+     * @return [type]           [description]
+     */
+    /*
+    public function course_id($courseid = '')
+    {
+        $collection = $this->mgdb->edxapp->modulestore;
 
+        if ($courseid && preg_match("/([a-z 0-9\/\._-]+)/i", $courseid, $o)) {
+            $o=explode("/", $courseid);
+            $org=$o[0];
+            $course=$o[1];
+            $name=$o[2];
 
+            $filter=['_id.org'=>['$regex' => new \MongoRegex("/^$org/i")], "_id.course"=>['$regex' => new \MongoRegex("/^$course/i")]];
+            $filter["_id.category"]="course";// that's safe
+            
+            $r=$collection->findOne($filter);
+            if (!$r) {
+                return false;
+            }
+            return $r['_id']['org'].'/'.$r['_id']['course'].'/'.$r['_id']['name'];
+        }
+        return '';
+    }
+    */
+   
 
 
 

@@ -966,15 +966,21 @@ class EdxApp
             $course=$o[2];
             $name=$o[3];
         } else {
-            return $course_id;
+            return '';
         }
 
         $filter=["_id.course"=>$course, '_id.org'=>$org, "_id.category"=>"course"];
         $data=$this->modulestore->findOne($filter);
+        
+        if (!$data) {
+            return "$course_id not found";
+        }
+
         if ($data['metadata']['display_name']) {
             return $data['metadata']['display_name'];
         } else {
-            return $course_id;
+            //return print_r($data, true);
+            return "$course_id";
         }
     }
 
