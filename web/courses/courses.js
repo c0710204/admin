@@ -109,7 +109,7 @@ function renderList(json,target){
 
 	htm.push('</tbody>');
 	htm.push('</table>');
-
+    htm.push("<h4><i>"+json.length+" course(s)</i></h4>");
 	target.html(htm.join(''));
     $("#courselist").tablesorter();
 }
@@ -130,11 +130,7 @@ $(function(){
 
     $("table").tablesorter();
 
-    $(".fa-youtube").click(function(o){
-        //console.log("iClick",o);
-        var youtubeid=o.currentTarget.title;
-        window.open("http://www.youtube.com/watch?v="+youtubeid);
-    });
+    $('#searchStr').val($.cookie('searchStr'));
 
     getList();
 });

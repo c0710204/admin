@@ -22,7 +22,7 @@ switch($_POST['do']){
     case "list":
         //print_r($_POST);
         $ids=$edxapp->courseids($_POST['org']);// get the lst of courses
-        //print_r($ids);
+        
         $DATA=[];
         foreach ($ids as $course_id) {
             $R=[];
@@ -37,11 +37,16 @@ switch($_POST['do']){
             $R['course']=$o[1];
             $R['name']=$o[2];
             $R['display_name']=$meta['display_name'];
+
+            if (isset($_POST['search']) && $_POST['search'] && !strpos($meta['display_name'], $_POST['search'])) {
+                //strpos(haystack, needle)
+                continue;
+            }
+            
             //$R['short_desc']=substr($edxCourse->shortDescription(), 0, 32);
             
             $R['start']=date('Y-m-d', $edxCourse->startDate($course_id));
             $R['end']=date('Y-m-d', $edxCourse->endDate());
-
             $R['youtube']=$edxCourse->youtubeid($course_id);
             $R['chapters']=count($edxCourse->chapters($course_id));
 
@@ -53,9 +58,12 @@ switch($_POST['do']){
         die(json_encode($DATA));
         break;
 
+
     case "delete":
         print_r($_POST);
+        exit;
         break;
+
 
     case "newCourse":
         print_r($_POST);
