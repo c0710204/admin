@@ -1034,6 +1034,7 @@ class EdxApp
             return $course_id;
         }
         
+
         $sql="SELECT DISTINCT id FROM edxapp.courseware_studentmodule WHERE module_id LIKE 'i4x://$org/$course/%';";
         //echo "<pre>$sql</pre>";
 
@@ -1043,18 +1044,12 @@ class EdxApp
         while ($r=$q->fetch()) {
             $ids[]=$r['id'];
         }
-
-
-        // Delete groups
-        $groups=$this->courseGroups($course_id);
-        foreach ($groups as $k => $g) {
-            $this->groupDelete();
-        }
         
         // DELETE courseware_studentmodulehistory
         if (count($ids)) {
             $sql = "DELETE FROM edxapp.courseware_studentmodulehistory WHERE student_module_id IN (".implode(',', $ids).");";
             $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true)."<hr />$sql");
+            //echo "<li>".$q->rowcount;
         }
         
         // DELETE courseware_studentmodule
@@ -1067,7 +1062,11 @@ class EdxApp
         $q = $this->db->query($sql)  or die(print_r($this->db->errorInfo(), true));
 
 
-
+        // Delete groups
+        $groups=$this->courseGroups($course_id);
+        foreach ($groups as $k => $g) {
+            $this->groupDelete($g['id']);
+        }
 
         return true;
     }

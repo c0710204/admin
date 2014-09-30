@@ -794,19 +794,24 @@ class EdxCourse
 
     /**
      * Delete one course from mongodbd collection
-     * Warning : do not deleted mysql data
-     * @param  [type] $modulestore [description]
-     * @param  string $org         [description]
-     * @param  string $course      [description]
+     * @param  string $course_id [description]
      * @return bool              [description]
      */
     public function delete($course_id = '')
     {
 
-        //todo :  complete here
+        if ($course_id && preg_match("/([a-z 0-9\/\._-]+)/i", $course_id, $o)) {
+            $o=explode("/", $course_id);
+            $org=$o[0];
+            $course=$o[1];
+            //$name=$o[2];
+            $filter=['_id.org'=>$org,'_id.course'=>$course];
+        } else {
+            return false;
+        }
 
         // delete course data
-        $del = $this->modulestore->remove(["_id.course"=>$this->course, "_id.org"=>$this->org]);
+        $del = $this->modulestore->remove($filter);
 
         if (!$del) {
             return false;
