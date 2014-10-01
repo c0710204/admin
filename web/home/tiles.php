@@ -42,7 +42,7 @@
         $smallbox->color('green');
         $smallbox->icon("fa fa-comments-o");
         $smallbox->value($n);
-        $smallbox->title('Forum threads');
+        $smallbox->title('Forum thread(s)');
         $smallbox->url("../forum");
         echo $smallbox->html();
         ?>
@@ -50,11 +50,12 @@
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <?php
+        // org
         $smallbox= new Admin\SmallBox;
         $smallbox->color('yellow');
         $smallbox->icon("fa fa-bank");
-        $smallbox->title('Randomness');
-        $smallbox->value(rand(0, 100).'%');
+        $smallbox->title('Org(s)');
+        $smallbox->value(count($edxapp->orgs()));
         //$smallbox->url("");
         echo $smallbox->html();
         ?>
