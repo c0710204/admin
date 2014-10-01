@@ -4,8 +4,11 @@ function getList(){// search groups
 
 	console.log('getList()');
     
+    $.cookie('org', $('#org').val());//  set cookie
+    
     $("#grouplist .overlay, #grouplist .loading-img").show();//loading
 	
+
     var r=$.ajax({
   		type: "POST",
   		url: "ctrl.php",
@@ -85,7 +88,9 @@ $(function(){
     $("#org,#grouptype,#searchStr").change(function(){
     	getList();
     });
-
+	
+	$('#org').val($.cookie('org'));
+    
     getList();
 
 });
