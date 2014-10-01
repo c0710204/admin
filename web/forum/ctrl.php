@@ -10,7 +10,8 @@ use Admin\EdxForum;
 $admin = new AdminLte();
 $admin->ctrl();
 
-$forum = new edxForum();
+$edxApp = new Admin\EdxApp();
+$forum = new Admin\EdxForum();
 
 //print_r($_POST);
 
@@ -41,27 +42,21 @@ switch($_POST['do']){
         die("Error deleting thread");
         break;
 
-    case 'getThreads':
 
-        
-        /*
-        $filter["org"]=new MongoRegex("/^videox/i");
-        $contents = $forum->contents->find($filter, ['_id'=>0,'votes'=>0, 'abuse_flaggers'=>0, 'historical_abuse_flaggers'=>0]);
-        $contents->sort(['last_activity_at'=>-1]);
-        $n=$contents->count();
-        */
+
+    case 'getThreads':
         
         $contents=$forum->threads($_POST['org']);
         $n=$contents->count();
         $DAT=[];
         foreach ($contents as $r) {
-            //$threads[]=$r;
-            //print_r($r);exit;
-            //var_dump($r['_id']->$id);exit;
             $R=[];
             $R['id']=$r['_id']->{'$id'};
             $R['org']=explode("/", $r['course_id'])[0];
+            
             $R['course_id']=$r['course_id'];
+            $R['courseName']=$edxApp->courseName($r['course_id']);
+
             $R['author_id']=$r['author_id'];
             $R['author_username']=ucfirst($r['author_username']);
             $R['title']=$r['title'];

@@ -13,7 +13,6 @@ $edxapp = new EdxApp();
 $forum = new EdxForum();
 
 $admin->title("Forum");
-
 echo $admin->printPrivate();
 
 ?>
@@ -27,11 +26,8 @@ echo $admin->printPrivate();
 <!-- Main content -->
 <section class="content">
 <?php include "box_search.php";?>
+
 <?php include "box_threads.php";?>
 </section>
 
-<script>
-$(function(){
-    $('table').tablesorter();
-});
-</script>
+<script src='forum.js'></script>
