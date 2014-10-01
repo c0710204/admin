@@ -12,7 +12,9 @@ function trashCourse(o){
 function getList(){
 
     $("#boxlist .overlay, #boxlist .loading-img").show();//loading
-	
+    
+    $.cookie('org', $('#org').val());
+    
     var r=$.ajax({
   		type: "POST",
   		url: "ctrl.php",
@@ -42,22 +44,11 @@ function getList(){
 }
 
 
-/*
-function getList()
-{
-    console.log('getList()');
-    $('#moreCourse').html('loading');
-    $('#moreCourse').load('ctrl.php',{'do':'list'},function(x){
-    	try{
 
-    	}
-    });
-}
-*/
 
 function renderList(json,target){
 	
-	console.log('renderList(json,target)');
+	//console.log('renderList(json,target)');
 
 	var htm=[];
 	htm.push('<table id=courselist class="table table-condensed table-striped">');
@@ -79,9 +70,6 @@ function renderList(json,target){
         o=json[i];
         //console.log(o);
 
-        //clas='';
-        //if(o.is_active==0){clas="text-muted";}
-
         var date_start=$.datepicker.formatDate('yy-mm-dd', o.start);
         var date_end=$.datepicker.formatDate('yy-mm-dd', o.end);
         
@@ -90,10 +78,6 @@ function renderList(json,target){
 
         htm.push("<tr id=333>");
         htm.push("<td>" + o.org);
-        //htm.push("<td>" + o.course);
-        //htm.push("<td>" + o.name);
-        
-
         htm.push("<td><a href='../course/?id="+o.id+"'>" + o.display_name);
         /*
         if(o.youtube){
@@ -115,7 +99,6 @@ function renderList(json,target){
         
         htm.push("<td>" + date_start);
         htm.push("<td>" + date_end);
-
     }
 
 	htm.push('</tbody>');
@@ -141,6 +124,7 @@ $(function(){
 
     $("table").tablesorter();
 
+    $('#org').val($.cookie('org'));
     $('#searchStr').val($.cookie('searchStr'));
 
     getList();
