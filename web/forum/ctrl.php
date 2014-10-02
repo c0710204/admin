@@ -55,7 +55,12 @@ switch($_POST['do']){
             $R['org']=explode("/", $r['course_id'])[0];
             
             $R['course_id']=$r['course_id'];
-            $R['courseName']=$edxApp->courseName($r['course_id']);
+            $courseName=$edxApp->courseName($r['course_id']);
+            if (preg_match("/not found/i", $courseName)) {
+                $R['courseName']='';
+            } else {
+                $R['courseName']=$courseName;
+            }
 
             $R['author_id']=$r['author_id'];
             $R['author_username']=ucfirst($r['author_username']);

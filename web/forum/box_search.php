@@ -5,11 +5,11 @@ $body=[];
 $body[]="<div class='row'>";
 
 // courses
-$body[]="<div class='col-lg-2'>";
+$body[]="<div class='col-md-2'>";
 $body[]="<div class='form-group'>";
 $body[]="<label>Organisation</label>";
 $body[]="<select class='form-control' id='org'>";
-$body[]="<option value=''>Select organisation</option>";
+$body[]="<option value=''>Any</option>";
 
 $list=$edxapp->orgs();
 // echo "<pre>"; print_r($list); echo "</pre>";
@@ -24,7 +24,7 @@ $body[]="</div>";
 $body[]="</div>";
 
 // search
-$body[]="<div class='col-lg-6'>";
+$body[]="<div class='col-md-4'>";
 $body[]="<div class='form-group'>";
 $body[]="<label>Search</label>";
 $body[]="<input type=text class=form-control id='searchStr' placeholder='Display name ...'>";

@@ -58,11 +58,12 @@ function renderList(json,target){
 	htm.push('<table id='+id+' class="table table-condensed table-striped">');
 	htm.push('<thead>');
 	htm.push('<th>Org</th>');
-	htm.push('<th><i class="fa fa-book"></i> Course</th>');
-	htm.push('<th><i class="fa fa-user"></i> Author</th>');
+	//htm.push('<th><i class="fa fa-user"></i> Author</th>');
 	htm.push('<th>Thread title</th>');
 	htm.push('<th><i class="fa fa-comments-o" title=Comments></i></th>');
 	//htm.push('<th>Created</th>');
+	htm.push('<th>Course</th>');
+
 	htm.push('<th>Last activity</th>');
 	htm.push('</thead>');
 	htm.push('<tbody>');
@@ -77,10 +78,15 @@ function renderList(json,target){
         //if(!isValidDate(o.end)||/1970/.test(date_end))date_end='';
         htm.push("<tr id=" + o.course + ">");
         htm.push("<td>" + o.org);
-        htm.push("<td><a href='../course/?id="+o.course_id+"'>" + o.courseName);
-        htm.push("<td><a href='../user/?id="+o.author_id+"'>" + o.author_username);
+        
+        
         htm.push("<td><a href='../forumthread/?id="+o.id+"'>" + o.title);
+        
+        htm.push(" <i class='text-muted'>"+o.author_username+"</i>");//author
+        
         htm.push("<td>" + o.comment_count);
+        htm.push("<td><a href='../course/?id="+o.course_id+"'>" + o.courseName);
+        
         //htm.push("<td>" + o.created_at);
         htm.push("<td>" + o.last_activity);
     }
