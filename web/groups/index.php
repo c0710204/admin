@@ -55,6 +55,7 @@ echo $admin->printPrivate();
     $htm[]="</div></div>";
 
 
+
     // type
     $htm[]="<div class='col-lg-2'>";
     $htm[]="<div class='form-group'>";

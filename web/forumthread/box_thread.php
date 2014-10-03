@@ -78,10 +78,14 @@ foreach ($replies as $r) {
             //$body[]=$com['author_username'].":".;
             $body[]="<p class=filename><a href='../user/?id=".$com['author_id']."'>".$com['author_username']."</a> : ".$com['body']."</p>";
             $body[]="<small class='pull-right'><a href=# onclick=deleteContent('".$com['_id']."')><i class='fa fa-trash-o'></i></a></small>";
-            //print_r($com);        
+            
+            // print_r($com);        
             $body[]="</div>";
 
         }
+
+        // add a comment
+        $body[] = "<a href=# class='btn btn-default'>Add comment</a>";// add comment
 
     }
     
@@ -118,5 +122,9 @@ $box=new Admin\SolidBox;
 $box->type("success");
 $box->icon("fa fa-comments-o");
 $box->title(count($replies)." Replie(s)");
-$box->body($body);
-echo $box->html();
+
+$footer=[];
+$footer[]="<a href=# class='btn btn-default'>Reply</a>";
+
+
+echo $box->html($body, $footer);

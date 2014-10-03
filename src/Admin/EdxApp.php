@@ -678,6 +678,62 @@ class EdxApp
 
 
 
+    /**
+     * Return list of roles with their id's, for a given course id
+     * Role examples : 
+     * Administrator - (forum administrator) 
+     * Moderator - (forum moderator)
+     * Community TA - (teaching assistant) (https://sites.google.com/site/saasworldtas/edx-ta-guidelines) 
+     * Student - (im not sure???)
+     * @param  integer $course_id [description]
+     * @return [type]             [description]
+     */
+    public function clientRoles($course_id = '')
+    {
+        //echo __FUNCTION__."($course_id)\n";
+
+        if (!$course_id) {
+            return false;
+        }
+
+
+        $sql = "SELECT * FROM edxapp.django_comment_client_role WHERE course_id LIKE '$course_id';";
+        $q = $this->db->query($sql) or die("<pre>error:$sql</pre>");
+        
+        $ROLES=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $ROLES[$r['name']]=$r['id'];
+        }
+        //print_r($ROLES);
+        return $ROLES;
+    }
+
+    
+
+    /**
+     * Return the list of user ids for the given comment client role id
+     * Ex : list of Forum administrators or moderators, for a course 
+     * @param  integer $client_role_id [description]
+     * @return array                  [description]
+     */
+    public function clientRoleUsers($client_role_id = 0)
+    {
+        $client_role_id*=1;
+        
+        if (!$client_role_id) {
+            return false;
+        }
+
+        $sql="SELECT user_id FROM edxapp.django_comment_client_role_users WHERE role_id=$client_role_id;";
+        $q=$this->db->query($sql) or die("$sql");
+        
+        $USRS=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $USRS[]=$r['user_id'];
+        }
+        return $USRS;
+    }
+
 
 
     /**

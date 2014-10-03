@@ -65,6 +65,7 @@ $box=new Admin\SolidBox;
 $box->id('boxenroll');
 $box->icon('fa fa-user');
 $box->title("Enrollments <small>".$edxapp->courseEnrollCount($course_id)." Enrollments</small>");
+$box->collapsed(true);
 $box->loading(true);
 echo $box->html($htm, $footer);
 

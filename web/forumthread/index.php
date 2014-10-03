@@ -33,6 +33,8 @@ if (!isset($_GET['id'])) {
     if (!$r) {
         echo $admin->callout("danger", "Forum thread not found");
         exit;
+    } else {
+        $course_id=$r['course_id'];
     }
 
 }
@@ -60,6 +62,8 @@ echo "<input type=hidden id=id value='".$_GET['id']."'>";
     <section class="col-lg-6 connectedSortable">
     <?php
     include "box_info.php";
+    include "box_administrator.php";
+    //include "box_moderator.php";
     include "box_subscriptions.php";
     include "box_debug.php";
     ?>

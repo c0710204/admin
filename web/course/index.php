@@ -83,8 +83,11 @@ if (!$edxCourse->exist($course_id)) {
         //include "course_overview.php";
         //include "course_grading.php";//grading policy
         include "course_enroll.php";
-        include "course_forum.php";
-        //include "course_debug.php";
+        
+        include "forum_threads.php";
+        include "forum_admin.php";
+        //include "forum_moderators.php";
+        
         include "course_drop.php";
         ?>
     </section>

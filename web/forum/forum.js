@@ -106,7 +106,7 @@ $(function(x){
 
 	//console.log('ready');
 
-	$("#org, #searchStr").change(function(){
+	$("#org, #course, #searchStr").change(function(){
 		getThreads();
 	});
 

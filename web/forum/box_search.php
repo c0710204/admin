@@ -4,7 +4,7 @@
 $body=[];
 $body[]="<div class='row'>";
 
-// courses
+// org
 $body[]="<div class='col-md-2'>";
 $body[]="<div class='form-group'>";
 $body[]="<label>Organisation</label>";
@@ -17,6 +17,23 @@ $list=$edxapp->orgs();
 foreach ($list as $org) {
     $selected='';
     $body[]="<option value='$org' $selected>$org</option>";
+}
+
+$body[]="</select>";
+$body[]="</div>";
+$body[]="</div>";
+
+
+// forum courses
+$body[]="<div class='col-md-2'>";
+$body[]="<div class='form-group'>";
+$body[]="<label>Courses</label>";
+$body[]="<select class='form-control' id='course'>";
+$body[]="<option value=''>Any</option>";
+
+foreach ($forum->courses() as $org=>$course_id) {
+    $selected='';
+    $body[]="<option value='$course_id' $selected>$course_id</option>";
 }
 
 $body[]="</select>";

@@ -176,8 +176,16 @@ class EdxForum
     }
 
 
-
-
+    /**
+     * Return the list of courses that i'm supposed to see (within my org, with forum threads)
+     * @return [type] [description]
+     */
+    public function courses()
+    {
+        //db.contents.distinct("course_id")
+        $q = $this->contents->distinct("course_id");
+        return $q;
+    }
 
 
 

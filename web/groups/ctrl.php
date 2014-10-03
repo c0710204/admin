@@ -13,6 +13,7 @@ $admin->ctrl();
 
 
 // group counts
+
 /*
 $sql="SELECT group_id, COUNT(user_id) as c FROM edxapp.auth_user_groups GROUP BY group_id;";
 $q = $admin->db()->query($sql) or die("admin->db()->error");
@@ -21,7 +22,9 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     $GC[$r['group_id']]=$r['c'];
 }
 */
+
 // print_r($GC);
+
 
 switch($_POST['do']){
     

@@ -21,9 +21,10 @@ if ($cursor->count()>0) {
     $body[]="No subscriber";
 }
 
-$box=new Admin\Box;
-$box->type("success");
+$box=new Admin\SolidBox;
+//$box->type("success");
 $box->icon('fa fa-sign-in');
-$box->title("Thread subscriptions <small>".$cursor->count()." subscriber(s)</small>");
+$box->title($cursor->count()." subscription(s)");
+$box->collapsed(true);
 
 echo $box->html($body);
