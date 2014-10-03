@@ -10,6 +10,7 @@ while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
 }
 
 $box=new Admin\SolidBox;
+$box->id("box-users");
 $box->title("Group users");
 $box->icon("fa fa-users");
 
@@ -25,5 +26,20 @@ foreach ($dat as $r) {
 $htm[]="</table>";
 
 $foot=[];
-$foot="<a href=# class='btn btn-default'>Add user</a>";
+$foot="<input type=text class='form-control' id='username' placeholder='Username to add to group' autocomplete=off>";
+$box->loading(true);
 echo $box->html($htm, $foot);
+?>
+
+<script>
+$(function(){
+	autocomplete($('#username'),'username','../typeahead/',function(x){
+		console.log(x);
+		if(!x.id)return false;
+		if(!confirm("Add "+x.value+" to this group ?"))return false;
+		//$()
+	});
+	//console.log('ready');
+	$('#box-users .overlay,#box-users .loading-img').hide();
+});
+</script>

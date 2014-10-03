@@ -48,7 +48,7 @@ $htm[]='</div>';
 
 $foot=[];
 $foot[]="<a href='../groups/' class='btn btn-default'> Groups</a>";
-$foot[]="<a href=# id='btndel' class='btn btn-default pull-right'><i class='fa fa-eraser'></i> Delete group</a>";
+$foot[]="<a href=# id='btndel' class='btn btn-danger pull-right'><i class='fa fa-times'></i> Delete group</a>";
 
 echo $box->html($htm, $foot);
 
