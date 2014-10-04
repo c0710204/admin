@@ -271,7 +271,7 @@ class EdxApp
 
 
     /**
-     * Delete one auth user group and data
+     * Delete completely one auth user group AND data
      * @param  integer $groupid [description]
      * @return [type]           [description]
      */
@@ -296,6 +296,7 @@ class EdxApp
 
     /**
      * Return the list of groups related to a given course
+     * Default groups are : "Instructors, Staff, Beta users"
      */
     public function courseGroups($course_id = '')
     {
@@ -319,7 +320,11 @@ class EdxApp
     }
     
 
-    // auth user groups
+    /**
+     * Return the list of user (id's) for a given course group.
+     * @param  integer $group_id [description]
+     * @return [type]            [description]
+     */
     public function courseGroup($group_id = 0)
     {
         if ($group_id<1) {
@@ -336,6 +341,44 @@ class EdxApp
         return $dat;
     }
 
+
+    /**
+     * Add one user for a given user group
+     * @param  integer $group_id [description]
+     * @param  integer $user_id  [description]
+     * @return integer           inserted id
+     */
+    public function userGroupAddUser($group_id = 0, $user_id = 0)
+    {
+        $group_id*=1;
+        $user_id*=1;
+
+        if (!$group_id||!$user_id) {
+            return false;
+        }
+
+        $sql="INSERT INTO edxapp.auth_user_groups (user_id, group_id) VALUES ($user_id, $group_id);";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo()[2], true));
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * Delete one record from auth_user_groups
+     * @param  integer $id [description]
+     * @return bool      [description]
+     */
+    public function userGroupDel($id = 0)
+    {
+        $id*=1;
+        if (!$id) {
+            return false;
+        }
+        
+        $sql = "DELETE FROM edxapp.auth_user_groups WHERE id=$id LIMIT 1;";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        return true;
+    }
+    
 
     /**
      * Update user Password
@@ -590,6 +633,8 @@ class EdxApp
     }
 
 
+
+
     /**
      * Return groups for a given user
      * @param  integer $userid [description]
@@ -724,12 +769,12 @@ class EdxApp
             return false;
         }
 
-        $sql="SELECT user_id FROM edxapp.django_comment_client_role_users WHERE role_id=$client_role_id;";
+        $sql="SELECT id, user_id FROM edxapp.django_comment_client_role_users WHERE role_id=$client_role_id;";
         $q=$this->db->query($sql) or die("$sql");
         
         $USRS=[];
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
-            $USRS[]=$r['user_id'];
+            $USRS[$r['id']]=$r['user_id'];
         }
         return $USRS;
     }
