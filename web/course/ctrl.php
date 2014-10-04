@@ -5,12 +5,14 @@ session_start();
 
 require __DIR__."/../../vendor/autoload.php";
 
-use Admin\AdminLte;
-use Admin\EdxApp;
-use Admin\EdxCourse;
+//use Admin\AdminLte;
+//use Admin\EdxApp;
+//use Admin\EdxCourse;
 
-$admin = new AdminLte();
+$admin = new Admin\AdminLte();
 $admin->ctrl();
+
+$edxApp = new Admin\EdxApp();
 //print_r($_POST);
 
 switch ($_POST['do']) {
@@ -20,7 +22,7 @@ switch ($_POST['do']) {
         
         //echo "<pre>"; print_r($_POST);echo "</pre>";exit;
         
-        $course = new EdxCourse($_POST['course_id']);
+        $course = new Admin\EdxCourse($_POST['course_id']);
 
         if (!$course->exist()) {
             die("Course not found");
@@ -46,7 +48,7 @@ switch ($_POST['do']) {
     // the big html desc
     case "saveOverview":
         //print_r($_POST);
-        $course = new EdxCourse($_POST['course_id']);
+        $course = new Admin\EdxCourse($_POST['course_id']);
         if ($course->exist()) {
             $course->updateOverview($_POST['html']);
             die("document.location.href='?course_id=".$_POST['course_id']."';");
@@ -59,7 +61,7 @@ switch ($_POST['do']) {
 
         //print_r($_POST);
 
-        $course = new EdxCourse($_POST['course_id']);
+        $course = new Admin\EdxCourse($_POST['course_id']);
         if ($course->exist()) {
             $course->updateVideo($_POST['youtubeid']);
             echo "console.log('Video updated');\n";
@@ -72,7 +74,7 @@ switch ($_POST['do']) {
 
     case 'updateImage':
         //print_r($_POST);
-        $course = new EdxCourse($_POST['course_id']);
+        $course = new Admin\EdxCourse($_POST['course_id']);
         if ($course->exist()) {
             // todo :: check if file exist
             $course->updateImage($_POST['filename']);
@@ -86,7 +88,7 @@ switch ($_POST['do']) {
 
     case 'dropVideo':
         //print_r($_POST);
-        $course = new EdxCourse($_POST['course_id']);
+        $course = new Admin\EdxCourse($_POST['course_id']);
         if ($course->exist()) {
             $course->deleteVideo();
             die("document.location.href='?';");
@@ -99,10 +101,10 @@ switch ($_POST['do']) {
 
     case 'drop':
         //print_r($_POST);
-        $edxCourse = new EdxCourse();
+        $edxCourse = new Admin\EdxCourse();
         if ($edxCourse->exist($_POST['course_id'])) {
             
-            $edxApp = new EdxApp();
+            $edxApp = new Admin\EdxApp();
             $delete=$edxApp->deleteCourseData($_POST['course_id']);
             if (!$delete) {
                 echo "<li>Error1:deleteCourseData";
@@ -129,33 +131,27 @@ switch ($_POST['do']) {
 
     // remove a user from a group
     // the record id has to be given
-    case 'removeUser':
-        print_r($_POST);
-        if ($edxapp->userGroupDel($_POST['id'])) {
-            die("ok");
+    case 'removeGroupUser':
+        //print_r($_POST);
+        if ($edxApp->userGroupDel($_POST['id'])) {
+            die("document.location.href='?id=".$_POST['course_id']."';");
         }
         exit;
     
+    // add a user to a given group
+    case 'addGroupUser':
+        //print_r($_POST);
+        if ($edxApp->userGroupAddUser($_POST['group_id'], $_POST['user_id'])) {
+            die("document.location.href='?id=".$_POST['course_id']."';");
+        }
+        break;
     
-
-    /*
-    // add instructor (to edxapp.auth_user_groups)
-    case 'addInstructor':
-        print_r($_POST);
-        exit;
-
-    // add staff (to edxapp.auth_user_groups)
-    case 'addStaff':
-        print_r($_POST);
-        exit;
-    */
-   
 
 
     // course enroll
     case 'enroll':
         //print_r($_POST);
-        $edxApp = new EdxApp();
+        $edxApp = new Admin\EdxApp();
         if ($edxApp->enroll($_POST['course_id'], $_POST['user_id'])) {
             //$course->enroll($_POST['course_id'], $_POST['user_id']);// todo finish this
             die("document.location.href='../courses/';");
@@ -169,7 +165,7 @@ switch ($_POST['do']) {
     case 'listEnroll':
         //print_r($_POST);
         //echo json_encode($_POST);
-        $edxApp = new EdxApp();
+        $edxApp = new Admin\EdxApp();
         $course_id=$_POST['course_id'];
         $limit=5;
         
@@ -178,6 +174,7 @@ switch ($_POST['do']) {
         
         $q=$admin->db()->query($sql) or die("<pre>".print_r($admin->db()->errorInfo(), true)."</pre>");
         $dat=[];
+        
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             $r['created']=substr($r['created'], 0, 10);
             $r['username']=$edxApp->userName($r['user_id']);

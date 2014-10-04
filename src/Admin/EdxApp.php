@@ -328,7 +328,7 @@ class EdxApp
     public function courseGroup($group_id = 0)
     {
         if ($group_id<1) {
-            return false;
+            return [];
         }
 
         $sql="SELECT id, user_id FROM edxapp.auth_user_groups WHERE group_id=$group_id;";
@@ -740,16 +740,16 @@ class EdxApp
     public function clientRoles($course_id = '')
     {
         //echo __FUNCTION__."($course_id)\n";
-
         if (!$course_id) {
             return false;
         }
-
 
         $sql = "SELECT * FROM edxapp.django_comment_client_role WHERE course_id LIKE '$course_id';";
         $q = $this->db->query($sql) or die("<pre>error:$sql</pre>");
         
         $ROLES=[];
+        $ROLES['Administrator']=false;//group_id
+        $ROLES['Administrator']=false;
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             $ROLES[$r['name']]=$r['id'];
         }
@@ -767,10 +767,11 @@ class EdxApp
      */
     public function clientRoleUsers($client_role_id = 0)
     {
+        //echo "clientRoleUsers($client_role_id);";
         $client_role_id*=1;
         
         if (!$client_role_id) {
-            return false;
+            return [];
         }
 
         $sql="SELECT id, user_id FROM edxapp.django_comment_client_role_users WHERE role_id=$client_role_id;";
