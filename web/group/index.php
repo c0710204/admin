@@ -26,7 +26,7 @@ $group_id=@$_GET['id']*1;
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
     <input type=hidden id='group_id' value='<?php echo $group_id?>'>
     <?php
     include "group_info.php";
@@ -37,7 +37,7 @@ $group_id=@$_GET['id']*1;
 
 
     <!-- col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
     <?php
     include "group_users.php";
     ?>

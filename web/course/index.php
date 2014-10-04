@@ -60,7 +60,7 @@ if (!$edxCourse->exist($course_id)) {
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
         <?php
         include "course_info.php";
         
@@ -77,7 +77,7 @@ if (!$edxCourse->exist($course_id)) {
     </section>
 
     <!-- Right col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
         <?php
         include "course_groups.php";
         //include "course_overview.php";
