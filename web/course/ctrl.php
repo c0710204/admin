@@ -127,9 +127,32 @@ switch ($_POST['do']) {
         break;
 
 
+    // remove a user from a group
+    // the record id has to be given
+    case 'removeUser':
+        print_r($_POST);
+        if ($edxapp->userGroupDel($_POST['id'])) {
+            die("ok");
+        }
+        exit;
+    
+    
+
+    /*
+    // add instructor (to edxapp.auth_user_groups)
+    case 'addInstructor':
+        print_r($_POST);
+        exit;
+
+    // add staff (to edxapp.auth_user_groups)
+    case 'addStaff':
+        print_r($_POST);
+        exit;
+    */
+   
 
 
-
+    // course enroll
     case 'enroll':
         //print_r($_POST);
         $edxApp = new EdxApp();
@@ -141,6 +164,7 @@ switch ($_POST['do']) {
         }
         exit;
         break;
+
 
     case 'listEnroll':
         //print_r($_POST);

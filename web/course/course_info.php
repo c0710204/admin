@@ -37,7 +37,13 @@ $body[]='<div class="col-lg-6">';
 $body[]='<label>Course Start</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
-$body[]='<input type="text" class="form-control" id="courseStart" value="'.date("d/m/Y", $start).'">';
+if ($start) {
+    $value=date("d/m/Y", $start);
+} else {
+    $value='';
+}
+$body[]='<input type="text" class="form-control" id="courseStart" value="'.$value.'">';
+
 $body[]='</div>';
 $body[]='</div>';
 
@@ -46,7 +52,8 @@ $body[]='<div class="col-lg-6">';
 $body[]='<label>Course End</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
-$body[]='<input type="text" class="form-control" id="courseEnd" value="'.date("d/m/Y", $end).'">';
+if($end)$value=date("d/m/Y", $end); else $value='';
+$body[]='<input type="text" class="form-control" id="courseEnd" value="'.$value.'">';
 $body[]='</div>';
 $body[]='</div>';
 
@@ -60,7 +67,8 @@ $body[]='<div class="col-lg-6">';
 $body[]='<label>Enrollment Start</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
-$body[]='<input type="text" class="form-control" id="enrollStart" value="'.date("d/m/Y", $enrollment_start).'">';
+if($enrollment_start)$value=date("d/m/Y", $enrollment_start); else $value='';
+$body[]='<input type="text" class="form-control" id="enrollStart" value="'.$value.'">';
 $body[]='</div>';
 $body[]='</div>';
 
@@ -69,7 +77,8 @@ $body[]='<div class="col-lg-6">';
 $body[]='<label>Enrollment End</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
-$body[]='<input type="text" class="form-control" id="enrollEnd" value="'.date("d/m/Y", $enrollment_end).'">';
+if($enrollment_end)$value=date("d/m/Y", $enrollment_end); else $value='';
+$body[]='<input type="text" class="form-control" id="enrollEnd" value="'.$value.'">';
 $body[]='</div>';
 $body[]='</div>';
 

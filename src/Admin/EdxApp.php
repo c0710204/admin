@@ -342,6 +342,7 @@ class EdxApp
     }
 
 
+
     /**
      * Add one user for a given user group
      * @param  integer $group_id [description]
@@ -362,6 +363,8 @@ class EdxApp
         return $this->db->lastInsertId();
     }
 
+
+
     /**
      * Delete one record from auth_user_groups
      * @param  integer $id [description]
@@ -379,6 +382,7 @@ class EdxApp
         return true;
     }
     
+
 
     /**
      * Update user Password
