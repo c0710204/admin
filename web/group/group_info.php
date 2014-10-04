@@ -7,27 +7,14 @@ if (!$group=$edxApp->group($group_id)) {
     echo "<input type='hidden' id=group_id value='$group_id'>";
 }
 
-$box=new Admin\SolidBox;
-$box->title("Group : $group[type]");
-$box->icon("fa fa-info");
+
 
 $htm=[];
 
-
-// group type
-/*
-$htm[]='<div class="form-group">';
-$htm[]='<label>Type: </label> ';
-$htm[]=$group['type'];
-//$htm[]='<input type="text" class="form-control" id="displayName" value="'.$group['type'].'">';
-$htm[]='</div>';
-*/
-
-
 // group name
 $htm[]='<div class="form-group">';
-$htm[]='<label>Name</label>';
-$htm[]='<input type="text" class="form-control" id="displayName" value="'.$group['name'].'">';
+$htm[]='<label>Name: </label> ';
+$htm[]=$group['name'];
 $htm[]='</div>';
 
 // group course
@@ -44,21 +31,21 @@ if ($course_id=$edxCourse->exist($group['course_id'])) {
 
 $htm[]='</div>';
 
+if (!$edxCourse->exist($group['course_id'])) {
+    $htm[]= "<pre>Warning : Course '".$group['course_id']."' not found</pre>";
+}
+
+
 
 //$htm[]="<pre>".print_r($group, true)."</pre>";
 
 $foot=[];
-$foot[]="<a href='../groups/' class='btn btn-default'> Groups</a>";
+$foot[]="<a href='../groups/' class='btn btn-default'><i class='fa fa-arrow-left'></i> Groups</a>";
 $foot[]="<a href=# id='btndel' class='btn btn-danger pull-right'><i class='fa fa-times'></i> Delete group</a>";
 
+$box=new Admin\SolidBox;
+$box->id("box-info");
+$box->title("Group : $group[type]");
+$box->icon("fa fa-info");
 echo $box->html($htm, $foot);
 
-if (!$edxCourse->exist($group['course_id'])) {
-    echo "<pre>Warning : Course '".$group['course_id']."' not found</pre>";
-}
-
-
-?>
-<pre>
-http://edx.readthedocs.org/projects/edx-partner-course-staff/en/latest/releasing_course/beta_testing.html
-</pre>

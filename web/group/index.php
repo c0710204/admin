@@ -30,6 +30,7 @@ $group_id=@$_GET['id']*1;
     <input type=hidden id='group_id' value='<?php echo $group_id?>'>
     <?php
     include "group_info.php";
+    include "group_help.php";
     ?>
     <div id='more'></div>
     </section>
@@ -55,7 +56,7 @@ $(function(){
             'group_id':$('#group_id').val()
         };
         
-        $("#more").load("ctrl.php",p,function(x){
+        $("#box-info .box-footer").load("ctrl.php",p,function(x){
             try{eval(x);}
             catch(e){alert(x);}
         });

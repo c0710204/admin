@@ -63,9 +63,14 @@ function renderList(json,target){
         //htm.push("<td><a href='../group/?id="+o.id+"'>" + o.id);
         
         htm.push("<td><a href='../group/?id="+o.id+"'>"+o.name+"</a>");
-        htm.push("<td>" + o.type);
-        htm.push("<td><a href='../course/?id="+o.course_id+"'>"+o.courseName+"</a>");
-        /*
+        htm.push("<td>" + o.type+"</td>");
+
+        if(o.course_id){
+        	htm.push("<td><a href='../course/?id="+o.course_id+"'>"+o.courseName+"</a>");
+        }else{
+        	htm.push("<td><span class='label label-danger'>Not found</span>");
+        }
+                /*
         htm.push("<td>" + o.course);
         htm.push("<td><a href='../course/?id="+o.id+"'>" + o.display_name);
         */
