@@ -3,6 +3,8 @@
 if (!$group=$edxApp->group($group_id)) {
     echo "<pre>Error : group #$group_id not found</pre>";
     die("<a href='../groups/' class='btn btn-default'>Groups</a>");
+} else {
+    echo "<input type='hidden' id=group_id value='$group_id'>";
 }
 
 $box=new Admin\SolidBox;
@@ -33,7 +35,6 @@ $htm[]='<div class="form-group">';
 $htm[]='<label>Course:</label> ';
 
 if ($course_id=$edxCourse->exist($group['course_id'])) {
-    //$htm[]="<a href='../course/?id=".$course_id."'>".$course_id."</a>";
     $htm[]="<a href='../course/?id=".$course_id."'>".$edxApp->courseName($course_id)."</a>";
     //$htm[]="<pre>$course_id</pre>";
 } else {
