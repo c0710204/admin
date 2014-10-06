@@ -148,6 +148,21 @@ switch ($_POST['do']) {
     
 
 
+    case 'addRole'://add a user to a role group (forum user group)
+        //print_r($_POST);
+        if ($edxApp->clientRoleUserAdd($_POST['role_id'], $_POST['user_id'])) {
+            die("document.location.href='?id=".$_POST['course_id']."';");
+        }
+        break;
+
+    case 'delRole'://
+        //print_r($_POST);
+        if ($edxApp->clientRoleDelete($_POST['id'])) {
+            die("document.location.href='?id=".$_POST['course_id']."';");
+        }
+        break;
+
+
     // course enroll
     case 'enroll':
         //print_r($_POST);
@@ -186,7 +201,7 @@ switch ($_POST['do']) {
 
 
     default:
-        die('Error : unknow action');
+        die('Error : unknow action '.$_POST['do']);
 }
 
 die("Course Ctrl Error");

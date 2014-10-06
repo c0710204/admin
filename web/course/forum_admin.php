@@ -1,65 +1,136 @@
 <?php
-// course forum administrators
+// course forum 
+// - administrators
+// - moderators
+// - student ta's 
+
 $htm=[];
 
 
 // Forum admin and moderators
-$adminGroup=$edxapp->clientRoles($course_id)['Administrator'];
+$Roles=$edxapp->clientRoles($course_id);
+//echo "<pre>".print_r($Roles, true)."</pre>";
 
-$users=$edxapp->clientRoleUsers($adminGroup);
 
-$htm[]="<table class='table table-condensed table-striped'>";
-foreach ($users as $k => $user_id) {
-    $htm[]="<tr>";
-    $htm[]="<td>";
-    $htm[]="<i class='fa fa-user'></i> ";
-    $htm[]="<a href='../user/?id=$user_id'>".ucfirst($edxapp->userName($user_id))."</a>";//nothin
-    $htm[]="<i class='fa fa-eraser pull-right'></i>";//
+// Forum Admnistrators
+// Forum Admnistrators
+// Forum Admnistrators
+
+$users=$edxapp->clientRoleUsers($Roles['Administrator']);
+$htm=[];
+if (count($users)) {
+    $htm[]="<table class='table table-condensed table-striped'>";
+    foreach ($users as $k => $user_id) {
+        $htm[]="<tr>";
+        $htm[]="<td>";
+        $htm[]="<i class='fa fa-user'></i> ";
+        $htm[]="<a href='../user/?id=$user_id'>".ucfirst($edxapp->userName($user_id))."</a>";//nothin
+        $htm[]="<i class='fa fa-times pull-right' style='cursor:hand' onclick=delRole($k) ></i>";//
+    }
+    $htm[]="</table>";
+} else {
+    $htm[]="<pre>No forum administrator</pre>";
 }
-$htm[]="</table>";
 
+
+$box=new Admin\Box;
+$box->id('box-admins');
+$box->type('success');
+$box->icon('fa fa-comments-o');
+$box->title("Forum Administrator(s)");
 
 $footer=[];
-$footer="<input type=text class='form-control' id='username' placeholder='Username to add' autocomplete=off>";
-
-$box=new Admin\SolidBox;
-$box->id('box-admininistrator');
-$box->icon('fa fa-comments-o');
-$box->title(count($users)." forum Administrator(s)");
-$box->loading(true);
-
+$footer="<input type=text class='form-control' id='admins' placeholder='Username to add as forum admin' autocomplete=off>";
+echo "<input type='hidden' id='role_admin' value='".$Roles['Administrator']."'>";//
 echo $box->html($htm, $footer);
+
+
+
+
+// Forum Moderators
+// Forum Moderators
+// Forum Moderators
+
+$users=$edxapp->clientRoleUsers($Roles['Moderator']);
+$htm=[];
+if (count($users)) {
+    $htm[]="<table class='table table-condensed table-striped'>";
+    foreach ($users as $k => $user_id) {
+        $htm[]="<tr>";
+        $htm[]="<td>";
+        $htm[]="<i class='fa fa-user'></i> ";
+        $htm[]="<a href='../user/?id=$user_id'>".ucfirst($edxapp->userName($user_id))."</a>";//nothin
+        $htm[]="<i class='fa fa-times pull-right' style='cursor:hand' onclick=delRole($k)></i>";//
+    }
+    $htm[]="</table>";
+} else {
+    $htm[]="<pre>No forum moderator</pre>";
+}
+
+$box=new Admin\Box;
+$box->id('box-moderator');
+$box->type('success');
+$box->icon('fa fa-comments-o');
+$box->title("Forum Moderator(s)");
+//$box->loading(true);
+$footer=[];
+$footer="<input type=text class='form-control' id='moders' placeholder='Username to add as forum moderator' autocomplete=off>";
+echo "<input type='hidden' id='role_moderator' value='".$Roles['Moderator']."'>";//
+echo $box->html($htm, $footer);
+
 
 
 ?>
 <script>
-function deleteRole(userroleid)
+function delRole(userroleid)
 {
-	if(!confirm("Delete this role "+userroleid+" ?"))return false;
+    if(!confirm("Delete role #"+userroleid+" ?"))return false;
+    
+    var p={
+        'do':'delRole',
+        'course_id':$('#course_id').val(),
+        'id':userroleid,
+    };
+    $("#box-admins .box-footer").load("ctrl.php",p,function(x){
+        try{eval(x);}
+        catch(e){alert(x);}
+    });
 }
 
-function addRole(userId)
+function addRole(roleId, userId)
 {
-	if(!confirm("Add role for user "+userId+" ?"))return false;
-	$('#box-admininistrator .loading-img, #box-admininistrator .overlay').show();
-	var p={
-		'do':'addRoleAdmin',
-		'course_id':$('#course_id').val(),
-		'userId':userId
-	};
-	$("#box-admininistrator .box-body").load("ctrl.php",p,function(x){
-		alert(x);
-		$('#box-admininistrator .loading-img, #box-admininistrator .overlay').hide();
-	});
+    console.log("addRole("+roleId+", "+userId+")");
+    if(!roleId)return false;
+    if(!userId)return false;
+    if(!confirm("Add role for user "+userId+" ?"))return false;
+    
+    //$('#box-admins .loading-img, #box-admininistrator .overlay').show();
+    var p={
+        'do':'addRole',
+        'course_id':$('#course_id').val(),
+        'role_id':roleId,
+        'user_id':userId
+    };
+    
+    $("#box-admins .box-footer").load("ctrl.php",p,function(x){
+        try{eval(x);}
+        catch(e){alert(x);}
+        //$('#box-admininistrator .loading-img, #box-admininistrator .overlay').hide();
+    });
 }
 
 $(function(){
-	$('#box-admininistrator .loading-img, #box-admininistrator .overlay').hide();
-	autocomplete( $('#username'), 'username', '../typeahead/', function(x){
-		// add user
-		console.log(x);
-		addRole(x.id);
-	});
-	console.log("ready");
+        
+    autocomplete( $('#admins'), 'username', '../typeahead/', function(x){
+        console.log(x);
+        addRole($('#role_admin').val(), x.id);// add role user
+    });
+
+    autocomplete( $('#moders'), 'username', '../typeahead/', function(x){   
+        console.log(x);
+        addRole($('#role_moderator').val(), x.id);// add role user
+    });
+    
+    //console.log("ready");
 });
 </script>

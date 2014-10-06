@@ -20,7 +20,7 @@ foreach ($group as $g) {
     $htm[]="<td>";
     $htm[]="<i class='fa fa-user'></i> ";
     $htm[]="<a href='../user/?id=".$g['user_id']."'>".ucfirst($edxapp->userName($g['user_id']))."</a>";
-    $htm[]="<i class='fa fa-times pull-right' onclick=delGroupUser($g[id])></i>";
+    $htm[]="<i class='fa fa-times pull-right' style='cursor:hand' onclick=delGroupUser($g[id])></i>";
 }
 $htm[]="</table>";
 
@@ -60,7 +60,7 @@ foreach ($group as $g) {
     $htm[]="<td>";
     $htm[]="<i class='fa fa-user'></i> ";
     $htm[]="<a href='../user/?id=".$g['user_id']."'>".ucfirst($edxapp->userName($g['user_id']))."</a>";
-    $htm[]="<i class='fa fa-times pull-right' onclick=delGroupUser($g[id])></i>";
+    $htm[]="<i class='fa fa-times pull-right' style='cursor:hand' onclick=delGroupUser($g[id])></i>";
 }
 $htm[]="</table>";
 
