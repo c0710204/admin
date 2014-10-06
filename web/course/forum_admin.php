@@ -80,6 +80,44 @@ echo $box->html($htm, $footer);
 
 
 
+
+// Forum Teacher Assistant's
+// Forum Teacher Assistant's
+// Forum Teacher Assistant's
+
+$users=$edxapp->clientRoleUsers($Roles['Community TA']);
+
+$htm=[];
+if (count($users)) {
+    $htm[]="<table class='table table-condensed table-striped'>";
+    foreach ($users as $k => $user_id) {
+        $htm[]="<tr>";
+        $htm[]="<td>";
+        $htm[]="<i class='fa fa-user'></i> ";
+        $htm[]="<a href='../user/?id=$user_id'>".ucfirst($edxapp->userName($user_id))."</a>";//nothin
+        $htm[]="<i class='fa fa-times pull-right' style='cursor:hand' onclick=delRole($k)></i>";//
+    }
+    $htm[]="</table>";
+} else {
+    $htm[]="<pre>No forum TA's</pre>";
+}
+
+
+$box=new Admin\Box;
+$box->id('box-ta');
+$box->type('success');
+$box->icon('fa fa-comments-o');
+$box->title("Forum TA's <small>teacher assistant</small>");
+//$box->loading(true);
+$footer=[];
+$footer="<input type=text class='form-control' id='tas' placeholder='Username to add as forum TA' autocomplete=off>";
+echo "<input type='hidden' id='role_ta' value='".$Roles['Community TA']."'>";//
+echo $box->html($htm, $footer);
+
+
+
+
+
 ?>
 <script>
 function delRole(userroleid)
@@ -129,6 +167,11 @@ $(function(){
     autocomplete( $('#moders'), 'username', '../typeahead/', function(x){   
         console.log(x);
         addRole($('#role_moderator').val(), x.id);// add role user
+    });
+
+    autocomplete( $('#tas'), 'username', '../typeahead/', function(x){   
+        console.log(x);
+        addRole($('#role_ta').val(), x.id);// add role user
     });
     
     //console.log("ready");
