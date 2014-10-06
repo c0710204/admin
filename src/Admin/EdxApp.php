@@ -727,6 +727,8 @@ class EdxApp
 
 
 
+
+
     /**
      * Return list of roles with their id's, for a given course id
      * Role examples : 
@@ -784,6 +786,47 @@ class EdxApp
         return $USRS;
     }
 
+
+    /**
+     * Add a user to a RoleGroup 
+     * (Forum groups, as "Administrator, Moderator, Student TA's, or Student")
+     * @param  integer $client_role_id [description]
+     * @param  integer $user_id        [description]
+     * @return [type]                  [description]
+     */
+    public function clientRoleUserAdd($client_role_id = 0, $user_id = 0)
+    {
+        $client_role_id*=1;
+        $user_id*=1;
+        
+        if (!$client_role_id||!$user_id) {
+            return false;
+        }
+
+        $sql ="INSERT INTO edxapp.django_comment_client_role_users (role_id, user_id) ";
+        $sql.="VALUES ($client_role_id, $user_id);";
+        
+        $q=$this->db->query($sql) or die("$sql");
+        return $this->db->lastInsertId();
+    }
+
+
+    /**
+     * Delete one record from django_comment_client_role_users
+     * @param  integer $id [description]
+     * @return bool      [description]
+     */
+    public function clientRoleDelete($id = 0)
+    {
+        $id*=1;
+        if (!$id) {
+            return false;
+        }
+
+        $sql ="DELETE FROM edxapp.django_comment_client_role_users WHERE id=$id;";
+        $q=$this->db->query($sql) or die("$sql");
+        return true;
+    }
 
 
     /**
