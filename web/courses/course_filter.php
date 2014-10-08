@@ -6,7 +6,7 @@ $body=[];
 $body[]="<div class='row'>";
 
 // courses
-$body[]="<div class='col-lg-2'>";
+$body[]="<div class='col-sm-3'>";
 $body[]="<div class='form-group'>";
 $body[]="<label>Organisation</label>";
 $body[]="<select class='form-control' id='org'>";
@@ -29,7 +29,7 @@ $body[]="</div>";
 
 
 // search
-$body[]="<div class='col-lg-6'>";
+$body[]="<div class='col-sm-4'>";
 $body[]="<div class='form-group'>";
 $body[]="<label>Search</label>";
 $body[]="<input type=text class=form-control id='searchStr' placeholder='Display name ...'>";
