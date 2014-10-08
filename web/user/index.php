@@ -51,7 +51,7 @@ if (!$usr || !$up) {
 <div class="row">
 
     <!-- Left col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
     <!-- Userinfo -->
     <?php
     //include "user_info.php";
@@ -60,7 +60,7 @@ if (!$usr || !$up) {
     ?>
     </section>
 
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
     <!-- Userprofile -->
     <?php
     include "user_course_enrolment.php";

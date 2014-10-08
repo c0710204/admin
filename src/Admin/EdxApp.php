@@ -21,6 +21,8 @@ class EdxApp
     private $db=null;//myslq db connection
     private $mgdb=null;//myslq db connection
     private $modulestore=null;//mongo db connection
+    private $logger=null;
+    private $user=[];// django user
     
     /**
      * [$org description]
@@ -33,7 +35,7 @@ class EdxApp
         $configfile='';
 
         if (isset($_SESSION['configfile'])) {
-           $configfile=$_SESSION['configfile'];
+            $configfile=$_SESSION['configfile'];
         }
 
         if (!is_file($configfile)) {
@@ -53,11 +55,14 @@ class EdxApp
             // pdo mysql
             $this->db = Pdo::getDatabase();
 
+
             // org
             if (isset($this->config->lte->org)) {
                 $this->org=$this->config->lte->org;
             }
 
+            // logs
+            //$logger=new Admin\EdxLog();
         }
     }
 
@@ -431,8 +436,8 @@ class EdxApp
         }
 
         $sql.="username=".$this->db->quote($data['username']).", ";
-        //$sql.="first_name=".$this->db->quote($data['first_name']).", ";
-        //$sql.="last_name=".$this->db->quote($data['last_name']).", ";
+        $sql.="first_name=".$this->db->quote($data['first_name']).", ";
+        $sql.="last_name=".$this->db->quote($data['last_name']).", ";
         $sql.="email=".$this->db->quote($data['email'])." ";
         $sql.="WHERE id='$user_id' LIMIT 1;";
 
@@ -701,6 +706,7 @@ class EdxApp
     }
 
 
+
     /**
      * Return the number of users enrolled in one course
      * @param  string $courseId [description]
@@ -708,21 +714,16 @@ class EdxApp
      */
     public function enrollCount($course_id = '')
     {
-        /*
-        if ($courseid && preg_match("/([a-z 0-9\/\._-]+)/i", $courseid, $o)) {
-            $o=explode("/", $courseid);
-            $org=$o[0];
-            $course=$o[1];
-            $name=$o[2];
-            return $collection->findOne(['_id.org'=>$org, "_id.course"=>$course]);
+        
+        if ($course_id && preg_match("/([a-z 0-9\/\._-]+)/i", $course_id, $o)) {
+            // ok
         } else {
-            return $collection->findOne(['_id.org'=>$this->org, "_id.course"=>$this->course]);
+            return 0;
         }
-        */
+        
         $sql="SELECT COUNT(*) FROM edxapp.student_courseenrollment WHERE course_id LIKE '$course_id';";
         $q=$this->db->query($sql) or die("<pre>error:$sql</pre>");
-        $count=$q->fetch()[0];
-        return $count;
+        return $q->fetch()[0];
     }
 
 

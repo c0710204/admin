@@ -8,14 +8,14 @@ $body=[];
 $body[]='<div class="row">';
 
 //name
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<div class=form-group><label>Username</label>';
 $body[]='<input type="text" class="form-control" id="username" placeholder="Username" value="'.$usr['username'].'">';
 $body[]='</div>';
 $body[]='</div>';
 
 //email
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<div class=form-group><label>Email</label>';
 $body[]='<input type="text" class="form-control" id="email" placeholder="Email" value="'.$usr['email'].'">';
 $body[]='</div>';
@@ -29,13 +29,13 @@ $body[]='</div>';
 
 $body[]='<div class="row">';
 
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<div class=form-group><label>First name</label>';
 $body[]='<input type="text" class="form-control" id="first_name" value="'.$usr['first_name'].'">';
 $body[]='</div>';
 $body[]='</div>';
 
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<div class=form-group><label>Last name</label>';
 $body[]='<input type="text" class="form-control" id="last_name" value="'.$usr['last_name'].'">';
 $body[]='</div>';
@@ -50,12 +50,12 @@ $body[]='</div>';
 
 $body[]='<div class="row">';
 
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<div class=form-group><label>Date joined :</label> ' . substr($usr['date_joined'], 0, 10);
 $body[]='</div>';
 $body[]='</div>';
 
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<div class=form-group><label>Last login :</label> ';
 if (preg_match("/0000/", $usr['last_login'])) {
     $body[]="<i class=text-muted>No login</i>";
