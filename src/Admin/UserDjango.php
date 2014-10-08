@@ -29,6 +29,7 @@ namespace Admin;
 class UserDjango
 {
     public $db=null;
+    private $user=[];
     private $session=null;
 
     public function __construct ($db)
@@ -188,13 +189,17 @@ class UserDjango
      */
     public function login($email = '', $pass = '')
     {
-        $user = $this->checkPassword($email, $pass);
+        $this->user = $this->checkPassword($email, $pass);
         //print_r($user);exit;
-        if ($user && $user['is_active'] && $user['is_superuser']) {
+        if ($this->user && $this->user['is_active'] && $this->user['is_superuser']) {
             //Create a new session, deleting the previous session data
             session_regenerate_id(true);
             $sid=session_id();
-            $this->djangoSessionRegister($sid, $user['id']);
+            $this->djangoSessionRegister($sid, $this->user['id']);
+            
+            $log = new EdxLog($this->user);
+            $log->msg("login");
+
             return true;
         }
         return false;
@@ -212,6 +217,8 @@ class UserDjango
         $sql = "DELETE FROM django_session WHERE session_key='$sid';";
         $q=$this->db->query($sql);// or die( $this->db->)
 
+        $log = new EdxLog($this->user);
+        $log->msg("logout");
 
         ob_clean();
         if (@session_regenerate_id(true)) {
