@@ -2,7 +2,7 @@
 // tiles.php
 ?>
 <div class="row">
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-sm-3 col-xs-6">
         <!-- small box users -->
         <?php
         $sql="SELECT COUNT(*) as count FROM edxapp.auth_user WHERE 1;";
@@ -20,7 +20,7 @@
         ?>
     </div><!-- ./col -->
 
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-sm-3 col-xs-6">
         <!-- small box courses -->
         <?php
         $smallbox= new Admin\SmallBox;
@@ -32,7 +32,7 @@
         echo $smallbox->html();
         ?>
     </div><!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-sm-3 col-xs-6">
         <!-- small box forum-->
         <?php
 
@@ -47,7 +47,7 @@
         echo $smallbox->html();
         ?>
     </div><!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-sm-3 col-xs-6">
         <!-- small box -->
         <?php
         // org
