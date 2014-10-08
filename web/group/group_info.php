@@ -12,10 +12,13 @@ if (!$group=$edxApp->group($group_id)) {
 $htm=[];
 
 // group name
+/*
 $htm[]='<div class="form-group">';
 $htm[]='<label>Name: </label> ';
 $htm[]=$group['name'];
 $htm[]='</div>';
+*/
+
 
 // group course
 $htm[]='<div class="form-group">';
