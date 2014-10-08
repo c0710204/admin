@@ -35,6 +35,7 @@ if (is_file($cf)) {
 if (isset($_POST['email']) && isset($_POST['password'])) {
 
     if ($admin->django->login($_POST['email'], $_POST['password'])) {
+        
         // login
         $logstr=date("c")."\tlogin\t".$_POST['email']."\t".basename($_SESSION['configfile'])."\n";
         $log = error_log($logstr, 3, '/var/tmp/admin_login.log');
