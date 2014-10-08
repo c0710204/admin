@@ -19,7 +19,7 @@ $body[]='<div class=row>';
 
 // Enroll start
 $startDates=date("d/m/Y", $enrollment_start)." - ".date("d/m/Y", $enrollment_end);
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<label>Enrollment start</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';
@@ -28,7 +28,7 @@ $body[]='</div>';
 $body[]='</div>';
 
 // Enroll end
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-sm-6">';
 $body[]='<label>Enrollment end</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';

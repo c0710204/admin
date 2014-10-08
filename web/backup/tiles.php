@@ -7,7 +7,7 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     $records+=$r['Rows'];
 }
 ?>
-<div class="col-lg-3 col-xs-6">
+<div class="col-sm-3 col-xs-6">
     <!-- small box -->
     <?php
     $smallbox= new Admin\SmallBox;
@@ -20,7 +20,7 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     ?>
 </div><!-- ./col -->
 
-<div class="col-lg-3 col-xs-6">
+<div class="col-sm-3 col-xs-6">
     <!-- small box -->
     <?php
     $smallbox= new Admin\SmallBox;
@@ -32,7 +32,7 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     echo $smallbox->html();
     ?>
 </div><!-- ./col -->
-<div class="col-lg-3 col-xs-6">
+<div class="col-sm-3 col-xs-6">
     <!-- small box -->
     <?php
     $smallbox= new Admin\SmallBox;
@@ -44,7 +44,7 @@ while ($r=$q->fetch(PDO::FETCH_ASSOC)) {
     echo $smallbox->html();
     ?>
 </div><!-- ./col -->
-<div class="col-lg-3 col-xs-6">
+<div class="col-sm-3 col-xs-6">
     <!-- small box -->
     <?php
     $smallbox= new Admin\SmallBox;

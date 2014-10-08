@@ -16,7 +16,7 @@ $Roles=$edxapp->clientRoles($course_id);
 // Forum Admnistrators
 // Forum Admnistrators
 
-$users=$edxapp->clientRoleUsers($Roles['Administrator']);
+$users=$edxapp->clientRoleUsers(@$Roles['Administrator']);
 $htm=[];
 if (count($users)) {
     $htm[]="<table class='table table-condensed table-striped'>";
@@ -39,9 +39,12 @@ $box->type('success');
 $box->icon('fa fa-comments-o');
 $box->title("Forum Administrator(s)");
 
-$footer=[];
-$footer="<input type=text class='form-control' id='admins' placeholder='Username to add as forum admin' autocomplete=off>";
-echo "<input type='hidden' id='role_admin' value='".$Roles['Administrator']."'>";//
+if (isset($Roles['Administrator'])) {
+    $footer="<input type=text class='form-control' id='admins' placeholder='Username to add as forum admin' autocomplete=off>";
+    echo "<input type='hidden' id='role_admin' value='".$Roles['Administrator']."'>";//
+} else {
+    $footer="<pre>Warning: No administrator role</pre>";
+}
 echo $box->html($htm, $footer);
 
 
@@ -51,7 +54,7 @@ echo $box->html($htm, $footer);
 // Forum Moderators
 // Forum Moderators
 
-$users=$edxapp->clientRoleUsers($Roles['Moderator']);
+$users=$edxapp->clientRoleUsers(@$Roles['Moderator']);
 $htm=[];
 if (count($users)) {
     $htm[]="<table class='table table-condensed table-striped'>";
@@ -74,8 +77,12 @@ $box->icon('fa fa-comments-o');
 $box->title("Forum Moderator(s)");
 //$box->loading(true);
 $footer=[];
-$footer="<input type=text class='form-control' id='moders' placeholder='Username to add as forum moderator' autocomplete=off>";
-echo "<input type='hidden' id='role_moderator' value='".$Roles['Moderator']."'>";//
+if (isset($Roles['Moderator'])) {
+    $footer="<input type=text class='form-control' id='moders' placeholder='Username to add as forum moderator' autocomplete=off>";
+    echo "<input type='hidden' id='role_moderator' value='".$Roles['Moderator']."'>";//
+} else {
+    $htm[]="<pre>Warning: No moderator role</pre>";
+}
 echo $box->html($htm, $footer);
 
 
@@ -85,7 +92,7 @@ echo $box->html($htm, $footer);
 // Forum Teacher Assistant's
 // Forum Teacher Assistant's
 
-$users=$edxapp->clientRoleUsers($Roles['Community TA']);
+$users=$edxapp->clientRoleUsers(@$Roles['Community TA']);
 
 $htm=[];
 if (count($users)) {
@@ -109,9 +116,13 @@ $box->type('success');
 $box->icon('fa fa-comments-o');
 $box->title("Forum TA's <small>teacher assistant</small>");
 //$box->loading(true);
-$footer=[];
-$footer="<input type=text class='form-control' id='tas' placeholder='Username to add as forum TA' autocomplete=off>";
-echo "<input type='hidden' id='role_ta' value='".$Roles['Community TA']."'>";//
+
+if (isset($Roles['Community TA'])) {
+    $footer="<input type=text class='form-control' id='tas' placeholder='Username to add as forum TA' autocomplete=off>";
+    echo "<input type='hidden' id='role_ta' value='".$Roles['Community TA']."'>";//
+} else {
+    $htm[]="<pre>Warning: No Community TA role</pre>";
+}
 echo $box->html($htm, $footer);
 
 

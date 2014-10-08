@@ -32,8 +32,9 @@ $body[]='<div class=row>';
 
 //$startDates=date("d/m/Y", $start)." - ".date("d/m/Y", $end);
 
+
 // course start
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-xs-6">';
 $body[]='<label>Course Start</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
@@ -47,8 +48,9 @@ $body[]='<input type="text" class="form-control" id="courseStart" value="'.$valu
 $body[]='</div>';
 $body[]='</div>';
 
+
 // course end
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-xs-6">';
 $body[]='<label>Course End</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
@@ -63,7 +65,7 @@ $body[]='</div>';
 // enroll start-end
 $body[]='<div class=row>';
 
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-xs-6">';
 $body[]='<label>Enrollment Start</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon
@@ -72,8 +74,9 @@ $body[]='<input type="text" class="form-control" id="enrollStart" value="'.$valu
 $body[]='</div>';
 $body[]='</div>';
 
+
 // course end
-$body[]='<div class="col-lg-6">';
+$body[]='<div class="col-xs-6">';
 $body[]='<label>Enrollment End</label>';
 $body[]='<div class="input-group">';
 $body[]='<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';//calendar icon

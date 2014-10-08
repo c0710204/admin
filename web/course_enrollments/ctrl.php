@@ -43,7 +43,12 @@ switch ($_POST['do']) {
         $dat=[];
         foreach ($data as $r) {
             $r['created']=substr($r['created'], 0, 10);
+            $user = $edxApp->user($r['user_id']);
+            //print_r($user);exit;
             $r['username']=$edxApp->userName($r['user_id']);
+            $r['first_name']=$user['first_name'];
+            $r['last_name']=$user['last_name'];
+            $r['email']=$user['email'];
             $dat[]=$r;
         }
 

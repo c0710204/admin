@@ -23,7 +23,7 @@ if ($threads->count()) {
         //$htm[]="<td>".$r['_id'];
         $htm[]="<td><i class='fa fa-comments-o'></i> <a href='../forumthread/?id=".$r['_id']."'>".$r['title']."</a>";
         $htm[]=" <i class=text-muted>by ".$r['author_username']."</i>";
-        $htm[]="<td width=150>".date("Y-m-d H:i", $r['created_at']->sec);
+        $htm[]="<td width=100>".date("Y-m-d", $r['created_at']->sec);
         //echo "<pre>".print_r($r, true)."</pre>";
     }
     $htm[]="</tbody>";
