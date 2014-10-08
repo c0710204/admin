@@ -1,18 +1,3 @@
-/*
-function trashThread(id){
-    
-    if(!confirm("Delete this thread ?")){
-        return false;
-    }
-
-    $('#recentmsg').html('Please wait...');
-    $('#recentmsg').load('ctrl.php',{'do':'trashThread','id':id},function(x){
-        try{eval(x);}
-        catch(e){alert(x);}
-    });
-}
-*/
-
 
 function getThreads(){
 	//console.log('getThreads()');
@@ -27,6 +12,7 @@ function getThreads(){
   		data: {
 			'do':'getThreads',
             'org':$('#org').val(),
+            'course_id':$('#course').val(),
 			'search':$('#searchStr').val()
 		}
 	});
@@ -84,7 +70,12 @@ function renderList(json,target){
         
         htm.push(" <i class='text-muted'>"+o.author_username+"</i>");//author
         
-        htm.push("<td>" + o.comment_count);
+        if (o.comment_count>0) {
+        	htm.push("<td>" + o.comment_count);
+        } else {
+        	htm.push("<td>");
+        }
+        
         htm.push("<td><a href='../course/?id="+o.course_id+"'>" + o.courseName);
         
         //htm.push("<td>" + o.created_at);

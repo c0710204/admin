@@ -54,7 +54,12 @@ switch($_POST['do']){
             $R['id']=$r['_id']->{'$id'};
             $R['org']=explode("/", $r['course_id'])[0];
             
+            if ($_POST['course_id'] && $_POST['course_id']<>$r['course_id']) {
+                continue;
+            }
+            
             $R['course_id']=$r['course_id'];
+
             $courseName=$edxApp->courseName($r['course_id']);
             if (preg_match("/not found/i", $courseName)) {
                 $R['courseName']='';
