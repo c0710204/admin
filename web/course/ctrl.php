@@ -162,6 +162,20 @@ switch ($_POST['do']) {
         }
         break;
 
+    case 'delForumPermission':
+        //print_r($_POST);
+        if ($edxApp->delForumClientPermission($_POST['id'])) {
+            die("document.location.href='?id=".$_POST['course_id']."';");
+        }
+        break;
+
+
+    case 'addForumPermission':
+        //print_r($_POST);
+        if ($edxApp->addForumClientPermission($_POST['role_id'], $_POST['permission'])) {
+            die("document.location.href='?id=".$_POST['course_id']."';");
+        }
+        break;
 
     // course enroll
     case 'enroll':
