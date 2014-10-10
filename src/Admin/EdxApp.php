@@ -454,8 +454,10 @@ class EdxApp
     }
 
 
+
+
     /**
-     * [user description]
+     * Return one user record
      * @param  integer $userid [description]
      * @return [type]          [description]
      */
@@ -727,6 +729,66 @@ class EdxApp
     }
 
 
+    // forum
+    // forum
+    // forum
+    
+    
+    /**
+     * Return the list of forum client permissions
+     * @return [type] [description]
+     */
+    public function forumClientPermissions()
+    {
+        $sql="SELECT name FROM edxapp.django_comment_client_permission WHERE 1";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        
+        $dat=[];
+        while ($r=$q->fetch()) {
+            $dat[]=$r['name'];
+        }
+        return $dat;
+    }
+    
+
+
+    /**
+     * Remove one forum role permission
+     * @param  integer $id [description]
+     * @return [type]      [description]
+     */
+    public function delForumClientPermission($id = 0)
+    {
+        $id*=1;
+        if ($id<1) {
+            return false;
+        }
+        $sql="DELETE FROM edxapp.django_comment_client_permission_roles WHERE id=$id LIMIT 1;";
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        return true;
+    }
+
+
+
+    /**
+     * Add a Forum Client Permission
+     * @param integer $role_id    [description]
+     * @param string  $permission [description]
+     */
+    public function addForumClientPermission($role_id = 0, $permission = '')
+    {
+        $role_id*=1;
+        if ($role_id < 1) {
+            return false;
+        }
+
+        $sql ="INSERT INTO edxapp.django_comment_client_permission_roles ";
+        $sql.="(permission_id, role_id) VALUES ('$permission', $role_id);";
+        
+        $q = $this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        return true;
+    }
+
 
 
 
@@ -778,13 +840,37 @@ class EdxApp
         }
 
         $sql="SELECT id, user_id FROM edxapp.django_comment_client_role_users WHERE role_id=$client_role_id;";
-        $q=$this->db->query($sql) or die("$sql");
+        $q=$this->db->query($sql) or die("error:$sql");
         
         $USRS=[];
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             $USRS[$r['id']]=$r['user_id'];
         }
         return $USRS;
+    }
+
+
+    /**
+     * Return the list of forum permission for a given role
+     * @param  integer $client_role_id [description]
+     * @return array                  [description]
+     */
+    public function clientPermissions($client_role_id = 0)
+    {
+        $client_role_id*=1;
+        if ($client_role_id<1) {
+            return [];
+        }
+
+        $sql="SELECT id, permission_id FROM edxapp.django_comment_client_permission_roles WHERE role_id=$client_role_id;";
+        $q=$this->db->query($sql) or die("error : $sql");
+
+        $DAT=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $DAT[$r['id']]=$r['permission_id'];
+        }
+        asort($DAT);
+        return $DAT;
     }
 
 
@@ -876,6 +962,8 @@ class EdxApp
         }
         return $DAT;
     }
+
+
 
     /**
      * Get the number of users enrolled in one course
