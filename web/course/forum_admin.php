@@ -4,7 +4,6 @@
 // - moderators
 // - student ta's 
 
-$htm=[];
 
 
 // Forum admin and moderators
@@ -38,14 +37,45 @@ $box->id('box-admins');
 $box->type('success');
 $box->icon('fa fa-comments-o');
 $box->title("Forum Administrator(s)");
+$box->collapsed(true);
 
 if (isset($Roles['Administrator'])) {
-    $footer="<input type=text class='form-control' id='admins' placeholder='Username to add as forum admin' autocomplete=off>";
+    $htm[]="<input type=text class='form-control' id='admins' placeholder='Username to add as forum admin' autocomplete=off>";
     echo "<input type='hidden' id='role_admin' value='".$Roles['Administrator']."'>";//
 } else {
-    $footer="<pre>Warning: No administrator role</pre>";
+    $htm[]="<pre>Warning: No administrator role</pre>";
 }
-echo $box->html($htm, $footer);
+
+// administrator permissions
+$permList=$edxapp->forumClientPermissions();// list of forum permissions
+
+$foot=[];
+$foot[]="<b>Administrator permissions:</b><br />";
+foreach ($edxapp->clientPermissions($Roles['Administrator']) as $k => $perm) {
+    $v = str_replace("_", " ", ucfirst($perm));
+    $foot[]="<a href=#del class='btn btn-default' onclick=delPerm($k)>$v <i class='fa fa-times'></i></a> ";
+    if (($key = array_search($perm, $permList)) !== false) {
+        unset($permList[$key]);
+    }
+}
+
+// add permission
+if (count($permList)) {
+    $foot[]='<br />';
+    $foot[]='<br />';
+    $foot[]='<div class=row>';
+    $foot[]='<div class="col-xs-12">';
+    $foot[]="<select class='form-control' onchange=addPerm('".$Roles['Administrator']."',this);>";
+    $foot[]="<option>Select permission to add</option>";
+    foreach ($permList as $value) {
+        $foot[]= "<option value='$value'>".str_replace('_', ' ', ucfirst($value))."</option>";
+    }
+    $foot[]= "</select>";
+    $foot[]= "</div>";
+    $foot[]= "</div>";//end row
+}
+
+echo $box->html($htm, $foot);
 
 
 
@@ -75,15 +105,45 @@ $box->id('box-moderator');
 $box->type('success');
 $box->icon('fa fa-comments-o');
 $box->title("Forum Moderator(s)");
-//$box->loading(true);
-$footer=[];
+$box->collapsed(true);
 if (isset($Roles['Moderator'])) {
-    $footer="<input type=text class='form-control' id='moders' placeholder='Username to add as forum moderator' autocomplete=off>";
+    $htm[]="<input type=text class='form-control' id='moders' placeholder='Username to add as forum moderator' autocomplete=off>";
     echo "<input type='hidden' id='role_moderator' value='".$Roles['Moderator']."'>";//
 } else {
     $htm[]="<pre>Warning: No moderator role</pre>";
 }
-echo $box->html($htm, $footer);
+
+// moderator permissions
+
+$permList=$edxapp->forumClientPermissions();// list of forum permissions
+
+$foot=[];
+$foot[]="<b>Moderator permissions:</b><br />";
+foreach ($edxapp->clientPermissions($Roles['Moderator']) as $k => $perm) {
+    $v = str_replace("_", " ", ucfirst($perm));
+    $foot[]="<a href=#del class='btn btn-default' onclick=delPerm($k)>$v <i class='fa fa-times'></i></a> ";
+    if (($key = array_search($perm, $permList)) !== false) {
+        unset($permList[$key]);
+    }
+}
+
+// add permission
+if (count($permList)) {
+    $foot[]='<br />';
+    $foot[]='<br />';
+    $foot[]='<div class=row>';
+    $foot[]='<div class="col-xs-12">';
+    $foot[]="<select class='form-control' onchange=addPerm('".$Roles['Moderator']."',this);>";
+    $foot[]="<option>Select permission to add</option>";
+    foreach ($permList as $value) {
+        $foot[]= "<option value='$value'>".str_replace('_', ' ', ucfirst($value))."</option>";
+    }
+    $foot[]= "</select>";
+    $foot[]= "</div>";
+    $foot[]= "</div>";//end row
+}
+
+echo $box->html($htm, $foot);
 
 
 
@@ -110,24 +170,84 @@ if (count($users)) {
 }
 
 
+if (isset($Roles['Community TA'])) {
+    $htm[]="<input type=text class='form-control' id='tas' placeholder='Username to add as forum TA' autocomplete=off>";
+    echo "<input type='hidden' id='role_ta' value='".$Roles['Community TA']."'>";//
+} else {
+    $htm[]="<pre>Warning: No Community TA role</pre>";
+}
+
+//ta's permissions
+$foot=[];
+$foot[]="<b>Permissions:</b><br />";
+$permList=$edxapp->forumClientPermissions();
+foreach ($edxapp->clientPermissions($Roles['Community TA']) as $k => $perm) {
+    $v = str_replace("_", " ", ucfirst($perm));
+    $foot[]="<a href=#del class='btn btn-default' title='$k' onclick=delPerm($k)>$v <i class='fa fa-times'></i></a> ";
+}
+
+
+// add permission
+$foot[]='<br />';
+$foot[]='<br />';
+$foot[]='<div class=row>';
+$foot[]='<div class="col-xs-12">';
+$foot[]="<select class='form-control' onchange=addPerm('".$Roles['Community TA']."',this);>";
+$foot[]="<option>Select permission to add</option>";
+foreach ($permList as $value) {
+    $foot[]= "<option value='$value'>".str_replace('_', ' ', ucfirst($value))."</option>";
+}
+$foot[]= "</select>";
+$foot[]= "</div>";
+$foot[]= "</div>";//end row
+
+
 $box=new Admin\Box;
 $box->id('box-ta');
 $box->type('success');
 $box->icon('fa fa-comments-o');
 $box->title("Forum TA's <small>teacher assistant</small>");
-//$box->loading(true);
+$box->collapsed(true);
+echo $box->html($htm, $foot);
 
-if (isset($Roles['Community TA'])) {
-    $footer="<input type=text class='form-control' id='tas' placeholder='Username to add as forum TA' autocomplete=off>";
-    echo "<input type='hidden' id='role_ta' value='".$Roles['Community TA']."'>";//
-} else {
-    $htm[]="<pre>Warning: No Community TA role</pre>";
+
+
+
+
+// Forum Students
+// Forum Students
+// Forum Students
+
+$box=new Admin\Box;
+$box->id('box-students');
+$box->type('success');
+$box->icon('fa fa-comments-o');
+$box->title("Forum Students permissions");
+
+
+$htm=$foot=[];
+$permList=$edxapp->forumClientPermissions();
+foreach ($edxapp->clientPermissions($Roles['Student']) as $k => $perm) {
+    $v = str_replace("_", " ", ucfirst($perm));
+    $htm[]="<a href=#del class='btn btn-default' onclick=delPerm($k) title='Click to delete'>$v <i class='fa fa-times'></i></a> ";
+    if (($key = array_search($perm, $permList)) !== false) {
+        unset($permList[$key]);
+    }
 }
-echo $box->html($htm, $footer);
 
+// add permission
+$foot[]='<div class=row>';
+$foot[]='<div class="col-xs-12">';
+$foot[]="<select class='form-control' onchange=addPerm('".$Roles['Student']."',this);>";
+$foot[]="<option>Select permission to add</option>";
+foreach ($permList as $value) {
+    $foot[]= "<option value='$value'>".str_replace('_', ' ', ucfirst($value))."</option>";
+}
+$foot[]= "</select>";
+$foot[]= "</div>";
+$foot[]= "</div>";//end row
 
-
-
+echo $box->html($htm, $foot);
 
 ?>
 <script>
@@ -145,6 +265,23 @@ function delRole(userroleid)
         catch(e){alert(x);}
     });
 }
+
+
+function delPerm(permid)
+{
+    if(!permid)return false;
+    if(!confirm("Remove this forum permission #"+permid+" ?"))return false;
+    var p={
+        'do':'delForumPermission',
+        'course_id':$('#course_id').val(),
+        'id':permid,
+    };
+    $("#box-students .box-body").load("ctrl.php",p,function(x){
+        try{eval(x);}
+        catch(e){alert(x);}
+    });
+}
+
 
 function addRole(roleId, userId)
 {
@@ -167,6 +304,26 @@ function addRole(roleId, userId)
         //$('#box-admininistrator .loading-img, #box-admininistrator .overlay').hide();
     });
 }
+
+
+function addPerm(roleId, o){
+    console.log(roleId, o);
+    if(!roleId)return false;
+    if(!confirm("Add permission '"+o.value+"' ?"))return false;
+    var p={
+        'do':'addForumPermission',
+        'role_id':roleId,
+        'course_id':$('#course_id').val(),
+        'permission':o.value
+    };
+    $("#box-students .box-footer").html("Please wait...");
+    $("#box-students .box-footer").load("ctrl.php",p,function(x){
+        try{eval(x);}
+        catch(e){alert(x);}
+    });
+}
+
+
 
 $(function(){
         
