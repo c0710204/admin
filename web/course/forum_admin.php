@@ -179,11 +179,14 @@ if (isset($Roles['Community TA'])) {
 
 //ta's permissions
 $foot=[];
-$foot[]="<b>Permissions:</b><br />";
+$foot[]="<b>TA's Permissions:</b><br />";
 $permList=$edxapp->forumClientPermissions();
 foreach ($edxapp->clientPermissions($Roles['Community TA']) as $k => $perm) {
     $v = str_replace("_", " ", ucfirst($perm));
     $foot[]="<a href=#del class='btn btn-default' title='$k' onclick=delPerm($k)>$v <i class='fa fa-times'></i></a> ";
+    if (($key = array_search($perm, $permList)) !== false) {
+        unset($permList[$key]);
+    }
 }
 
 
