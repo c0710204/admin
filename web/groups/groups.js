@@ -46,7 +46,7 @@ function renderList(json,target){
 	htm.push('<thead>');
 	//htm.push('<th>#</th>');
 
-	htm.push('<th>Group name</th>');
+	//htm.push('<th>Group name</th>');
 	htm.push('<th>Type</th>');
 	//htm.push('<th>Users</th>');
 	htm.push('<th>Course</th>');
@@ -62,11 +62,11 @@ function renderList(json,target){
         htm.push("<tr>");
         //htm.push("<td><a href='../group/?id="+o.id+"'>" + o.id);
         
-        htm.push("<td><a href='../group/?id="+o.id+"'>"+o.name+"</a>");
-        htm.push("<td>" + o.type+"</td>");
+        //htm.push("<td><a href='../group/?id="+o.id+"'>"+o.name+"</a>");
+        htm.push("<td><a href='../group/?id="+o.id+"'>" + o.type+"</a></td>");
 
         if(o.course_id){
-        	htm.push("<td><a href='../course/?id="+o.course_id+"'>"+o.courseName+"</a>");
+        	htm.push("<td>"+o.courseName);//<a href='../course/?id="+o.course_id+"'>
         }else{
         	htm.push("<td><span class='label label-danger'>Not found</span>");
         }

@@ -56,9 +56,9 @@ switch($_POST['do']){
 
         $dat=[];
         while ($r = $q->fetch(PDO::FETCH_ASSOC)) {
+            
             preg_match('/^(beta_testers|instructor|staff)_/', $r['name'], $type);
-            $r['type']=$type[1];
-
+            $r['type']=ucfirst($type[1]);
 
             $r['course_id']=preg_replace('/^(beta_testers|instructor|staff)_/', '', $r['name']);
             $r['course_id']=str_replace('.', '/', $r['course_id']);

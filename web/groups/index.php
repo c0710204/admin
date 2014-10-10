@@ -22,7 +22,7 @@ echo $admin->printPrivate();
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-12 connectedSortable">
+    <section class="col-sm-12 connectedSortable">
     <?php
     $box=new Admin\SolidBox;
     $box->icon("fa fa-search");
@@ -34,7 +34,7 @@ echo $admin->printPrivate();
     $htm[]="<div class='row'>";//
 
     // org
-    $htm[]="<div class='col-lg-2'>";
+    $htm[]="<div class='col-sm-2'>";
     $htm[]="<div class='form-group'>";
     $htm[]="<label>Org</label>";
     $htm[]="<select class='form-control' id='org'>";
@@ -57,7 +57,7 @@ echo $admin->printPrivate();
 
 
     // type
-    $htm[]="<div class='col-lg-2'>";
+    $htm[]="<div class='col-sm-2'>";
     $htm[]="<div class='form-group'>";
     $htm[]='<label>Group type</label>';
     $htm[]="<select class='form-control' id='grouptype'>";
@@ -72,7 +72,7 @@ echo $admin->printPrivate();
 
 
     // str
-    $htm[]="<div class='col-lg-4'>";
+    $htm[]="<div class='col-sm-4'>";
     $htm[]="<div class='form-group'>";
     $htm[]="<label>Search</label>";
     $htm[]="<input type=text class=form-control id='searchStr' placeholder='Group name'>";
