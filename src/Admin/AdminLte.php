@@ -75,6 +75,10 @@ class AdminLte
             //echo "<li>Error: config not loaded\n";
             return false;
         }
+        
+        $log = new EdxLog();
+        $log->user($this->user);
+        
     }
 
     /**
@@ -453,10 +457,15 @@ class AdminLte
         $HTML[]='<li><a href="'.$this->path.'courses/"><i class="fa fa-book"></i> <span>Courses</span></a></li>';
         
         //canvas
-        $HTML[]='<li><a href="'.$this->path.'canvas/"><i class="fa fa-retweet"></i> <span>Canvas</span></a></li>';
+        //$HTML[]='<li><a href="'.$this->path.'canvas/"><i class="fa fa-retweet"></i> <span>Canvas</span></a></li>';
         
         // files
         // $HTML[]='<li><a href="'.$this->path.'files/"><i class="fa fa-folder"></i> <span>Files</span></a></li>';
+
+
+        // paid/products
+        $HTML[]='<li><a href="'.$this->path.'paid/"><i class="fa fa-money"></i> <span>Paid</span></a></li>';
+
 
         // groups
         $HTML[]='<li><a href="'.$this->path.'groups/"><i class="fa fa-users"></i> <span>Groups</span></a></li>';
