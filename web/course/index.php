@@ -69,6 +69,7 @@ if (!$edxCourse->exist($course_id)) {
         include "course_video.php";
         include "course_image.php";
         
+        include "forum_threads.php";
         //include "course_tabs.php";
         //include "course_outline.php";
         //include "course_textbooks.php";
@@ -84,7 +85,7 @@ if (!$edxCourse->exist($course_id)) {
         //include "course_grading.php";//grading policy
         include "course_enroll.php";
         
-        include "forum_threads.php";
+        //include "forum_threads.php";
         include "forum_admin.php";
         //include "forum_moderators.php";
         
