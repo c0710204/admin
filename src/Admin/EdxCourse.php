@@ -86,6 +86,8 @@ class EdxCourse
         return $this->org.'/'.$this->course.'/'.$this->name;
     }
 
+
+
     /**
      * return the course unit ids as list
      * userfull to compare with the user progression
@@ -114,19 +116,19 @@ class EdxCourse
     }
 
 
-    //set org
+    // set org
     public function org($str)
     {
         $this->org=$str;
     }
 
-    //set name
+    // set name
     public function name($str)
     {
         $this->name=$str;
     }
 
-    //set course
+    // set course
     public function course($str)
     {
         $this->course=$str;
@@ -146,53 +148,21 @@ class EdxCourse
             $o=explode("/", $courseid);
             $org=$o[0];
             $course=$o[1];
-            $name=$o[2];
+            // $name=$o[2];
+            
+            // we use mongo regex, because mongo is case sensitive
+            // and in mysql, course_id's are stored, you guess it, lower case, sometimes ...
             $filter=['_id.org'=>['$regex' => new \MongoRegex("/^$org/i")], "_id.course"=>['$regex' => new \MongoRegex("/^$course/i")]];
             $filter["_id.category"]="course";// that's safe
-            $r=$collection->findOne($filter);
-            if (!$r) {
-                return false;
+            
+            if ($r = $collection->findOne($filter)) {
+                return $r['_id']['org'].'/'.$r['_id']['course'].'/'.$r['_id']['name'];
             }
-            return $r['_id']['org'].'/'.$r['_id']['course'].'/'.$r['_id']['name'];
-        } else {
-            // deprecated
-            return false;
-            return $collection->findOne(['_id.org'=>$this->org, "_id.course"=>$this->course]);
         }
         return false;
     }
 
     
-
-    /**
-     * Return the real course id (with correct case)
-     * @param  string $courseid [description]
-     * @return [type]           [description]
-     */
-    /*
-    public function course_id($courseid = '')
-    {
-        $collection = $this->mgdb->edxapp->modulestore;
-
-        if ($courseid && preg_match("/([a-z 0-9\/\._-]+)/i", $courseid, $o)) {
-            $o=explode("/", $courseid);
-            $org=$o[0];
-            $course=$o[1];
-            $name=$o[2];
-
-            $filter=['_id.org'=>['$regex' => new \MongoRegex("/^$org/i")], "_id.course"=>['$regex' => new \MongoRegex("/^$course/i")]];
-            $filter["_id.category"]="course";// that's safe
-            
-            $r=$collection->findOne($filter);
-            if (!$r) {
-                return false;
-            }
-            return $r['_id']['org'].'/'.$r['_id']['course'].'/'.$r['_id']['name'];
-        }
-        return '';
-    }
-    */
-   
 
 
 
@@ -669,6 +639,12 @@ class EdxCourse
 
     }
 
+
+    /**
+     * Return a course unit parent
+     * @param  [type] $unit_id [description]
+     * @return [type]          [description]
+     */
     public function unitParent($unit_id)
     {
         $filter=["definition.children"=>$unit_id];
@@ -682,6 +658,12 @@ class EdxCourse
         return false;
     }
 
+
+    /**
+     * Return a course unit childrens
+     * @param  [type] $unit_id [description]
+     * @return [type]          [description]
+     */
     public function unitChildrens($unit_id)
     {
         if (!preg_match("/^i4x/", $unit_id)) {
@@ -699,7 +681,11 @@ class EdxCourse
     }
 
 
-
+    /**
+     * Return a course unit name
+     * @param  [type] $unit_id [description]
+     * @return [type]          [description]
+     */
     public function unitName($unit_id)
     {
         if (!preg_match("/^i4x/", $unit_id)) {
@@ -789,6 +775,21 @@ class EdxCourse
     }
 
 
+    /**
+     * Return the chapter name
+     * @param  string $chapterId [description]
+     * @return [type]            [description]
+     */
+    public function chapterName($chapterId = '')
+    {
+        //echo "chapterName($chapterId);\n";
+        
+        $filter=['_id.category'=>'chapter', '_id.name'=>$chapterId];
+        if ($r=$this->modulestore->findOne($filter)) {
+            return $r['metadata']['display_name'];
+        }
+        return false;
+    }
 
 
 
