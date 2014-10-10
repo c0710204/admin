@@ -39,6 +39,7 @@ if (isset($groups['instructor']['id'])) {
 }
 
 $box->title("Instructor(s) $small");
+$box->collapsed(true);
 echo $box->html($htm);
 
 
@@ -79,6 +80,7 @@ if (isset($groups['staff']['id'])) {
 }
 
 $box->title("Staff $small");
+$box->collapsed(true);
 
 
 echo $box->html($htm, $footer);
