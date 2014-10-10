@@ -59,17 +59,18 @@ echo "<input type=hidden id=id value='".$_GET['id']."'>";
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
     <?php
     include "box_info.php";
     include "box_administrator.php";
     //include "box_moderator.php";
     include "box_subscriptions.php";
-    include "box_debug.php";
+    //include "box_debug.php";
     ?>
     </section>
+    
     <!-- Right col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-sm-6 connectedSortable">
     <?php
     include "box_thread.php";
     ?>

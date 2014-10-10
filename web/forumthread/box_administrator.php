@@ -12,21 +12,33 @@ $ROLES=$edxapp->clientRoles($course_id);
 // Administrators
 // Administrators
 // Administrators
-$htm=[];
+$htm=$foot=[];
 $users=$edxapp->clientRoleUsers($ROLES['Administrator']);
-//print_r($users);
-$htm[]="<table class='table table-condensed table-striped'>";
-foreach ($users as $user_id) {
-    $htm[]="<tr>";
-    $htm[]="<td><i class='fa fa-user'></i> <a href='../user/?id=".$user_id."'>".$edxapp->userName($user_id);
+if (count($users)) {
+    $htm[]="<table class='table table-condensed'>";
+    foreach ($users as $user_id) {
+        $htm[]="<tr>";
+        $htm[]="<td><i class='fa fa-user'></i> <a href='../user/?id=".$user_id."'>".ucfirst($edxapp->userName($user_id));
 
+    }
+    $htm[]="</table>";
+} else {
+    $htm[]="<pre>No administrator</pre>";
 }
-$htm[]="</table>";
 
 $box=new Admin\SolidBox;
 $box->id("box-threads");
-$box->title(count($users)." Forum administrator(s)");
+$box->title("Forum administrator(s)");
 $box->icon("fa fa-users");
+
+// foot -> permissions
+$foot[]="<label>Permissions :</label><br />";
+foreach ($edxapp->clientPermissions($ROLES['Administrator']) as $k => $v) {
+    $v = str_replace("_", " ", ucfirst($v));
+    $foot[]="<i class='text-muted'>$v</i> - ";
+}
+$box->footer($foot);
+
 echo $box->html($htm);
 
 
@@ -37,20 +49,31 @@ echo $box->html($htm);
 // Moderators
 $users=$edxapp->clientRoleUsers($ROLES['Moderator']);
 
-$htm=[];
-$htm[]="<table class='table table-condensed table-striped'>";
-foreach ($users as $user_id) {
-    $htm[]="<tr>";
-    $htm[]="<td><i class='fa fa-user'></i> <a href='../user/?id=".$user_id."'>".$edxapp->userName($user_id);
+$htm=$foot=[];
+if (count($users)) {
+    $htm[]="<table class='table table-condensed'>";
+    foreach ($users as $user_id) {
+        $htm[]="<tr>";
+        $htm[]="<td><i class='fa fa-user'></i> <a href='../user/?id=".$user_id."'>".ucfirst($edxapp->userName($user_id));
 
+    }
+    $htm[]="</table>";
+} else {
+    $htm[]="<pre>No moderator</pre>";
 }
-$htm[]="</table>";
+
+$foot[]="<label>Permissions :</label><br />";
+foreach ($edxapp->clientPermissions($ROLES['Moderator']) as $k => $v) {
+    $v = str_replace("_", " ", ucfirst($v));
+    $foot[]="<i class='text-muted'>$v </i> - ";
+}
+
 
 $box=new Admin\SolidBox;
 $box->id("box-threads");
-$box->title(count($users)." Forum moderator(s)");
+$box->title("Forum moderator(s)");
 $box->icon("fa fa-users");
-echo $box->html($htm);
+echo $box->html($htm, $foot);
 
 
 
@@ -58,19 +81,53 @@ echo $box->html($htm);
 // Teacher Assistants
 // Teacher Assistants
 // Teacher Assistants
+
 $users=$edxapp->clientRoleUsers($ROLES['Community TA']);
 
-$htm=[];
-$htm[]="<table class='table table-condensed table-striped'>";
-foreach ($users as $user_id) {
-    $htm[]="<tr>";
-    $htm[]="<td><i class='fa fa-user'></i> <a href='../user/?id=".$user_id."'>".$edxapp->userName($user_id);
-
+$htm=$foot=[];
+if (count($users)) {
+    $htm[]="<table class='table table-condensed'>";
+    foreach ($users as $user_id) {
+        $htm[]="<tr>";
+        $htm[]="<td><i class='fa fa-user'></i> <a href='../user/?id=".$user_id."'>".ucfirst($edxapp->userName($user_id));
+    }
+    $htm[]="</table>";
+} else {
+    $htm[]="<pre>No forum TA</pre>";
 }
-$htm[]="</table>";
 
-$box=new Admin\SolidBox;
+$box = new Admin\SolidBox;
 $box->id("box-threads");
-$box->title(count($users)." Forum TA(s) <small>Teacher assistant</small>");
+$box->title("Forum TA(s) <small>Teacher assistant</small>");
 $box->icon("fa fa-users");
-echo $box->html($htm);
+
+$foot[]="<label>Permissions :</label><br />";
+foreach ($edxapp->clientPermissions($ROLES['Community TA']) as $k => $v) {
+    $v = str_replace("_", " ", ucfirst($v));
+    $foot[]="<i class='text-muted'>$v</i> - ";
+}
+
+echo $box->html($htm, $foot);
+
+
+
+
+// Students
+// Students
+// Students
+
+$users=$edxapp->clientRoleUsers($ROLES['Student']);
+$htm=[];
+
+$box = new Admin\SolidBox;
+$box->id("box-threads");
+$box->title("Students permissions");
+$box->icon("fa fa-users");
+
+$foot=[];
+foreach ($edxapp->clientPermissions($ROLES['Student']) as $k => $v) {
+    $v = str_replace("_", " ", ucfirst($v));
+    $foot[]="<i class='text-muted'>$v</i> - ";
+}
+
+echo $box->html($foot);

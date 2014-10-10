@@ -47,33 +47,34 @@ $body[]='</div>';
 $body[]='</div>';//box-body chat
 
 
-
-
 $body[]='<hr />';
 
-$body[]="(this post is about <a href=#>???</a>)";
-$body[]='<hr />';
+// about
+//$body[]="(this post is about <a href=#>???</a>)";
+//$body[]='<hr />';
 
 
 // row thread info
 
 $body[]="<div class='row'>";
 
-// Org
-$body[]="<div class='col-lg-4'>";
-$body[]="<div class=form-group>";
-$body[]="<label>Org : $org</label>";
-//$body[]="<div>$org</div>";
-$body[]="</div>";
-$body[]="</div>";
 
 // Course
-$body[]="<div class='col-lg-8'>";
+$body[]="<div class='col-sm-12'>";
 $body[]="<div class=form-group>";
 $body[]="<label>Course : <a href='../course/?id=".$r['course_id']."'>".$edxapp->courseName($r['course_id'])."</a></label>";
 //$body[]="<input type=text class=form-control id=course placeholder=Course value='".$r['course_id']."'>";
 $body[]="</div>";
 $body[]="</div>";
+
+// Org
+/*
+$body[]="<div class='col-lg-4'>";
+$body[]="<div class=form-group>";
+$body[]="<label>Org : $org</label>";
+$body[]="</div>";
+$body[]="</div>";
+*/
 
 $body[]="</div>";//end row
 
@@ -96,7 +97,7 @@ $last_activity_at=date("Y-m-d H:i", $r['last_activity_at']->sec);
 $body[]="<div class='row'>";
 
 // Created
-$body[]="<div class='col-lg-4'>";
+$body[]="<div class='col-sm-4'>";
 $body[]="<div class=form-group>";
 $body[]="<label>Created</label>";
 $body[]="<input type=text class=form-control value='$created_at'>";
@@ -104,7 +105,7 @@ $body[]="</div>";
 $body[]="</div>";
 
 // Updated
-$body[]="<div class='col-lg-4'>";
+$body[]="<div class='col-sm-4'>";
 $body[]="<div class=form-group>";
 $body[]="<label>Updated</label>";
 $body[]="<input type=text class=form-control value='$updated_at'>";
@@ -112,7 +113,7 @@ $body[]="</div>";
 $body[]="</div>";
 
 // Last activity
-$body[]="<div class='col-lg-4'>";
+$body[]="<div class='col-sm-4'>";
 $body[]="<div class=form-group>";
 $body[]="<label>Last activity</label>";
 $body[]="<input type=text class=form-control value='$last_activity_at'>";

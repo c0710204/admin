@@ -22,9 +22,9 @@ if ($cursor->count()>0) {
 }
 
 $box=new Admin\SolidBox;
-//$box->type("success");
 $box->icon('fa fa-sign-in');
 $box->title($cursor->count()." subscription(s)");
 $box->collapsed(true);
 
 echo $box->html($body);
+
