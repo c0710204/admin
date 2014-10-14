@@ -33,12 +33,7 @@ switch ($_POST['do']) {
         $edxApp = new EdxApp();
         $course_id=$_POST['course_id'];
         $limit=5;
-        /*
-        $sql= "SELECT id, user_id, created FROM edxapp.student_courseenrollment ";
-        $sql.="WHERE course_id LIKE '$course_id' LIMIT $limit;";
-        
-        $q=$admin->db()->query($sql) or die("<pre>".print_r($admin->db()->errorInfo(), true)."</pre>");
-        */
+
         $data=$edxApp->enrollments($_POST['course_id'], $_POST['limit']);
         $dat=[];
         foreach ($data as $r) {
