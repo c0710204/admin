@@ -24,8 +24,8 @@ switch ($_POST['do']) {
         
         $course = new Admin\EdxCourse($_POST['course_id']);
 
-        if (!$course->exist()) {
-            die("Course not found");
+        if (!$course->exist($_POST['course_id'])) {
+            die("Course '".$_POST['course_id']."' not found");
         }
 
         $course->updateDisplayName($_POST['displayName']);
