@@ -18,7 +18,12 @@ $edxCourse=new EdxCourse();
 
 //print_r($_GET);
 
-$course_id=$_GET['course_id'];
+if (isset($_GET['course_id'])) {
+    $course_id=$_GET['course_id'];
+} else {
+    die("Error: no course id");
+}
+
 
 if (!$edxCourse->exist($course_id)) {
     die("Course not found");

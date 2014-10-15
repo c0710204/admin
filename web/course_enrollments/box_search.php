@@ -14,22 +14,33 @@ $htm[]='</div>';
 
 
 // joined
-$htm[]='<div class="col-xs-3">';
+$htm[]='<div class="col-xs-2">';
 $htm[]='<div class="input-group">';
 $htm[]='<span class="input-group-addon"><i class="fa fa-calendar"></i></span>';
-$htm[]='<input type="text" class="form-control" id="limit" placeholder="Limit" value="100">';
+$htm[]='<input type="text" class="form-control" id="date">';
 $htm[]='</div>';
 $htm[]='</div>';
 
 
-$htm[]='<div class="col-xs-3">';
+$htm[]='<div class="col-xs-2">';
 $htm[]='<div class="form-group">';
 //$htm[]='<label>Search</label>';
 $htm[]='<input type="text" class="form-control" id="limit" placeholder="Limit" value="100">';
 $htm[]='</div>';
 $htm[]='</div>';
 
+
+// Button download
+$htm[]='<div class="col-xs-2">';
+$htm[]='<div class="form-group">';
+$htm[]='<a href="download.php?course_id='.$course_id.'" class="btn btn-default"><i class="fa fa-file"></i> Download as xls</a>';
+$htm[]='</div>';
+$htm[]='</div>';
+
+
+
 $htm[]='</div>';//end rows
+
 
 $foot=[];
 //$foot[]="<a href='download.php?course_id=$course_id' class='btn btn-default'><i class='fa fa-file'></i> Download as csv</a>";

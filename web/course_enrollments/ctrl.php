@@ -32,7 +32,10 @@ switch ($_POST['do']) {
 
         $edxApp = new EdxApp();
         $course_id=$_POST['course_id'];
-        $limit=5;
+        
+        $_POST['limit']*=1;
+
+        //print_r($_POST);exit;
 
         $data=$edxApp->enrollments($_POST['course_id'], $_POST['limit']);
         $dat=[];

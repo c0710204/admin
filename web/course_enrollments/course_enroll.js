@@ -67,6 +67,8 @@ function dispEnroll(json, target){
     h.push("</table>");
 
     target.html(h.join(''));
+    
+    $('table').tablesorter();
 }
 
 
