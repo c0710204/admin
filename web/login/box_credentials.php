@@ -5,7 +5,7 @@ $body[]="<form id=f role=form method='post' action='login_check.php'>";
 
 
 //get config profiles
-$configs=glob('../config/profiles/*.json');
+$configs=glob(__DIR__.'/../../profiles/*.json');
 
 $body[]="<div class='form-group'>";
 $body[]="<select name=configfile id='configs' class='form-control'>";

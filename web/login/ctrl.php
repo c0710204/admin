@@ -24,7 +24,8 @@ switch ($_POST['do']) {
 
     case "testProfile":
         //print_r($_POST);
-        $configfile="../config/profiles/".$_POST['conf'];
+        $configfile=__DIR__."/../../profiles/".$_POST['conf'];
+
         if (is_file($configfile)) {
 
             $conf = json_decode(file_get_contents($configfile));
@@ -97,7 +98,7 @@ switch ($_POST['do']) {
             $_SESSION['configfile']=$configfile;
 
         } else {
-            die("Error: config file not found");
+            die("Error: config file $configfile not found");
         }
         break;
 

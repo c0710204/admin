@@ -24,7 +24,7 @@ echo $admin->printPublic();
 
 //echo "<pre>" . print_r($_POST, true) . "</pre>";
 
-$cf=realpath('.')."/../config/profiles/".$_POST['configfile'];
+$cf=__DIR__."/../../profiles/".$_POST['configfile'];
 if (is_file($cf)) {
     $_SESSION['configfile']=realpath($cf);
     $admin = new AdminLte();
