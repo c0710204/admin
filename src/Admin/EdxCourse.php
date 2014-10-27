@@ -351,10 +351,7 @@ class EdxCourse
             return $this->modulestore->update($filter, $data);
         }
         return false;
-        //$filter=['_id.course' => $this->course, '_id.org'=>$this->org, '_id.category'=>'course'];
-        //$data=$this->modulestore->findOne($filter);
-        //$data['metadata']['start']=date('c', $date);
-        //return $this->modulestore->update($filter, $data);
+        
     }
 
     public function updateCourseEndDate($course_id='', $date)
@@ -421,7 +418,7 @@ class EdxCourse
 
         if ($course_id) {
             $x=explode("/", $course_id);
-            $filter=['_id.course' => $this->course, '_id.org'=>$this->org, '_id.category'=>'course'];
+            $filter=['_id.org'=>$x[0], '_id.course' => $x[1], '_id.category'=>'course'];
             $data=$this->modulestore->findOne($filter);
             $data['metadata']['enrollment_end']=date('c', $date);
             return $this->modulestore->update($filter, $data);
