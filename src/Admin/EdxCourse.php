@@ -476,8 +476,8 @@ class EdxCourse
         if (!$found) {
             $dat=[];
             $dat["_id"]["tag"]="i4x";
-            $dat["_id"]["org"]=$this->org;
-            $dat["_id"]["course"]=$this->course;
+            $dat["_id"]["org"]=$x[0];
+            $dat["_id"]["course"]=$x[1];
             $dat["_id"]["category"]="about";
             $dat["_id"]["name"]="short_description";
             $dat["_id"]["revision"]=null;
