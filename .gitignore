@@ -4,7 +4,7 @@ vendor/
 src/Admin/old/*
 web/backup/archives/*
 web/backup/dump/*
-web/config/profiles/*.json
+profiles/*.json
 web/test/
 
 # Compiled source #
