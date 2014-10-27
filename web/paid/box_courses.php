@@ -5,7 +5,15 @@ $box=new Admin\SolidBox();
 $box->title("Courses");
 $box->icon("fa fa-book");
 
-$courses=$edxCourse->courses();
-print_r($courses);
+$courses=$edxCourse->courses();//get this list of courses
 
-echo $box->html("Hello world");
+$body=[];
+$body[]="<select class='form-control'>";
+$body[]="<option>Any</option>";
+foreach ($courses as $course_id) {
+    $body[]="<option>$course_id</option>";
+}
+$body[]="</select>";
+//print_r($courses);
+
+echo $box->html($body);
