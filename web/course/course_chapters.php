@@ -15,7 +15,7 @@ if (is_array($chapters) && count($chapters)) {
     foreach ($chapters as $chapter) {
         $htm[]="<li>";
         $htm[]="<a href=../course_chapter/?unit_id=".$chapter[0].">".$chapter[1]."</a>";
-        //<small class='pull-right'>test</small>
+        $htm[]="<small class='pull-right'>".explode("/", $chapter[0])[5]."</small>";
         $htm[]="</li>";
     }
     $htm[]="</ol>";
@@ -29,6 +29,7 @@ $foot[]="<a href='../course_structure/?id=$course_id' class='btn btn-default'><i
 
 if (is_array($chapters) && count($chapters)) {
     $small="<small>".count($chapters)." chapters</small>";
+    //print_r($chapters)
 } else {
     $small="<small>No chapters</small>";
 }
@@ -36,6 +37,6 @@ if (is_array($chapters) && count($chapters)) {
 $box = new Admin\SolidBox;
 $box->title("Course chapters $small");
 $box->icon('fa fa-sitemap');
-$box->iconUrl("../course_structure/?id=$course_id");//todo here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$box->iconUrl("../course_structure/?id=$course_id");//
 $box->collapsed(true);
 echo $box->html($htm, $foot);
