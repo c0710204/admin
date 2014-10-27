@@ -28,17 +28,15 @@ switch ($_POST['do']) {
             die("Course '".$_POST['course_id']."' not found");
         }
 
-        $course->updateDisplayName($_POST['displayName']);
-        $course->updateShortDescription($_POST['shortDescription']);
+        $course->updateDisplayName($_POST['course_id'], $_POST['displayName']);
+        $course->updateShortDescription($_POST['course_id'], $_POST['shortDescription']);
 
-        //dates
-        //$dates=explode(" - ", $_POST['courseStartEnd']);
-        $course->updateCourseStartDate($_POST['courseStart']);
-        $course->updateCourseEndDate($_POST['courseEnd']);
+        // dates
+        $course->updateCourseStartDate($_POST['course_id'], $_POST['courseStart']);
+        $course->updateCourseEndDate($_POST['course_id'], $_POST['courseEnd']);
         
-        //$dates=explode(" - ", $_POST['enrollStartEnd']);
-        $course->updateEnrollStartDate($_POST['enrollStart']);
-        $course->updateEnrollEndDate($_POST['enrollEnd']);
+        $course->updateEnrollStartDate($_POST['course_id'], $_POST['enrollStart']);
+        $course->updateEnrollEndDate($_POST['course_id'], $_POST['enrollEnd']);
         
         die("document.location.href='?course_id=".$_POST['course_id']."';");
 
