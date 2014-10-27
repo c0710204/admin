@@ -123,15 +123,42 @@ class EdxCourse
     }
 
     // set name
+    // do not use, obsolete
     public function name($str)
     {
         $this->name=$str;
     }
 
     // set course
+    // do not use, obsolete
     public function course($str)
     {
         $this->course=$str;
+    }
+
+
+
+
+    /**
+     * Return the list of courses that i'm supposed to see
+     * @return [type] [description]
+     */
+    public function courses()
+    {
+        // todo :: filter with orgs
+        $filter=[];
+        $filter["_id.category"]="course";// that's safe
+        
+        //$q = $this->contents->distinct("course_id");
+        $collection=$this->modulestore->find($filter, ["_id"=>1]);
+        //echo "<pre>";
+        $courses=[];
+        foreach ($collection as $r) {
+            //print_r($r);
+            $courses[]=$r['_id']['org']."/".$r['_id']['course']."/".$r['_id']['name'];
+        }
+        sort($courses);
+        return $courses;
     }
 
 
@@ -246,6 +273,7 @@ class EdxCourse
      * Return course enroll data
      * @return [type] [description]
      */
+    
     /*
     public function enrollments()
     {
@@ -729,6 +757,12 @@ class EdxCourse
         return $units->count();//todo :: imp
     }
 
+
+    /**
+     * [units description]
+     * @param  string $course_id [description]
+     * @return [type]            [description]
+     */
     public function units($course_id = '')
     {
         if ($course_id && preg_match("/([a-z 0-9\/\._-]+)/i", $course_id, $o)) {
