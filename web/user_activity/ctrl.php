@@ -45,7 +45,7 @@ switch ($_POST['do']) {
         if ($_POST['course_id']) {
             $where[]="course_id LIKE '".$_POST['course_id']."'";
         }
-
+        $_POST['limit']*1;
         $data=$edxapp->studentCourseActivity($_POST['user_id'], $where, $_POST['limit']);
         foreach ($data as $k => $dat) {
             $data[$k]['module_name']=$edxcourse->unitName($dat['module_id']);
@@ -59,3 +59,7 @@ switch ($_POST['do']) {
         break;
 
 }
+
+
+// functions
+

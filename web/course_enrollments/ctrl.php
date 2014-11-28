@@ -47,6 +47,7 @@ switch ($_POST['do']) {
             $r['first_name']=$user['first_name'];
             $r['last_name']=$user['last_name'];
             $r['email']=$user['email'];
+            $r['progress']="33%";
             $dat[]=$r;
         }
 

@@ -46,7 +46,7 @@ if (is_array($chapters) && count($chapters)) {
     $body[]="<ol>";
     foreach ($chapters as $chapter) {
         $body[]="<li>";
-        if ($_GET['unit_id'] == $chapter[0]) {
+        if ($unit_id == $chapter[0]) {
             $body[]="<b>".$chapter[1]."</b>";
         } else {
             $body[]="<a href=../course_chapter/?unit_id=".$chapter[0].">".$chapter[1]."</a>";

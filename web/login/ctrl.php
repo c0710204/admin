@@ -67,7 +67,7 @@ switch ($_POST['do']) {
                  echo new Admin\Callout("success", "<i class='fa fa-thumbs-o-up'></i> PDO Connection Ok", "<pre>$dsn</pre>");
             } catch (PDOException $e) {
                 //echo "<li>" . $e->getMessage();
-                echo $admin->callout("danger", "<i class='fa fa-ban'></i> PDO Connection error", $e->getMessage());
+                echo new Admin\Callout("danger", "<i class='fa fa-ban'></i> PDO Connection error", $e->getMessage());
             }
 
             // test mongo

@@ -18,7 +18,9 @@ echo $admin->printPrivate();
 
 
 $unit_id=@$_GET['unit_id'];//chapter
-
+if (isset($_GET['id'])) {
+    $unit_id=$_GET['id'];
+}
 $unitName=$edxCourse->unitName($unit_id);
 $unit=$edxCourse->unit($unit_id);
 $chapterName=$unit['metadata']['display_name'];

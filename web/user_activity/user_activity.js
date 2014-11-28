@@ -10,17 +10,28 @@ function getData(){
         'module_type':$('#module_type').val(),
         'limit':$('#limit').val()
 	};
-
     //console.log('getData()',p);
-
 	$('#results').html("Loading...");
 	$('#results').load("ctrl.php",p,function(x){
 		dat = jQuery.parseJSON(x);
         //console.log(dat);
         showData($('#results'));
 	});
-
 }
+
+
+function downloadXls(){
+    var p={
+        'do':'search',
+        'user_id':$('#user_id').val(),
+        'search':$('#search').val(),
+        'course_id':$('#course_id').val(),
+        'module_type':$('#module_type').val(),
+        'limit':$('#limit').val()
+    };
+    document.location.href='download_xls.php?';
+}
+
 
 function showData(target){
 
@@ -69,12 +80,24 @@ function showData(target){
 
 function info()
 {
+    //
 	console.log('info()');
 }
 
 $(function(){
-	getData();
-	$('#search, #course_id, #module_type, #limit').change(function(){
+	
+    getData();
+    
+    $('#btn_download').click(function(){
+        var params ='&user_id='+$('#user_id').val();
+            params+='&course_id='+$('#course_id').val();
+            params+='&module_type='+$('#module_type').val();
+            params+='&limit='+$('#limit').val();
+        
+        document.location.href='download_xls.php?'+params;
+    });
+
+	$('#student_id, #course_id, #module_type, #limit').change(function(){
 		getData();
 	});
 	console.log('ready');

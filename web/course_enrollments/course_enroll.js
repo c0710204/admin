@@ -50,6 +50,7 @@ function dispEnroll(json, target){
     h.push("<th>First name</th>");
     h.push("<th>Last name</th>");
     h.push("<th>Email</th>");
+    h.push("<th>Progress</th>");
 
     h.push("<th>Joined</th>");
     h.push("</thead>");
@@ -60,6 +61,7 @@ function dispEnroll(json, target){
         h.push('<td>'+v.first_name);
         h.push('<td>'+v.last_name);
         h.push('<td>'+v.email);
+        h.push('<td><a href="../progress/?user_id='+v.user_id+'">'+v.progress);
         h.push('<td>'+v.created);
         h.push('</tr>');
     });

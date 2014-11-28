@@ -16,6 +16,7 @@ if (count($courses)) {
     $body[]= "<th width=30>x</th>";
     $body[]= "</thead>";
     $body[]= "<tbody>";
+    
     foreach ($courses as $k => $r) {
         //print_r($r);
         $body[]= "<tr>";
@@ -60,7 +61,7 @@ $title=count($courses)." course enrollment";//student_courseenrollment
 $box=new Admin\SolidBox;
 $box->icon("fa fa-book");
 $box->title($title);
-$box->collapsed(true);
+//$box->collapsed(true);
 echo $box->html($body, $footer);
 
 ?>

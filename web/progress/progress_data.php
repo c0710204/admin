@@ -29,7 +29,7 @@
     <?php 
     //table edxapp.courseware_studentmodule
     $progressData=$edxapp->courseUnitData($course_id, $user_id);
-    //echo "<li>".count($progressData)." records<hr />";
+    echo "<li>".count($progressData)." records<hr />";
     $DAT=[];
 
     foreach ($progressData as $r) {
