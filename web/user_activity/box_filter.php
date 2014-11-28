@@ -63,26 +63,15 @@ $body[]="<select class='form-control' id='module_type'>";
 $body[]="<option value=''>Select module type</option>";
 
 $list=[];
-/*
+
+//SELECT module_type, count(module_type) FROM `courseware_studentmodule` WHERE 1 GROUP BY module_type;
 $list[]="Chapter";
-$list[]="Combinedopenended";
 $list[]="Course";
 $list[]="Problem";
 $list[]="Sequential";
+$list[]="Survey";
 $list[]="Video";
-*/
-// from edxapp->categoryIcon
-$ICON['course']="<i class='fa fa-book' title='Course'></i>";
-$ICON['combinedopenended']="<i class='fa fa-book' title='combinedopenended'></i>";
-$ICON['chapter']="<i class='fa fa-bookmark' title='Chapter'></i>";
-$ICON['discussion']="<i class='fa fa-comments' title='Discussion'></i>";
-$ICON['sequential']="<i class='fa fa-caret-square-o-right' title='Sequencial'></i>";
-$ICON['textbook']="<i class='fa fa-file-pdf-o' title='Textbook'></i>";
-$ICON['vertical']="<i class='fa fa-arrow-down' title='Vertical'></i>";
-$ICON['html']="<i class='fa fa-code' title='Html'></i>";
-$ICON['video']="<i class='fa fa-film' title='Video'></i>";
-$ICON['peergrading']="<i class='fa fa-question' title='Peergrading'></i>";
-$ICON['problem']="<i class='fa fa-question-circle' title='Problem'></i>";
+
 
 foreach ($ICON as $module=>$icon) {
     $body[]="<option value='$module'>".ucfirst($module)."</option>";

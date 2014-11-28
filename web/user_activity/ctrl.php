@@ -41,15 +41,16 @@ switch ($_POST['do']) {
             $where[]="module_type LIKE '".$_POST['module_type']."'";
         }
 
-
         if ($_POST['course_id']) {
             $where[]="course_id LIKE '".$_POST['course_id']."'";
         }
+
         $_POST['limit']*1;
         $data=$edxapp->studentCourseActivity($_POST['user_id'], $where, $_POST['limit']);
         foreach ($data as $k => $dat) {
             $data[$k]['module_name']=$edxcourse->unitName($dat['module_id']);
         }
+
         echo json_encode($data);
         exit;
         break;
@@ -57,7 +58,6 @@ switch ($_POST['do']) {
     default:
         die("Error: unknow action");
         break;
-
 }
 
 

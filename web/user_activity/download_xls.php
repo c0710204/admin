@@ -35,7 +35,7 @@ $WHERE[]='1=1';// jambonbill
 
 if($_GET['user_id']>1)$WHERE[]='student_id='.$_GET['user_id'];// jambonbill
 if($_GET['course_id'])$WHERE[]="course_id LIKE ".$admin->db()->quote($_GET['course_id']);
-if($_GET['module_type']>1)$WHERE[]="module_type LIKE ".$admin->db()->quote($_GET['module_tye']);
+if($_GET['module_type']>1)$WHERE[]="module_type LIKE ".$admin->db()->quote($_GET['module_type']);
 if($_GET['limit']>1){
     $limit=$_GET['limit']*1;
 }else{
