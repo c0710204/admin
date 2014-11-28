@@ -135,7 +135,7 @@ class XLSXWriter
         foreach ($data as $i => $row) {
             $file->write('<row collapsed="false" customFormat="false" customHeight="false" hidden="false" ht="12.1" outlineLevel="0" r="'.($i+$header_offset+1).'">');
             foreach ($row as $k => $v) {
-                $this->writeCell($file, $i+$header_offset, $k, $v, $cell_formats_arr[$k]);
+                @$this->writeCell($file, $i+$header_offset, $k, $v, $cell_formats_arr[$k]);
             }
             $file->write('</row>');
         }

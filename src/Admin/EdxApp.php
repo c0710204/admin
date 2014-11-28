@@ -493,6 +493,24 @@ class EdxApp
         return $r['username'];
     }
 
+    
+    /**
+    *return the id of a given username 
+    */
+    public function usernameId($username='')
+    {
+        $username=trim($username);
+        if (!$username) {
+            return false;
+        }
+
+        $sql="SELECT id FROM edxapp.auth_user WHERE username LIKE ".$this->db->quote($username).";";
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        $r=$q->fetch(\PDO::FETCH_ASSOC);
+        
+        return $r['id'];
+    }
+
 
 
     /**
