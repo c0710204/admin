@@ -1,3 +1,6 @@
+<?php 
+exit;// unused
+?>
 <div class="box box-primary">
 
     <div class="box-header">

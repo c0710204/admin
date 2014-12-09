@@ -1,7 +1,8 @@
 <?php
 // User courses (last) activity
+// quite a big box for a small info, so it's replaced by a line in the user info box
 
-$data=$edxApp->studentCourseActivity($USERID, [], 5);
+$data=$edxApp->studentCourseActivity($USERID, [], 1);
 //print_r($data);
 
 $body=[];

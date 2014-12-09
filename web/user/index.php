@@ -56,7 +56,7 @@ if (!$usr || !$up) {
     <?php
     //include "user_info.php";
     include "user_profile.php";
-    include "user_activity.php";
+    //include "user_activity.php";
     ?>
     </section>
 

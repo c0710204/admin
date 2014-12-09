@@ -24,9 +24,9 @@ $body[]='</div>';
 $body[]='</div>';
 
 
-
-// First name / Last name
-
+///////////////////////////////
+// First name - Last name
+///////////////////////////////
 $body[]='<div class="row">';
 
 $body[]='<div class="col-sm-6">';
@@ -45,15 +45,10 @@ $body[]='</div>';
 
 
 
-
-// Date joined / Last login
-
+///////////////////////////////
+// Date joined - Last login
+///////////////////////////////
 $body[]='<div class="row">';
-
-$body[]='<div class="col-sm-6">';
-$body[]='<div class=form-group><label>Date joined :</label> ' . substr($usr['date_joined'], 0, 10);
-$body[]='</div>';
-$body[]='</div>';
 
 $body[]='<div class="col-sm-6">';
 $body[]='<div class=form-group><label>Last login :</label> ';
@@ -62,12 +57,37 @@ if (preg_match("/0000/", $usr['last_login'])) {
 } else {
     $body[]=substr($usr['last_login'], 0, 10);
 }
-$body[]='</div>';
-$body[]='</div>';
+$body[]='</div></div>';
+
+$body[]='<div class="col-sm-6">';
+$body[]='<div class=form-group><label>Date joined :</label> ' . substr($usr['date_joined'], 0, 10);
+$body[]='</div></div>';
 
 $body[]='</div>';
 
 
+
+///////////////////////////////
+// Last activity
+///////////////////////////////
+$data=$edxApp->studentCourseActivity($USERID, [], 1);
+
+if (count($data[0])) {
+    //print_r($data[0]);//debug
+
+    $data[0]['modified']=str_replace(date("Y-m-d"), "", $data[0]['modified']);
+    $courseName=$edxApp->courseName($data[0]['course_id']);
+    
+    $body[]='<div class="row">';
+
+    $body[]='<div class="col-sm-12">';
+    $body[]='<div class=form-group><label>Last activity : </label> ' . substr($data[0]['modified'],0,16);
+    $body[]=" on <a href='../course/?id=".$data[0]['course_id']."'>$courseName</a>";
+    $body[]='</div></div>';
+
+    
+    $body[]='</div>';
+}
 
 
 
