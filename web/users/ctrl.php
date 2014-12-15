@@ -16,10 +16,19 @@ $edxapp= new EdxApp();
 switch($_POST['do']){
 
     case 'createUser':
-        $created=$edxapp->userCreate($_POST['email']);
+        
+        // check if user exist first //
+        if ($user_id=$edxapp->userExist($_POST['email'])) {
+            echo "alert('This user already exist !');\n";
+            die("document.location.href='../user/?id=$user_id';\n");
+        }
+
+        $user_id=$edxapp->userCreate($_POST['email']);
         //var_dump($created);
-        if ($created) {
-            die("document.location.href='?';\n");
+        if ($user_id) {
+            die("document.location.href='../user/?id=$user_id';\n");
+        } else {
+            die("alert('error creating user');");
         }
         break;
 
@@ -117,15 +126,22 @@ switch($_POST['do']){
         echo "<hr />";
         //echo "<h3>Mail : $user[email]</h3>";
         echo "<h4>Date joined: ".substr($user['date_joined'], 0, 16)."</h4>";
-        echo "<h4>Last login : ".substr($user['last_login'], 0, 16)."</h4>";
-        // courseware (what is that last user action)
-        $lastunit = $edxapp->userLastAction($user['id']);
-        if ($lastunit) {
+        
 
-            echo "<h4>Last action : <a href='../course_unit/?id=".$lastunit['module_id']."'>".$lastunit['modified']." ";
-            echo basename($lastunit['module_id'])."</a></h4>";
-            //echo "<pre>";print_r($lastunit);echo "</pre>";
+        if(preg_match("/0000/",$user['last_login'])){
+            // no login
+        } else {
+            echo "<h4>Last login : ".substr($user['last_login'], 0, 16)."</h4>";
+        
+            // courseware (what is that last user action)
+            $lastunit = $edxapp->userLastAction($user['id']);
+            if ($lastunit) {
+                echo "<h4>Last action : <a href='../course_unit/?id=".$lastunit['module_id']."'>".$lastunit['modified']." ";
+                echo basename($lastunit['module_id'])."</a></h4>";
+                //echo "<pre>";print_r($lastunit);echo "</pre>";
+            }    
         }
+        
         
         echo "<hr />";
         
@@ -135,24 +151,30 @@ switch($_POST['do']){
             echo "<table class='table table-condensed'>";
             foreach ($courses as $course) {
                 echo "<tr>";
-                echo "<td><a href='../course/?id=".$course['course_id']."'>".$edxapp->courseName($course['course_id']);
+                echo "<td><i class='fa fa-book'></i> <a href='../course/?id=".$course['course_id']."'>".ucfirst(strtolower($edxapp->courseName($course['course_id'])));
+                
+                $ORG=explode("/",$course['course_id'])[0];
+                echo " <i class=text-muted>$ORG</i>";
+                
                 echo "<td style='text-align:right'>".substr($course['created'], 0, 10);
             }
             echo "</table>";
 
         } else {
-            echo "<h4><b>No enrollment</b></h4>";
+            //echo "<h4><b>No enrollment</b></h4>";
+            echo "<div class=form-group><label><i class='fa fa-warning' style='color:#c00'></i> Warning : </label>  No enrollment";
         }
 
-
-
-        echo "<hr />";
-        echo "<a href='../user/?id=".$user['id'].">' class='btn btn-primary'><i class='fa fa-arrow-circle-right'></i> More about ".$user['username']."</a>";
 
         if (!$user['password']) {
-            echo "<hr />";
-            echo "<pre>Warning: No password</pre>";
+            //echo "<hr />";
+            //echo "<pre>Warning: No password</pre>";
+            echo "<div class=form-group><label><i class='fa fa-warning' style='color:#c00'></i> Warning : </label>  No password";
         }
+
+        // More info button
+        echo "<hr />";
+        echo "<a href='../user/?id=".$user['id'].">' class='btn btn-primary'><i class='fa fa-arrow-circle-right'></i> More about ".$user['username']."</a>";
         exit;
         break;
 

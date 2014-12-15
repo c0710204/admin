@@ -49,6 +49,15 @@ $htm[]="<a href='./stats.php' class='btn btn-default'>Pop</a>";
 $htm[]="</div></div>";
 */
 
+// Button create user
+$htm[]="<div class='col-sm-1'>";
+$htm[]="<div class='form-group'>";
+$htm[]="<label>New</label><br />";
+$htm[]="<a href=#create class='btn btn-primary' id=btnCreateUser><i class='fa fa-user'></i> Create a user</a>";
+$htm[]="</div></div>";
+
+
+
 $htm[]="</div>";//end row
 
 $box=new Admin\SolidBox;

@@ -106,36 +106,57 @@ function getUserInfo(uid){
 	});
 }
 
+
+
 function addUser(){
 
 	var p=prompt("Enter user email");
 	if(!p)return false;
 
-	if(!confirm("Confirm create user "+p+" ?"))return false;
-
-	$('#details').html("loading");
-	$('#details').load("ctrl.php",{'do':'createUser','email':p},function(x){
-		try{eval(x);}
-		catch(e){alert(x);}
+	$.cookie('searchStr',p);
+	
+	//if(!confirm("Confirm create user "+p+" ?"))return false;
+	
+	$("#boxdetails .overlay, #boxdetails .loading-img").show();
+	$('#boxdetails .box-body').load("ctrl.php",{'do':'createUser','email':p},function(x){
+		try{
+			eval(x);
+			$("#boxdetails .overlay, #boxdetails .loading-img").hide();
+		}
+		catch(e){
+			alert(x);
+		}
 	});
 }
 
 
+/*
 function showNewUsers(){
 	$('#newModal').modal({'show':true});
 }
 
+
 function createUsers(){
 	var emails=$('#emails').val();
-	$('#details').html("loading");
-	$('#details').load("ctrl.php",{'do':'createUsers','emails':emails},function(x){
+	$('#boxdetails').html("loading");
+	$('#boxdetails').load("ctrl.php",{'do':'createUsers','emails':emails},function(x){
 		alert(x);
 	});
 }
+*/
+
 
 // bang //
 $( document ).ready(function() {
-    console.log( "ready" );
+    
+    //console.log( "ready" );
+	
+	$('#btnCreateUser').click(function(){
+		//alert('#btnCreateUser');
+		addUser();
+	});
+
+
     $('#searchStr, #date_joined, #status, #limit').change(function(){
     	getUserData();
     });

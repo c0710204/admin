@@ -23,7 +23,7 @@ if (count($courses)) {
         //$body[]= "<td>".$r['id'];
         //$body[]= "<td>".explode("/", $r['course_id'])[0];//org
 
-        $body[]= "<td><a href=../course/?course_id=".$r['course_id']." title='".$r['course_id']."'>".$edxApp->courseName($r['course_id']);
+        $body[]= "<td><a href=../course/?course_id=".$r['course_id']." title='".$r['course_id']."'>".ucfirst(strtolower($edxApp->courseName($r['course_id'])));
 
         if (!$edxCourse->exist($r['course_id'])) {
             $body[]= " <span class='label label-danger'>not found</span>";
@@ -52,7 +52,7 @@ $footer=[];
 $footer[]="<select id=course class='form-control' onchange='enroll()'>";
 $footer[]="<option value=''>Select course to enroll</option>";
 foreach ($edxApp->courseids() as $courseId) {
-    $footer[]="<option value='$courseId'>".$edxApp->courseName($courseId)."</option>";
+    $footer[]="<option value='$courseId'>".ucfirst(strtolower($edxApp->courseName($courseId)))."</option>";
 }
 $footer[]="</select>";
 

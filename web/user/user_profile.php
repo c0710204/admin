@@ -56,6 +56,7 @@ if (preg_match("/0000/", $usr['last_login'])) {
     $body[]="<i class=text-muted>No login</i>";
 } else {
     $body[]=substr($usr['last_login'], 0, 10);
+    $body[]=" <i class=text-muted>(x days ago)</i>";
 }
 $body[]='</div></div>';
 
@@ -72,24 +73,38 @@ $body[]='</div>';
 ///////////////////////////////
 $data=$edxApp->studentCourseActivity($USERID, [], 1);
 
-if (count($data[0])) {
+if (is_array($data) && count($data)) {
     //print_r($data[0]);//debug
 
     $data[0]['modified']=str_replace(date("Y-m-d"), "", $data[0]['modified']);
     $courseName=$edxApp->courseName($data[0]['course_id']);
     
     $body[]='<div class="row">';
-
     $body[]='<div class="col-sm-12">';
     $body[]='<div class=form-group><label>Last activity : </label> ' . substr($data[0]['modified'],0,16);
     $body[]=" on <a href='../course/?id=".$data[0]['course_id']."'>$courseName</a>";
     $body[]='</div></div>';
-
-    
+    $body[]='</div>';
+} else {
+    $body[]='<div class="row">';
+    $body[]='<div class="col-sm-12">';
+    $body[]='<div class=form-group><label><i class="fa fa-warning" style="color:#c00"></i> Last activity : </label>  No course activity';
+    $body[]='</div></div>';
     $body[]='</div>';
 }
 
 
+///////////////////////////////
+// Password (a user with no passord is 'stuck')
+///////////////////////////////
+if(!$usr['password']){
+    //print_r($usr['password']);
+    $body[]='<div class="row">';
+    $body[]='<div class="col-sm-12">';
+    $body[]='<div class=form-group><label><i class="fa fa-warning" style="color:#c00"></i> Warning : </label>  No password';
+    $body[]='</div></div>';
+    $body[]='</div>';
+}
 
 
 // checkboxes //
@@ -120,6 +135,7 @@ $box=new Admin\Box;
 $box->id("boxuserinfo");
 $box->type("primary");
 $box->title($title);
+$box->loading(true);
 echo $box->html($body, $footer);
 
 echo "<div id=more></div>";
@@ -139,14 +155,15 @@ function saveUserInfo(){
         'user_id':userid
     };
 
-    $("#more").load("ctrl.php",p,function(x){
+    $("#boxuserinfo .overlay, #boxdetails .loading-img").show();
+    $("#boxuserinfo .box-body").load("ctrl.php",p,function(x){
         try{eval(x);}
         catch(e){alert(x);}
     });
 }
 
 function resetPassword(){
-    var p=prompt("Set new password");
+    var p=prompt("Set new password",generatePassword());
     if(!p)return false;
     var userid=$('#userid').val();
     $("#more").load("ctrl.php",{'do':'resetPassword','user_id':userid,'pass':p},function(x){
@@ -155,9 +172,22 @@ function resetPassword(){
     });
 }
 
+function generatePassword() {
+    var length = 8,
+        charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
+
 $(function(){
     $('#is_active').click(function(o){
         console.log("click",o);
     });
+
+    // stop the loading anim
+    $("#boxuserinfo .overlay, #boxuserinfo .loading-img").hide();
 })
 </script>

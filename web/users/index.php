@@ -23,7 +23,7 @@ $count=$q->fetchColumn();
 
 
 <div class="row">
-<section class="col-lg-12 connectedSortable">
+<section class="col-xs-12 connectedSortable">
 <?php
 include "box_search.php";
 ?>
@@ -32,7 +32,7 @@ include "box_search.php";
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-7 connectedSortable">
+    <section class="col-xs-7 connectedSortable">
         <?php
         //results
         $box=new Admin\SolidBox;
@@ -48,7 +48,7 @@ include "box_search.php";
     </section>
 
     <!-- Right col -->
-    <section class="col-lg-5 connectedSortable">
+    <section class="col-xs-5 connectedSortable">
 
         <?php
         $box=new Admin\Box;
