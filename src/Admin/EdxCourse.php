@@ -116,11 +116,16 @@ class EdxCourse
     }
 
 
-    // set org
+    /**
+     * Set org (limit to org)
+     * @param  [type] $str [description]
+     * @return [type]      [description]
+     */
     public function org($str)
     {
         $this->org=$str;
     }
+
 
     // set name
     // do not use, obsolete
@@ -128,6 +133,7 @@ class EdxCourse
     {
         $this->name=$str;
     }
+
 
     // set course
     // do not use, obsolete
@@ -717,7 +723,7 @@ class EdxCourse
     public function unitChildrens($unit_id)
     {
         if (!preg_match("/^i4x/", $unit_id)) {
-            return false;
+            return [];
         }
 
         $ids=explode("/", $unit_id);
@@ -725,9 +731,12 @@ class EdxCourse
         $course=$ids[3];
         $category=$ids[4];
         $name=$ids[5];
-        $filter=["_id.org"=>$org, "_id.course"=>$course, "_id.name"=>$name];
+        $filter=["_id.org"=>$org, "_id.course"=>$course, "_id.name"=>$name,'_id.revision'=>null];//
         $dat=$this->modulestore->findOne($filter);
-        return $dat['definition']['children'];
+        if(is_array($dat['definition']['children'])){
+            return $dat['definition']['children'];
+        }
+        return [];
     }
 
 
@@ -747,7 +756,7 @@ class EdxCourse
         $course=$ids[3];
         $category=$ids[4];
         $name=$ids[5];
-
+        //print_r($ids);
         $filter=["_id.org"=>$org, "_id.course"=>$course, "_id.name"=>$name];
 
         $dat=$this->modulestore->findOne($filter);
@@ -800,7 +809,7 @@ class EdxCourse
 
 
     /**
-     * Return he list of chapters
+     * Return the list of chapters for a given course_id
      * @return [type] [description]
      */
     public function chapters($courseid = '')
@@ -811,9 +820,9 @@ class EdxCourse
             $org=$o[0];
             $course=$o[1];
             $name=$o[2];
-            $filter=['_id.org'=>$org,'_id.course'=>$course, '_id.category'=>'course'];
+            $filter=['_id.org'=>$org,'_id.course'=>$course, '_id.category'=>'course','_id.revision'=>null];
         } else {
-            $filter=['_id.org'=>$this->org,'_id.course'=>$this->course, '_id.category'=>'course'];//'_id.name'=>$this->name,
+            $filter=['_id.org'=>$this->org,'_id.course'=>$this->course, '_id.category'=>'course','_id.revision'=>null];//'_id.name'=>$this->name,
         }
         //print_r($filter);
         $course=$this->modulestore->findOne($filter);
@@ -828,6 +837,34 @@ class EdxCourse
             $chapters[]=[$section_id, $this->unitName($section_id)];
         }
         return $chapters;
+    }
+
+
+    /**
+     * Return a list of relevant course units, to compare with user logs, and compute progression
+     * @param  [type] $course_id [description]
+     * @return [type]            [description]
+     */
+    public function releventCourseUnits($course_id)
+    {
+        $rcu=[];//relevent course units
+
+        $chapters=$this->chapters($course_id);//list of chapters
+        foreach ($chapters as $k=>$chapter){
+            $rcu[]=$chapter[0];//chapter_id
+            foreach($this->unitChildrens($chapter[0]) as $sequence_id){//seq
+                $rcu[]=$sequence_id;
+                foreach ($this->unitChildrens($sequence_id) as $vertical_id) {
+                    // verticals are only structural elements, therefore, they are not 'seen' by the user, nor 'logged'
+                    foreach ($this->unitChildrens($vertical_id) as $children_id) {
+                        $type=explode('/', $children_id)[4];
+                        if($type == 'html')continue;// children type html are not logged as seen
+                        $rcu[]=$children_id;
+                    }
+                }
+            }
+        }
+        return $rcu;
     }
 
 

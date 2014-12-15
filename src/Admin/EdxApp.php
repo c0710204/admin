@@ -457,7 +457,7 @@ class EdxApp
 
 
     /**
-     * Return one user record
+     * Return one user record (deprecated, please use userData())
      * @param  integer $userid [description]
      * @return [type]          [description]
      */
@@ -473,6 +473,31 @@ class EdxApp
         $r=$q->fetch(\PDO::FETCH_ASSOC);
 
         return $r;
+    }
+
+    /**
+     * Same as function 'user', but work with a list of users instead
+     * @param  [type]
+     * @return [type]
+     */
+    public function userData($userids=[])
+    {
+        if(!$userids)return false;
+        if(!is_array($userids))return false;
+
+        for($i=0;$i<count($userids);$i++){
+            $userids[$i]*=1;
+        }
+
+        $sql="SELECT * FROM edxapp.auth_user WHERE id IN (".implode(",",$userids).");";
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        
+        $DAT=[];
+        while($r=$q->fetch(\PDO::FETCH_ASSOC)){
+            $DAT[$r['id']]=$r;
+        }
+
+        return $DAT;
     }
 
 
@@ -533,7 +558,7 @@ class EdxApp
 
 
     /**
-     * Create a active django user
+     * Create a active django/edx user
      * @param  string $email       must be unique, 75 chars max
      * @param  string $username    must be unique, 30 chars max
      * @param  string $first_name  first name, 30 chars max
@@ -555,8 +580,13 @@ class EdxApp
             return $uid;
         }
 
-        // $username=explode("@", $email)[0];// we take the first part of the email as username if we dont have anything better
-        
+        // first name must be set
+        if (!$username) {
+            $username=explode("@", $email)[0];// we take the first part of the email as username if we dont have anything better
+            //return false;
+        }
+
+        // 
         /*
         if ($first_name) {
             $username=$first_name;//username
@@ -999,6 +1029,7 @@ class EdxApp
     }
 
 
+
     /**
      * Return the number of units `seen` per user per course
      * @param  string  $course_id [description]
@@ -1015,27 +1046,75 @@ class EdxApp
         return $r['COUNT(*)'];
     }
 
+
     /**
      * Return courseware_studentmodule records per user per course
      * @param  string  $course_id [description]
      * @param  integer $user_id   [description]
      * @return [type]             [description]
      */
-    public function courseUnitData($course_id = '', $user_id = 0)
+    public function courseUnitData($course_id = '', $user_id = 0, $module_type='')
     {
         $user_id*=1;
         if (!$course_id || !$user_id) {
             return false;
         }
 
-        $sql="SELECT * FROM edxapp.courseware_studentmodule WHERE course_id LIKE '$course_id' AND student_id=$user_id;";
+        $WHERE=[];
+        $WHERE[]="course_id LIKE '$course_id'";
+        $WHERE[]="student_id=$user_id";
+        if ($module_type) {
+            $WHERE[]="module_type LIKE '$module_type'";
+        }
+
+        $sql ="SELECT * FROM edxapp.courseware_studentmodule ";
+        $sql.="WHERE " . implode(" AND ", $WHERE) . ";";
+        
         $q=$this->db->query($sql) or die("<pre>".print_r($this->db->errorInfo(), true)."</pre>");
+        
         $DAT=[];
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             $DAT[]=$r;
         }
         return $DAT;
     }
+
+    
+
+    /**
+     * Return a simplified progress data array for a selection of users
+     * @return a progress data array for a selection of users
+     */
+    public function progressData($course_id = '', $user_ids = [])
+    {
+        
+        if (!$course_id || !$user_ids) {
+            return false;
+        }
+
+        for($i=0;$i<count($user_ids);$i++)$user_ids[$i]*=1;//force to int
+
+        if(!count($user_ids)){
+            return false;
+        }
+
+        $WHERE=[];
+        $WHERE[]="course_id LIKE '$course_id'";
+        $WHERE[]="student_id IN (" . implode(",",$user_ids) . ")";
+        
+        $sql ="SELECT student_id, module_id FROM edxapp.courseware_studentmodule ";
+        $sql.="WHERE " . implode(" AND ", $WHERE) . ";";
+
+        $q=$this->db->query($sql) or die("<pre>".print_r($this->db->errorInfo(), true)."</pre>");
+        
+        $DAT=[];
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            $DAT[$r['student_id']][]=$r['module_id'];
+        }
+        return $DAT;
+    }
+
+
 
     /**
      * Return a group name
@@ -1253,6 +1332,7 @@ class EdxApp
 
     /**
      * Return a fa icon (html) for a given category
+     * It would be better to send only the class name ..
      * @param  string $category [description]
      * @return string           [description]
      */
