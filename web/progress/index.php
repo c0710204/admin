@@ -11,13 +11,18 @@ $edxCourse = new Admin\EdxCourse();
 
 $admin->title("Progress");
 echo $admin->printPrivate();
-//$user=$admin->user;
+
 $course_id=@$_GET['course_id'];
 $user_id=@$_GET['user_id']*1;
+
 if($user=$edxApp->user($user_id)){
     //print_r($user);
+    $username="<a href=../user/?id=$user_id>".$user['username']."</a>";
     $name="<a href=../user/?id=$user_id>".$user['username']." - ".$user['email']."</a>";
 }
+
+echo "<input type='hidden' id=user_id value='$user_id'>";
+echo "<input type='hidden' id=course_id value='$course_id'>";
 ?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -51,35 +56,11 @@ if (!$user_id) {
 }
 
 
-
-// list of courses //
+// a course must be selected
 if (!$course_id) {
-
-    echo "<a href=../user/?id=$user_id>$user_id</a>";
-    
-    //$ids=$edxapp->courseids();// get the complete list of courses
-    $ids=$edxApp->studentCourseEnrollment($user_id);//get the list of courses the user is registered in
-    //print_r($ids);
-    $html=[];
-    $html[]="<select id=courses class='form-control'>";
-    foreach($ids as $r){
-        $course_id=$r['course_id'];
-        $html[]="<option value='".$r['course_id']."'>".$r['course_id']."</option>";
-    }
-    $html[]="</select>";
-
-    $box=new Admin\SolidBox;
-    $box->type("danger");
-    $box->icon("fa fa-book");
-    $box->title("Select course");
-    
-    echo "<div class=row><section class='col-lg-6 connectedSortable'>";
-    echo $box->html($html);
-    echo "</section></div>";
-    //exit;
+    include "course_selector.php";
+    exit;
 }
-
-
 
 
 ?>
@@ -88,22 +69,22 @@ if (!$course_id) {
 <div class="row">
     
     <!-- Left col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-xs-6 connectedSortable">
     <?php 
     include "course_info.php";
     ?>
     </section>
     
     <!-- Left col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-xs-6 connectedSortable">
     <?php
     include "user_info.php";
     ?>
     </section>
 
 </div>
-<?php
 
+<?php
 if(!$user_id)die("Select a User from");
 
 //include "progress_data.php";
@@ -111,6 +92,27 @@ if(!$user_id)die("Select a User from");
 // User data
 // $sql = "SELECT * FROM edxapp.courseware.studentmodule WHERE student_id=$student_id AND course_id LIKE '$course_id';";
 // $progress=($edxapp->courseUnitSeen($course_id, $r['user_id'])/$unitCount)*100;
+?>
+<!-- Main row -->
+<div class="row">
+    
+    <!-- Left col -->
+    <section class="col-xs-6 connectedSortable">
+    <?php 
+    include "progress_overview.php";//show a simplified view of the progression per week
+        
+    include "progress_details.php";//exit;
+    //include "debug.php";//exit;
+    //include "problems.php";
+    ?>
+    </section>
+    
+    <!-- Left col -->
+    <section class="col-xs-6 connectedSortable">
+    <?php
+    include "progress_debug.php";
+    ?>
+    </section>
 
-include "debug.php";exit;
-include "problems.php";
+</div>
+
