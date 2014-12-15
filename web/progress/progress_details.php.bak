@@ -1,0 +1,114 @@
+<?php
+// progress details
+
+$progressData=$edxApp->progressData($course_id, [$user_id])[$user_id];// user progress data
+
+$x=explode("/", $_GET['course_id']);
+
+//$modulestore=$edxCourse->modulestore;
+//$filter=['_id.org'=>$x[0],'_id.course'=>$x[1], '_id.name'=>$x[2], '_id.category'=>'course'];
+//$course=$modulestore->findOne($filter);
+//echo "<pre>";print_r($course);
+
+$course=@$edxApp->courseUnitData($course_id, $user_id, 'course')[0];//get the course record
+var_dump($course);exit;
+//echo "<pre>";print_r($course);echo "</pre>";
+
+$sections = $course['definition']['children'];
+
+
+// list of logged module types 
+$allow=["chapter","course","problem","sequential","survey","video"];
+
+$elements=0;//count course elements
+
+// we start from here, because of the root item "course"
+
+$body=[];
+
+foreach ($sections as $section_id) {// Chapters
+
+    echo "<h3><i class='fa fa-bookmark-o'></i> <a href=../course_chapter/?id=$section_id>".ucfirst(strtolower($edxCourse->unitName($section_id)))."</a></h3>\n";//<small>$section_id</small>
+    
+    $sequence=$edxCourse->unitChildrens($section_id);
+
+    echo "<table class='table table-condensed table-striped'>";
+    echo "<thead>";
+    echo "<th width=16>ico</th>";
+    echo "<th width=100>type</th>";
+    echo "<th>name</th>";
+    echo "</thead>";
+    echo "<tbody>";
+    
+    $SEEN=[];
+    foreach ($sequence as $sequence_id) {        
+        
+        
+        
+        $ICO="<i class='fa fa-circle-o' style='color:#ccc'></i>";//default icon
+        
+        if (in_array($sequence_id, $progressData)) {
+            $ICO="<i class='fa fa-check-circle' style='color:green'></i>";
+            unset($progressData[array_search($sequence_id, $progressData)]);
+            $SEEN[]=1;
+        }else{
+            $SEEN[]=0;
+        }
+        $elements++;
+
+
+        echo "<tr>";
+        echo "<td>".$ICO;//ico
+        echo "<td>seq";//type
+        echo "<td>".ucfirst(strtolower($edxCourse->unitName($sequence_id)));
+                
+        foreach ($edxCourse->unitChildrens($sequence_id) as $vertical_id) {//verticals are only structure elements, they are not 'seen' or 'logged'
+            foreach ($edxCourse->unitChildrens($vertical_id) as $children_id) {
+            
+                $type=explode('/', $children_id)[4];
+                
+                if(!in_array($type, $allow)){
+                    //echo "<li>type $type not allowed";
+                    continue;// skip unwanted childrens
+                }
+
+                $ICO="<i class='fa fa-circle-o' style='color:#ccc'></i>";//default icon
+
+                if (in_array($children_id, $progressData)) {
+                    $ICO="<i class='fa fa-check-circle' style='color:green'></i>";//seen icon
+                    $SEEN[]=1;
+                    unset($progressData[array_search($children_id, $progressData)]);
+                } else{
+                    $SEEN[]=0;
+                }
+                $elements++;
+                
+                echo "<tr>";
+                echo "<td>".$ICO;//ico
+                echo "<td>$type";//type
+                echo "<td title='$children_id'>".$edxCourse->unitName($children_id)."<br />\n";  
+
+            }
+        }
+        echo "</tr>";
+    }
+
+    echo "</tbody>";
+    echo "<tfoot>";
+    echo "<tr>";
+    echo "<td>".count($SEEN)."</td>";//
+    echo "<td>Progress:</td>";//
+    $PCT=(array_sum($SEEN)/count($SEEN))*100;
+    echo "<td>".round($PCT)." %</td>";//
+    //echo "<td>progress</td>";//
+    echo "</tfoot>";
+    echo "</table>";
+}
+
+
+
+$box=new Admin\SolidBox;
+$box->icon("fa fa-eye");
+$box->title("Progress details");
+
+echo $box->html($body,$foot);
