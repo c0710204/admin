@@ -36,6 +36,7 @@ function getEnrollData(){
     r.fail(function(a,b,c){
         console.log('fail',a,b,c);
         $("#boxenroll .box-body").html(a.responseText);
+        $("#boxenroll .overlay, #boxenroll .loading-img").hide();
     });
 }
 
@@ -45,21 +46,21 @@ function dispEnroll(json, target){
     var h=[];
     h.push("<table class='table table-striped table-condensed'>");
     h.push("<thead>");
-    h.push("<th>User</th>");
+    h.push("<th><i class='fa fa-user'></i> User</th>");
     
-    h.push("<th>First name</th>");
-    h.push("<th>Last name</th>");
-    h.push("<th>Email</th>");
+    //h.push("<th>First name</th>");
+    //h.push("<th>Last name</th>");
+    h.push("<th><i class='fa fa-envelope'></i> Email</th>");
     h.push("<th>Progress</th>");
 
-    h.push("<th>Joined</th>");
+    h.push("<th><i class='fa fa-calendar'></i> Joined</th>");
     h.push("</thead>");
     h.push("<tbody>");
     $.each(json,function(k,v){
         h.push('<tr>');
         h.push('<td><a href=../user/?id='+v.user_id+'>'+v.username);
-        h.push('<td>'+v.first_name);
-        h.push('<td>'+v.last_name);
+        //h.push('<td>'+v.first_name);
+        //h.push('<td>'+v.last_name);
         h.push('<td>'+v.email);
         h.push('<td><a href="../progress/?user_id='+v.user_id+'">'+v.progress);
         h.push('<td>'+v.created);

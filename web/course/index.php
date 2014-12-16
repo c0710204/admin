@@ -39,7 +39,7 @@ echo "<input type='hidden' id='course_id' value='$course_id'>";
 ?>
 
 <section class="content-header">
-    <h1><a href='../courses/'><i class='fa fa-book'></i></a> Course : <?php echo $edxapp->courseName($course_id)?></h1>
+    <h1><a href='../courses/'><i class='fa fa-book'></i></a> Course : <?php echo ucfirst(strtolower($edxapp->courseName($course_id)))?></h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-book"></i><?php echo explode('/', $course_id)[0]?></a></li>
         <li class="active"><?php echo explode('/', $course_id)[1]?></li>

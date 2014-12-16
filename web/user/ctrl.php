@@ -36,10 +36,13 @@ switch($_POST['do']){
         break;
 
     case 'resetPassword':
-        //print_r($_POST);
-        //$phpseccrypt= new PhpsecCrypt();
+        
+        if(strlen($_POST)<6) {
+            die('alert("Error : Password is too short !");');
+        }
+
         $password=$admin->django->djangopassword($_POST['pass']);
-        //$password=$phpseccrypt->djangopass($_POST['user_id'], $_POST['pass']);
+        
         if ($password) {
             $edxApp->updatePassword($_POST['user_id'], $password);
             die("document.location.href='?id=".$_POST['user_id']."'");

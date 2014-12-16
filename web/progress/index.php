@@ -19,6 +19,12 @@ if($user=$edxApp->user($user_id)){
     //print_r($user);
     $username="<a href=../user/?id=$user_id>".$user['username']."</a>";
     $name="<a href=../user/?id=$user_id>".$user['username']." - ".$user['email']."</a>";
+    
+    if (!$course_id) {
+        $ids=$edxApp->studentCourseEnrollment($user_id);//get the list of courses the user is registered in
+        //print_r($ids);
+        if(count($ids)==1)$course_id=$ids[0]['course_id'];
+    }
 }
 
 echo "<input type='hidden' id=user_id value='$user_id'>";

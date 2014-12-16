@@ -10,7 +10,6 @@ $body[]="<pre>edxApp->progressData ".print_r($progressdata,true)."</pre>";
 
 //echo "<li>".count($progressdata)." progressdata<br />";//print_r($data);
 //echo "<li>".count($rcu)." rcu<br />";//print_r($data);
-
 $body[]="<pre>edxCourse->releventCourseUnits ".print_r($rcu,true)."</pre>";
 
 
@@ -20,6 +19,6 @@ $pct=count($progressdata)/count($rcu)*100;
 
 $box=new Admin\SolidBox;
 $box->icon("fa fa-bug");
-$box->title("Progress debug");
+$box->title("Progress debug - ".round($pct)."%");
 
 echo $box->html($body);

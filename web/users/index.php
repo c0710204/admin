@@ -15,7 +15,7 @@ $count=$q->fetchColumn();
 ?>
 
 <section class="content-header">
-    <h1><i class="fa fa-users"></i> Users <small><?php echo "$count users";?></small></h1>
+    <h1><i class="fa fa-users"></i> Users <small><?php echo number_format($count)." users";?></small></h1>
 </section>
 
 <!-- Main content -->
@@ -26,6 +26,7 @@ $count=$q->fetchColumn();
 <section class="col-xs-12 connectedSortable">
 <?php
 include "box_search.php";
+include "box_courses.php";// modal
 ?>
 </div>
 

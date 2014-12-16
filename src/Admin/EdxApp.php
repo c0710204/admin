@@ -164,10 +164,12 @@ class EdxApp
 
     /**
      * Enroll given user into given course
+     * Warning : When enrolling, we must give the corresponding forum rights too !
      * @param  string  $course_id [description]
      * @param  integer $userid    [description]
      * @return [type]             [description]
      */
+    
     public function enroll($course_id = '', $user_id = 0, $created = '')
     {
         $user_id*=1;
@@ -186,6 +188,21 @@ class EdxApp
         if ($enrid=$this->enrolled($user_id, $course_id)) {
             return $enrid;
         }
+
+
+        // Subscribe to the course forums //
+        $roles=$this->clientRoles($course_id);
+        //print_r($roles);exit;
+        if (isset($roles['Student'])) {
+            $client_role_id=$roles['Student'];// get the student role id    
+            $this->clientRoleUserAdd($client_role_id, $user_id);
+        } else {
+            // error, no forum student role
+        }
+        
+        
+        // add the role to that user
+        
 
         // todo :: make sure the right mode is 'honor'
         $sql="INSERT INTO edxapp.student_courseenrollment (user_id, course_id, created, is_active, mode) ";
@@ -234,6 +251,19 @@ class EdxApp
         $user_id*=1;
         if (!$course_id || !$user_id) {
             return false;
+        }
+
+
+        // UnSubscribe to the course forums //
+        $roles=$this->clientRoles($course_id);
+        //print_r($roles);exit;
+        if (isset($roles['Student'])) {
+            $client_role_id=$roles['Student'];// get the student role id    
+            if($this->clientRoleUserDel($client_role_id, $user_id)){
+                //deleted
+            } else {
+                die("Error with clientRoleUserDel");
+            }
         }
 
         $sql ="DELETE FROM edxapp.student_courseenrollment ";
@@ -777,9 +807,27 @@ class EdxApp
     }
 
 
-    // forum
-    // forum
-    // forum
+    /**
+     * Return all the enrollment count statistics at once
+     * @return [type] [description]
+     */
+    public function enrollCounts()
+    {
+        $sql="SELECT course_id, COUNT(id) as count FROM edxapp.student_courseenrollment WHERE 1 GROUP BY course_id;";
+        $q=$this->db->query($sql) or die("<pre>error:$sql</pre>");
+        $DAT=[];
+        while($r=$q->fetch(\PDO::FETCH_ASSOC)){
+            $DAT[$r['course_id']]=$r['count'];
+        }
+        return $DAT;
+    }
+
+
+
+
+    // forum //
+    // forum //
+    // forum //
     
     
     /**
@@ -945,6 +993,28 @@ class EdxApp
         return $this->db->lastInsertId();
     }
 
+    /**
+     * Delete a user to a RoleGroup 
+     * (Forum groups, as "Administrator, Moderator, Student TA's, or Student")
+     * @param  integer $client_role_id [description]
+     * @param  integer $user_id        [description]
+     * @return [type]                  [description]
+     */
+    public function clientRoleUserDel($client_role_id = 0, $user_id = 0)
+    {
+        $client_role_id*=1;
+        $user_id*=1;
+        
+        if (!$client_role_id||!$user_id) {
+            return false;
+        }
+
+        $sql ="DELETE FROM edxapp.django_comment_client_role_users WHERE role_id=$client_role_id AND user_id=$user_id LIMIT 1;";
+        
+        $q=$this->db->query($sql) or die("$sql");
+        return true;
+    }
+
 
     /**
      * Delete one record from django_comment_client_role_users
@@ -962,6 +1032,15 @@ class EdxApp
         $q=$this->db->query($sql) or die("$sql");
         return true;
     }
+
+    // End of forum functions //
+    // End of forum functions //
+    // End of forum functions //
+
+
+
+
+
 
 
     /**

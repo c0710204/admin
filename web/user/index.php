@@ -63,7 +63,7 @@ if (!$usr || !$up) {
     <section class="col-sm-6 connectedSortable">
     <!-- Userprofile -->
     <?php
-    include "user_course_enrolment.php";
+    include "user_course_enrollment.php";
     //include "user_course_accessrole.php";
     include "user_certificates.php";
     include "user_drop.php";

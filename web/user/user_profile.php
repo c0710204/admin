@@ -78,7 +78,7 @@ if (is_array($data) && count($data)) {
 
     $data[0]['modified']=str_replace(date("Y-m-d"), "", $data[0]['modified']);
     $courseName=$edxApp->courseName($data[0]['course_id']);
-    
+    $courseName=ucfirst(strtolower($courseName));
     $body[]='<div class="row">';
     $body[]='<div class="col-sm-12">';
     $body[]='<div class=form-group><label>Last activity : </label> ' . substr($data[0]['modified'],0,16);
@@ -125,7 +125,7 @@ $body[]='</div>';
 
 
 $footer=[];
-$footer[]="<button class='btn btn-primary' onclick='saveUserInfo()'><i class='fa fa-save'></i> Save</button> ";
+$footer[]="<button class='btn btn-primary' onclick='saveUserInfo()'><i class='fa fa-save'></i> Save user profile</button> ";
 $footer[]="<button class='btn pull-right' onclick='resetPassword()'><i class='fa fa-lock'></i> Reset password</button>";
 
 
@@ -165,6 +165,10 @@ function saveUserInfo(){
 function resetPassword(){
     var p=prompt("Set new password",generatePassword());
     if(!p)return false;
+    if(p.length<6){
+        alert('Error : Password is too short !');
+        return false;
+    }
     var userid=$('#userid').val();
     $("#more").load("ctrl.php",{'do':'resetPassword','user_id':userid,'pass':p},function(x){
         try{eval(x);}

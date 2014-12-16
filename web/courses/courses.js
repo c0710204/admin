@@ -52,16 +52,16 @@ function renderList(json,target){
 
 	var htm=[];
 	htm.push('<table id=courselist class="table table-condensed table-striped">');
-	htm.push('<thead>');
-	htm.push('<th>Org</th>');
-	//htm.push('<th>Course</th>');
-	//htm.push('<th>Name</th>');
-	htm.push('<th>Display name</th>');
+	
+    htm.push('<thead>');
+	htm.push('<th><i class="fa fa-home"></i> Org</th>');
+	
+    htm.push('<th>Display name</th>');
 	htm.push('<th title="Enrollments">Enr.</th>');
     htm.push('<th title="Chapters">Chpt.</th>');
 	
-	htm.push('<th>Start</th>');
-	htm.push('<th>End</th>');
+	htm.push('<th><i class="fa fa-calendar"></i> Start</th>');
+	htm.push('<th><i class="fa fa-calendar"></i> End</th>');
 	htm.push('</thead>');
 	htm.push('<tbody>');
 

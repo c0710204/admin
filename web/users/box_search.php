@@ -49,7 +49,10 @@ $htm[]="<a href='./stats.php' class='btn btn-default'>Pop</a>";
 $htm[]="</div></div>";
 */
 
+
+/////////////////////////
 // Button create user
+/////////////////////////
 $htm[]="<div class='col-sm-1'>";
 $htm[]="<div class='form-group'>";
 $htm[]="<label>New</label><br />";

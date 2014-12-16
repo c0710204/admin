@@ -53,7 +53,7 @@ $course_id = $ID['org'].'/'.$ID['course'].'/permanent';
 <!-- Main row -->
 <div class="row">
     <!-- Left col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-xs-6 connectedSortable">
         <?php
         //include "box_info.php";
         include "box_location.php";
@@ -69,7 +69,7 @@ $course_id = $ID['org'].'/'.$ID['course'].'/permanent';
     </section>
 
     <!-- Right col -->
-    <section class="col-lg-6 connectedSortable">
+    <section class="col-xs-6 connectedSortable">
         <?php
         switch($unit['_id']['category']){
 

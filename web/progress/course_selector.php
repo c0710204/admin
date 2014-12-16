@@ -7,12 +7,9 @@
 // $ids=$edxapp->courseids();// get the complete list of courses
 $ids=$edxApp->studentCourseEnrollment($user_id);//get the list of courses the user is registered in
 
-//print_r($ids);
-
 $html=[];
 
 $html[]="$username is enrolled in ".count($ids)." course(s) :";
-
 $html[]="<select id=courses class='form-control'>";
 foreach($ids as $r){
     $course_id=$r['course_id'];

@@ -106,7 +106,7 @@ switch($_POST['do']){
         $profile=$edxapp->userprofile($_POST['uid']);
         $courses=$edxapp->studentCourseEnrollment($_POST['uid']);
 
-        echo "<h1>$user[username] <br /><small>$user[email]</small></h1>";
+        echo "<h2>$user[username] <br /><small><i class='fa fa-envelope'></i> $user[email]</small></h2>";
 
         // labels
         echo "<span class='label label-default'>#".$user['id']."</span> ";//id
@@ -125,38 +125,48 @@ switch($_POST['do']){
 
         echo "<hr />";
         //echo "<h3>Mail : $user[email]</h3>";
-        echo "<h4>Date joined: ".substr($user['date_joined'], 0, 16)."</h4>";
+        echo "<h4><i class='fa fa-calendar'></i> Date joined: ".substr($user['date_joined'], 0, 16)."</h4>";
         
 
         if(preg_match("/0000/",$user['last_login'])){
             // no login
         } else {
-            echo "<h4>Last login : ".substr($user['last_login'], 0, 16)."</h4>";
+            echo "<h4><i class='fa fa-calendar'></i> Last login : ".substr($user['last_login'], 0, 16)."</h4>";
         
             // courseware (what is that last user action)
+            /*
             $lastunit = $edxapp->userLastAction($user['id']);
             if ($lastunit) {
-                echo "<h4>Last action : <a href='../course_unit/?id=".$lastunit['module_id']."'>".$lastunit['modified']." ";
-                echo basename($lastunit['module_id'])."</a></h4>";
+                echo "<h4>Last action : <a href='../course_unit/?id=".$lastunit['module_id']."'> ";//".$lastunit['modified']."
+                echo basename($lastunit['module_id'])."</a>";
+                echo "</h4>";
                 //echo "<pre>";print_r($lastunit);echo "</pre>";
-            }    
+            }
+            */   
         }
         
         
         echo "<hr />";
         
+        ////////////////////////////
+        // Course enrollment
+        ////////////////////////////
         if (count($courses)) {
             echo "<h4>Enrolled in ".count($courses)." course(s)</h4>";
             //echo "<pre>";print_r($courses);echo "</pre>";
-            echo "<table class='table table-condensed'>";
+            echo "<table class='table table-condensed table-striped'>";
             foreach ($courses as $course) {
                 echo "<tr>";
                 echo "<td><i class='fa fa-book'></i> <a href='../course/?id=".$course['course_id']."'>".ucfirst(strtolower($edxapp->courseName($course['course_id'])));
                 
                 $ORG=explode("/",$course['course_id'])[0];
-                echo " <i class=text-muted>$ORG</i>";
+                echo " <i class='text-muted'>$ORG</i>";
                 
-                echo "<td style='text-align:right'>".substr($course['created'], 0, 10);
+                // Progress
+                //echo " <i class='pull-right'>33%</i>";
+                
+
+                //echo "<td style='text-align:right'>".substr($course['created'], 0, 10);
             }
             echo "</table>";
 
@@ -225,3 +235,4 @@ switch($_POST['do']){
 }
 
 exit;
+

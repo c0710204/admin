@@ -17,7 +17,7 @@ $edxCourse= new Admin\EdxCourse();
 ?>
 
 <section class="content-header">
-    <h1><i class="fa fa-book"></i> Courses <small></small></h1>
+    <h1><i class="fa fa-book"></i> Courses <small><a href='../course_enrollments/'>Courses enrollments</a></small></h1>
 </section>
 
 <!-- Main content -->

@@ -10,7 +10,7 @@ if (count($courses)) {
     $body[]="<table class='table table-condensed table-striped'>";
     $body[]= "<thead>";
     //$body[]= "<th>Org</th>";
-    $body[]= "<th>Course</th>";
+    $body[]= "<th><i class='fa fa-book'></i> Course</th>";
     $body[]= "<th>Progress</th>";
     $body[]= "<th width=100>Created</th>";
     $body[]= "<th width=30>x</th>";
@@ -44,17 +44,29 @@ if (count($courses)) {
     $body[]= "</table>";
 
 } else {
-    $body[]="<pre>No enrollment</pre>";
+    $body[]="<i class='fa fa-warning' style='color:#c00'></i> <b>No course enrollment</b>";
 }
 
 $footer=[];
-//$footer[]="<button class=btn>Enroll</button>";
-$footer[]="<select id=course class='form-control' onchange='enroll()'>";
+
+
+$footer[]="<div class=row>";
+
+$footer[]='<div class="col-sm-9">';
+$footer[]="<select id=course class='form-control'>";
 $footer[]="<option value=''>Select course to enroll</option>";
 foreach ($edxApp->courseids() as $courseId) {
     $footer[]="<option value='$courseId'>".ucfirst(strtolower($edxApp->courseName($courseId)))."</option>";
 }
 $footer[]="</select>";
+$footer[]="</div>";
+
+
+$footer[]='<div class="col-sm-3">';
+$footer[]="<button class='btn btn-default pull-right' id=btnEnroll><i class='fa fa-arrow-right'></i> Enroll</button>";
+$footer[]="</div>";
+
+$footer[]="</div>";
 
 $title=count($courses)." course enrollment";//student_courseenrollment
 
@@ -87,4 +99,10 @@ function disEnroll(course_id){
         catch(e){alert(x);}
     })
 }
+
+$(function(){
+    $('#btnEnroll').click(function(){
+        enroll();
+    });
+});
 </script>

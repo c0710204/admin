@@ -88,7 +88,7 @@ if ($cu && $progressdata) {
 
                     if(in_array($children_id, $progressdata))$CLASS='';
                     $body[]="<tr class='$CLASS'>";
-                    $body[]="<td width=20>".$ICON[$type];
+                    $body[]="<td width=20><a href='../course_unit/?id=$children_id'>".$ICON[$type]."</a>";
                     $body[]="<td>".$vertical_name;
                     //$body[]="<td>".$edxCourse->unitName($children_id);
                     
