@@ -37,7 +37,7 @@ switch($_POST['do']){
 
     case 'resetPassword':
         
-        if(strlen($_POST)<6) {
+        if(strlen($_POST['pass'])<6) {
             die('alert("Error : Password is too short !");');
         }
 
