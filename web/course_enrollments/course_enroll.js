@@ -56,13 +56,18 @@ function dispEnroll(json, target){
     h.push("<th><i class='fa fa-calendar'></i> Joined</th>");
     h.push("</thead>");
     h.push("<tbody>");
+    var rcu=$('#rcu').val();
     $.each(json,function(k,v){
         h.push('<tr>');
         h.push('<td><a href=../user/?id='+v.user_id+'>'+v.username);
         //h.push('<td>'+v.first_name);
         //h.push('<td>'+v.last_name);
         h.push('<td>'+v.email);
-        h.push('<td><a href="../progress/?user_id='+v.user_id+'">'+v.progress);
+        h.push('<td>');//progress
+        //if(v.progress>0){
+            var pct=Math.round((v.progress/rcu)*100);
+            h.push('<a href="../progress/?user_id='+v.user_id+'">'+pct+' %</a>');
+        //}
         h.push('<td>'+v.created);
         h.push('</tr>');
     });

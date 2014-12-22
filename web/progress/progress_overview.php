@@ -15,7 +15,7 @@ $cu=@$edxApp->courseUnitData($course_id, $user_id, 'course')[0];//get the course
 //$progressdata=[];
 //foreach($pd as $r)$progressdata[]=$r['module_id'];// lookup table
 
-$progressdata=@$edxApp->progressData($course_id, [$user_id])[$user_id];
+$progressdata=@$edxApp->progressData($course_id, [$user_id])[$user_id];//simplified version
 
 if ($cu && $progressdata) {
     
@@ -45,6 +45,7 @@ if ($cu && $progressdata) {
         $elements++;//the chapter is the 1st element
         
         $seen=0;
+        
         if(in_array($chapter_id, $progressdata))$seen++;
 
         foreach($edxCourse->unitChildrens($chapter_id) as $sequence_id){//seq

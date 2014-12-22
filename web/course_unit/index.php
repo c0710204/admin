@@ -113,11 +113,10 @@ $course_id = $ID['org'].'/'.$ID['course'].'/permanent';
 </div>
 
 
-
-
 <?php
 
 $unit = $edxCourse->unit($unit_id);
+
 //echo "<pre>"; print_r($unit); echo "</pre>";
 /*
 $childrens=$unit['definition']['children'];

@@ -15,6 +15,7 @@ echo $admin->printPrivate();
 
 $edxApp = new EdxApp();
 $edxCourse = new EdxCourse();
+$edxForum = new Admin\EdxForum();
 
 
 $USERID=$_GET['id']*1;
@@ -33,6 +34,7 @@ $up =$edxApp->userprofile($USERID);
     </ol>
 </section>
 
+
 <!-- Main content -->
 <section class="content">
 
@@ -46,6 +48,9 @@ if (!$usr || !$up) {
 }
 ?>
 
+<!-- Tiles -->
+<?php include "tiles.php";?>
+
 
 <!-- Main row -->
 <div class="row">
@@ -56,6 +61,7 @@ if (!$usr || !$up) {
     <?php
     //include "user_info.php";
     include "user_profile.php";
+    include "user_session.php";
     //include "user_activity.php";
     ?>
     </section>
@@ -65,7 +71,7 @@ if (!$usr || !$up) {
     <?php
     include "user_course_enrollment.php";
     //include "user_course_accessrole.php";
-    include "user_certificates.php";
+    //include "user_certificates.php";
     include "user_drop.php";
     ?>
     </section><!-- /.Col -->

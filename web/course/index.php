@@ -47,8 +47,10 @@ echo "<input type='hidden' id='course_id' value='$course_id'>";
     </ol>
 </section>
 
-<!-- Main content -->
+
 <section class="content">
+
+
 
 <?php
 if (!$edxCourse->exist($course_id)) {
@@ -56,6 +58,9 @@ if (!$edxCourse->exist($course_id)) {
     //exit;
 }
 ?>
+
+<!-- Tiles -->
+<?php include "tiles.php";?>
 
 <!-- Main row -->
 <div class="row">

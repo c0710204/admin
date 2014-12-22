@@ -12,4 +12,7 @@ $body=[];
 $body[]="Org : ".explode("/",$course_id)[0]."<br />";
 $body[]="<a href='../course/?id=$course_id'>$courseName</a>";
 
+
+// number // stats
+
 echo $box->html($body);

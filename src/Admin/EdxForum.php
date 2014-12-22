@@ -240,4 +240,16 @@ class EdxForum
 
         return true;
     }
+
+    /**
+     * Count the number of post for a given user
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public function postCount($user_id)
+    {
+        $cursor=$this->contents->find(["author_id"=>"$user_id"]);
+        return $cursor->count();
+    }
+
 }

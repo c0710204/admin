@@ -576,10 +576,12 @@ class EdxApp
     public function userProfile($userid = 0)
     {
         $userid*=1;
+        
         if (!$userid) {
             return false;
         }
-        $sql="SELECT * FROM edxapp.auth_userprofile WHERE user_id=$userid;";
+
+        $sql="SELECT * FROM edxapp.auth_userprofile WHERE user_id='$userid';";
         $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
         $r=$q->fetch(\PDO::FETCH_ASSOC);
         return $r;
@@ -1162,6 +1164,7 @@ class EdxApp
 
     /**
      * Return a simplified progress data array for a selection of users
+     * If you want the full version, look at the function courseUnitData($course_id = '', $user_id = 0)
      * @return a progress data array for a selection of users
      */
     public function progressData($course_id = '', $user_ids = [])
@@ -1485,4 +1488,65 @@ class EdxApp
 
         return true;
     }
+
+
+    // SESSIONS ////////////////
+    // SESSIONS ////////////////
+    // SESSIONS ////////////////
+    
+    /**
+     * return a tracking session record
+     * @param  string $session_id [description]
+     * @return [type]             [description]
+     */
+    public function tracking_session($session_id='')
+    {
+        // todo : check the session id format (32 chars)
+        if (!$session_id) {
+            return false;
+        }
+
+
+        $sql="SELECT * FROM edxapp.tracking_session WHERE session LIKE '$session_id' LIMIT 1;";
+        $q = $this->db->query($sql)  or die(print_r($this->db->errorInfo(), true));
+        $r=$q->fetch(\PDO::FETCH_ASSOC);
+        // todo : add some controls on r
+        return $r;
+    }
+
+    /**
+     * [sessions description]
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public function sessions($userids=[])
+    {        
+        if (!is_array($userids) || !count($userids)) {
+            return false;
+        }
+
+        $sql="SELECT * FROM edxapp.tracking_session WHERE user_id IN (".implode(',',$userids).") ORDER BY date_from DESC;";
+        $q = $this->db->query($sql)  or die(print_r($this->db->errorInfo(), true));
+        $DAT=array();
+        while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
+            //print_r($r);
+            $DAT[$r['user_id']][]=$r;
+        }
+        return $DAT;
+    }
+
+
+    public function tracking($session)
+    {
+        //
+        $sql="SELECT * FROM edxapp.tracking WHERE session LIKE '$session' ORDER BY time DESC;";
+        //echo "<pre>$sql</pre>";
+        $q = $this->db->query($sql)  or die(print_r($this->db->errorInfo(), true));
+        $DAT=[];
+        while($r=$q->fetch(\PDO::FETCH_ASSOC)){
+            $DAT[]=$r;
+        }
+        return $DAT;
+    }
+
 }

@@ -25,37 +25,35 @@ $user=$admin->user;
 </section>
 
 
+
+<section class="content">
+
 <!-- Tiles -->
-<section class="content">
 <?php include "tiles.php"; ?>
-</section>
 
-<!-- Main content -->
-<section class="content">
+<!-- Main row -->
+<div class="row">
+    <!-- Left col -->
+    <section class="col-sm-6 connectedSortable">
+    <?php
+    include "box_enrollments.php";
+    //include "box_registrations.php";//new regs
+    include "linechart.php";
+    ?>
+    </section><!-- /.Left col -->
 
-    <!-- Main row -->
-    <div class="row">
-        <!-- Left col -->
-        <section class="col-sm-6 connectedSortable">
-        <?php
-        include "box_enrollments.php";
-        //include "box_registrations.php";//new regs
-        include "linechart.php";
-        ?>
-        </section><!-- /.Left col -->
-
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-        <section class="col-sm-6 connectedSortable">
-        <?php
-        include "box_user.php";//new users
-        
-        //include "box_recentEnrollments.php";
-        include "box_recentActivity.php";
-        //include "box_session.php";
-        //include "box_tools.php";
-        ?>
-        </section><!-- right col -->
-    </div><!-- /.row (main row) -->
+    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+    <section class="col-sm-6 connectedSortable">
+    <?php
+    include "box_user.php";//new users
+    
+    //include "box_recentEnrollments.php";
+    include "box_recentActivity.php";
+    //include "box_session.php";
+    //include "box_tools.php";
+    ?>
+    </section><!-- right col -->
+</div><!-- /.row (main row) -->
 
 
 

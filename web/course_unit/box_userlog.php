@@ -18,7 +18,8 @@ while ($r=$q->fetch()) {
 //$body[]=count($dat)." records";
 
 if (count($dat)) {
-
+    echo count($dat)." user logs";
+    /*
     $body[]="<table class='table table-condensed table-striped'>";
     $body[]="<thead>";
     $body[]="<th>#</th>";
@@ -46,7 +47,7 @@ if (count($dat)) {
     }
     $body[]="</tbody>";
     $body[]="</table>";
-
+    */
 } else {
     $body[]= "<pre>No data</pre>";
 }

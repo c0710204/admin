@@ -107,7 +107,8 @@ if(!$user_id)die("Select a User from");
     <?php 
     include "progress_overview.php";//show a simplified view of the progression per week
         
-    include "progress_details.php";//exit;
+    include "progress_sessions.php";//exit;
+    //include "progress_details.php";//exit;
     //include "debug.php";//exit;
     //include "problems.php";
     ?>
@@ -116,7 +117,8 @@ if(!$user_id)die("Select a User from");
     <!-- Left col -->
     <section class="col-xs-6 connectedSortable">
     <?php
-    include "progress_debug.php";
+    include "box_more.php";
+    //include "progress_debug.php";
     ?>
     </section>
 
