@@ -498,16 +498,23 @@ class EdxCourse
 
     /**
      * Return the course metadata
-     * @param  [type] $course [description]
+     * 
+     * @param  [type] $course in mysql format : org/course/name
      * @return [type]         [description]
      */
     public function metadata($course_id = '')
     {
-        if ($course_id) {
+        //echo "metadata($course_id)";
+        if(preg_match("/^i4x\-/",$course_id)){
+            $x=explode("-", $course_id);
+            $filter=['_id.org'=>$x[1], "_id.course"=>$x[2],  "_id.category"=>"course"];
+        } else if ($course_id) {
             $x=explode("/", $course_id);
             $filter=['_id.org'=>$x[0], "_id.course"=>$x[1],  "_id.category"=>"course"];
-        } else {
+        } else if ($this->course && $this->org) {
             $filter=["_id.course"=>$this->course, '_id.org'=>$this->org, "_id.category"=>"course"];
+        } else {
+            return false;
         }
 
         $data=$this->modulestore->findOne($filter);//, ["_id"=>0]
@@ -673,26 +680,60 @@ class EdxCourse
     // Course unit //
     // Course unit //
 
-    public function unit($unit_id)
+    /**
+     * Make sur the unit id is in the standard format "i4x://..."
+     * @param  string $unit_id [description]
+     * @return [type]          [description]
+     */
+    public function format_unit_id($unit_id='')
     {
-        if (!preg_match("/^i4x/", $unit_id)) {
+        //echo "<li>format_unit($unit_id)\n";
+        $unit_id=trim($unit_id);
+        if(!$unit_id){
             return false;
         }
 
-        $ids=explode("/", $unit_id);
+        if (preg_match("/^i4x:/", $unit_id)) {
+            return $unit_id;//ok
+        }else if (preg_match("/^i4x\-/", $unit_id)) {
+            $ids=explode("-",$unit_id);
+            //print_r($ids);
+            return 'i4x://'.$ids[1].'/'.$ids[2].'/'.$ids[3].'/'.$ids[4];
+        } else {
+            echo "<li>format_unit() Unknow format : $unit_id";
+            return false;
+        }    
+        return $unit_id;
+    }
 
-        // i4x://q/q/sequential/2795f34a935447db93bc4362bc84e1d7
-        //
-        $org=$ids[2];
-        $course=$ids[3];
-        $category=$ids[4];
-        $name=$ids[5];
-
+    /**
+     * Return a course unit
+     * @param  string $unit_id [description]
+     * @return [type]          [description]
+     */
+    public function unit($unit_id='')
+    {
+        //echo "unit($unit_id)";
+        
+        if (preg_match("/^i4x\-/",$unit_id)) {// i4x-MJ-001-video-37b5a309dd1d44df9f2d07b62ad49c59
+            $ids=explode("-", $unit_id);//
+            $org=$ids[1];
+            $course=$ids[2];
+            $category=$ids[3];
+            $name=$ids[4];
+        } elseif(preg_match("/^i4x:\/\//",$unit_id)) {// i4x://q/q/sequential/2795f34a935447db93bc4362bc84e1d7
+            $ids=explode("/", $unit_id);
+            $org=$ids[2];
+            $course=$ids[3];
+            $category=$ids[4];
+            $name=$ids[5];
+        } else {
+            return false;
+        }
+        
         $filter=["_id.org"=>$org, "_id.course"=>$course, "_id.name"=>$name];
 
         return $this->modulestore->findOne($filter);
-
-
     }
 
 
@@ -701,9 +742,12 @@ class EdxCourse
      * @param  [type] $unit_id [description]
      * @return [type]          [description]
      */
-    public function unitParent($unit_id)
+    public function unitParent($unit_id = '')
     {
-        $filter=["definition.children"=>$unit_id];
+
+        //echo "<li>unitParent($unit_id)";
+
+        $filter=["definition.children"=>$this->format_unit_id($unit_id)];
         $dat=$this->modulestore->findOne($filter);
         //return $dat;
         //reconstruct unit id if possible
@@ -747,15 +791,23 @@ class EdxCourse
      */
     public function unitName($unit_id)
     {
-        if (!preg_match("/^i4x/", $unit_id)) {
+        if (preg_match("/^i4x:/", $unit_id)) {//i4x://q/q/sequential/2795f34a935447db93bc4362bc84e1d7
+            $ids=explode("/", $unit_id);
+            $org=$ids[2];
+            $course=$ids[3];
+            $category=$ids[4];
+            $name=$ids[5];    
+        } else if(preg_match("/^i4x-/", $unit_id)) {
+            $ids=explode("-", $unit_id);
+            $org=$ids[1];
+            $course=$ids[2];
+            $category=$ids[3];
+            $name=$ids[4]; 
+        } else {
             return false;
         }
 
-        $ids=explode("/", $unit_id);
-        $org=$ids[2];
-        $course=$ids[3];
-        $category=$ids[4];
-        $name=$ids[5];
+        
         //print_r($ids);
         $filter=["_id.org"=>$org, "_id.course"=>$course, "_id.name"=>$name];
 
