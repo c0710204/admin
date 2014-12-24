@@ -25,7 +25,7 @@ foreach ($dat as $r) {
     $class="";
     $body[]="<tr class=$class>";
     //$body[]="<td>".explode("/", $r['course_id'])[0];
-    $body[]="<td><a href='../course/?id=".$r['course_id']."'>".$edxcourse->displayName($r['course_id']);
+    $body[]="<td><a href='../course/?id=".$r['course_id']."'>".ucfirst(strtolower($edxcourse->displayName($r['course_id'])));
     $body[]="<td style='text-align:right'>".number_format($r['n']);
     //$body[]="<td>".$admin->dateRelative($r['created']);
 }
