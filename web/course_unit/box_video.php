@@ -30,11 +30,11 @@ if (isset($metadata['download_video'])) {
 }
 
 $foot=[];
-//$foot[]="<button class='btn'><i class='fa fa-save'></i> Save</button>";
+$foot[]="<a href='https://www.youtube.com/watch?v=$youtube_id' target=_blank class='btn btn-default'><i class='fa fa-youtube'></i> Watch on youtube</a>";
+
 $small="<small><a href='https://www.youtube.com/watch?v=$youtube_id' target=_blank>$youtube_id</a></small>";
 
 $box=new Admin\SolidBox;
 $box->title("Video $small");
 $box->icon("fa fa-camera");
-$box->body($body);
-echo $box->html();
+echo $box->html($body, $foot);

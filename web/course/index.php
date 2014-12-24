@@ -71,8 +71,8 @@ if (!$edxCourse->exist($course_id)) {
         
         include "course_chapters.php";
         
-        include "course_video.php";
-        include "course_image.php";
+        //include "course_video.php";// presentation video
+        //include "course_image.php";// course thumbnail
         
         include "forum_threads.php";
         //include "course_tabs.php";

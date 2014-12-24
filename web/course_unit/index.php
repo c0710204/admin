@@ -18,10 +18,10 @@ $edxCourse = new EdxCourse();
 
 //$unit_id='72f458742cce4084b36649a1cb6e93a0';
 //$unit_id='i4x://q/q/sequential/2795f34a935447db93bc4362bc84e1d7';
-$unit_id=$_GET['id'];
+$unit_id=$edxCourse->format_unit_id($_GET['id']);
 
-if (!preg_match("/^i4x/", $unit_id)) {
-    echo "Invalid unit format : $unit_id";
+if (!preg_match("/^i4x:/", $unit_id)) {
+    echo "<li>Error : Invalid unit format : $unit_id";
     exit;
 }
 
@@ -34,6 +34,9 @@ $category=$unit['_id']['category'];
 $definition=$unit['definition'];
 $metadata=$unit['metadata'];
 $course_id = $ID['org'].'/'.$ID['course'].'/permanent';
+
+
+
 
 ?>
 <section class="content-header">
@@ -63,7 +66,7 @@ $course_id = $ID['org'].'/'.$ID['course'].'/permanent';
         }
         */
         include "box_userlog.php";
-        include "box_user.php";
+        //include "box_user.php";
         include "box_metadata.php";
         ?>
     </section>

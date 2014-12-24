@@ -16,10 +16,10 @@ while ($r=$q->fetch()) {
 
 //$body[]="<pre>$sql</pre>";
 //$body[]=count($dat)." records";
-
+/*
 if (count($dat)) {
     echo count($dat)." user logs";
-    /*
+    
     $body[]="<table class='table table-condensed table-striped'>";
     $body[]="<thead>";
     $body[]="<th>#</th>";
@@ -47,15 +47,17 @@ if (count($dat)) {
     }
     $body[]="</tbody>";
     $body[]="</table>";
-    */
+    
 } else {
     $body[]= "<pre>No data</pre>";
 }
+*/
 
+$foot=[];
+$foot[]="<i class=text-muted>This unit has been accessed by ".count($dat)." user(s)</i>";
 
 $box=new Admin\Box;
 $box->type("primary");
 $box->icon('fa fa-list');
 $box->title('User log');
-$box->body($body);
-echo $box->html();
+echo $box->html($body, $foot);

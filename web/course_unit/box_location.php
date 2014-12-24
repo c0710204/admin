@@ -50,12 +50,14 @@ if (isset($definition['children'])) {
     $body[]="</ol>";
 }
 
+$foot=[];
+$foot="<i class='text-muted'>Unit info</i>";
+
 $box=new Admin\SolidBox;
-//$box->type("primary");
 $box->icon('fa fa-crosshairs');
 $box->title('Unit location');
-$box->body($body);
-echo $box->html();
+
+echo $box->html($body);
 
 ?>
 <style>

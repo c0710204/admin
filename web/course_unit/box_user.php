@@ -4,11 +4,13 @@
  * for a given user, we try o get every piece of info
  */
 
-$user_id=19;//jambonbill
+//$user_id=19;//jambonbill
 
 $db=$admin->db();
 $sql="SELECT * FROM edxapp.courseware_studentmodule WHERE module_id='$unit_id' AND student_id=$user_id;";
 $q=$db->query($sql) or die("<pre>".print_r($db->errorInfo(), true)."</pre>");
+
+echo "<pre>$sql</pre>";
 
 $cs = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -35,3 +37,4 @@ $box->type("primary");
 $box->icon('fa fa-list');
 $box->title('User jambonbill');
 echo $box->html($body);
+
