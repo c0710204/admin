@@ -102,11 +102,13 @@ switch($_POST['do']){
      */
     case 'getUserInfo':
         //print_r($_POST);
+        $user_id=$_POST['uid']*1;
         $user=$edxapp->user($_POST['uid']);
+        $username=$user['username'];
         $profile=$edxapp->userprofile($_POST['uid']);
         $courses=$edxapp->studentCourseEnrollment($_POST['uid']);
 
-        echo "<h2>$user[username] <br /><small><i class='fa fa-envelope'></i> $user[email]</small></h2>";
+        echo "<h2>$username <br /><small><i class='fa fa-envelope'></i> $user[email]</small></h2>";
 
         // labels
         echo "<span class='label label-default'>#".$user['id']."</span> ";//id
@@ -120,7 +122,13 @@ switch($_POST['do']){
             echo "<span class='label label-info'>Staff</span> ";
         }
         if ($user['is_superuser']) {
-            echo "<span class='label label-danger'>SuperUser</span>";
+            echo "<span class='label label-danger'>SuperUser</span> ";
+        }
+
+
+        // Sessions //      
+        if ($sessions=$edxapp->sessions([$user_id])[$user_id]) {
+            echo "<a href='../sessions/?username=$username' class='btn btn-default'><i class='fa fa-bolt'></i> " . count($sessions) . " session(s)</a> ";
         }
 
         echo "<hr />";

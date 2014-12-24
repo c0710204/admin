@@ -48,7 +48,7 @@ $user=$admin->user;
     include "box_user.php";//new users
     
     //include "box_recentEnrollments.php";
-    include "box_recentActivity.php";
+    //include "box_recentActivity.php";
     //include "box_session.php";
     //include "box_tools.php";
     ?>
