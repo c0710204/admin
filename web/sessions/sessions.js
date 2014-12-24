@@ -18,6 +18,8 @@ function getSessionData(){
 	$.cookie('date_to', $('#date_to').val());
 	$.cookie('limit', $('#limit').val());
 
+	$("#boxSessions .overlay, #boxSessions .loading-img").show();
+	
 	var r=$.ajax({
   		type: "POST",
   		url: "ctrl.php",
@@ -39,8 +41,8 @@ function getSessionData(){
 
 	r.fail(function(a,b,c){
 		console.log(a,b,c);
-		$("#more").html(a.responseText);
-		//$("#boxSessions .overlay, #boxSessions .loading-img").hide();
+		$("#sessionList").html(a.responseText);
+		$("#boxSessions .overlay, #boxSessions .loading-img").hide();
 	});
 	
 }
@@ -48,16 +50,17 @@ function getSessionData(){
 
 function renderSessions(json, target){
 	
-	console.log('renderSessions()', json);
+	//console.log('renderSessions()', json);
 	
 	var htm=[];
 
-	htm.push('<table id="sessionTable" class="table table-condensed">');
+	htm.push('<table id="sessionTable" class="table table-condensed table-striped">');
 	
 	htm.push("<thead>");
-	htm.push("<th>Session</th>");
-	htm.push("<th>User_id</th>");
-	htm.push("<th>Date</th>");
+	htm.push("<th><i class='fa fa-user'></i> User</th>");
+	htm.push("<th><i class='fa fa-bolt'></i> Session</th>");
+	htm.push("<th><i class='fa fa-clock-o'></i> Length</th>");
+	htm.push("<th><i class='fa fa-calendar'></i> Date</th>");
 	htm.push("</thead>");
 	
 	htm.push("<tbody>");
@@ -69,8 +72,10 @@ function renderSessions(json, target){
 		var date_to=$.datepicker.formatDate('yy-mm-dd', o.date_to);
 
         htm.push("<tr>");
-        htm.push("<td><a href='../session/?id="+o.session+"'>"+o.session+"</a>");//
         htm.push("<td>"+o.username);
+        htm.push("<td><a href='../session/?id="+o.session+"'>"+o.session+"</a>");//
+        var minutes=Math.round(o.length/60);
+        htm.push("<td>"+minutes);
         htm.push("<td>"+date_from);
         //htm.push("<td>"+date_to);
     }
@@ -86,8 +91,14 @@ function renderSessions(json, target){
 
 $(function(){
 	console.log('ready');
+	
+	$('#btnReload').click(function(){
+		getSessionData();
+	});
+
 	$('#searchStr, #date_from, #date_to, #limit').change(function(){
 		getSessionData();	
 	});
+
 	getSessionData();
 });

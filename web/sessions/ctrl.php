@@ -22,21 +22,38 @@ switch ($_POST['do']) {
     	
     	$WHERE=[];
     	$WHERE[]=1;
+
     	//print_r($_POST);
-    	if (isset($_POST['search'])) {
-    		
-    		$sql = "SELECT id FROM edxapp.auth_user WHERE username LIKE ".$admin->db()->quote($_POST['search'])." LIMIT 1;";
-    		$q = $admin->db()->query($sql) or die("$sql");	
-    		
-    		while ($r=$q->fetch()) {
-    			$WHERE[]='user_id='.$r['id'];
-    		}
-    	}
+        if(isset($_POST['date_from'])){
+            $WHERE[]="date_from>='".$_POST['date_from']."'";
+        }
+
+        if(isset($_POST['date_to'])){
+            $WHERE[]="date_to>='".$_POST['date_to']."'";
+        }
+
+        if (isset($_POST['search']) && preg_match("/^[0-9]+$/",$_POST['search'])) {
+            $WHERE[]="user_id='".$_POST['search']."'";
+		} else if (isset($_POST['search'])) {
+            $OR=[];
+            $OR[]="username LIKE '%".$_POST['search']."%'";
+            $OR[]="email LIKE '%".$_POST['search']."%'";
+            $OR[]="first_name LIKE '%".$_POST['search']."%'";
+            $OR[]="last_name LIKE '%".$_POST['search']."%'";
+            
+            $sql = "SELECT id FROM edxapp.auth_user WHERE (".implode(" OR ", $OR).");";
+            $q=$admin->db()->query($sql) or die("<pre>error:$sql</pre>");
+            
+            $user_filter=[];    
+            while($r=$q->fetch(PDO::FETCH_ASSOC))$user_filter[]=$r['id'];
+            $WHERE[]="user_id IN (".implode(',', $user_filter).")";
+        }
 
     	$WHERE=implode(" AND ", $WHERE);
     	
     	//print_r($_POST);exit;
-    	$sql = "SELECT session, user_id, date_from, date_to FROM edxapp.tracking_session WHERE $WHERE ORDER BY date_to DESC LIMIT 30 ;";
+    	$LIMIT=$_POST['limit']*1;
+    	$sql = "SELECT session, user_id, date_from, date_to FROM edxapp.tracking_session WHERE $WHERE ORDER BY date_to DESC LIMIT $LIMIT;";
     	$q = $admin->db()->query($sql) or die("nope");
     	
     	$dat=[];
@@ -44,7 +61,9 @@ switch ($_POST['do']) {
 
     	while ($r=$q->fetch()) {
     		$users[]=$r['user_id'];
-    		$dat[]=$r;
+    		// compute session length
+            $r['length']=(strtotime($r['date_to'])-strtotime($r['date_from']));
+            $dat[]=$r;
     		//$r=$db->query()
     	}
     	

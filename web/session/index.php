@@ -1,5 +1,9 @@
 <?php
 // admin :: Session (Edx Session)
+
+// http://devdata.readthedocs.org/en/latest/internal_data_formats/tracking_logs.html
+// http://devdata.readthedocs.org/en/latest/internal_data_formats/event_list.html
+
 header('Content-Type: text/html; charset=utf-8');
 session_start();
 
@@ -16,19 +20,11 @@ echo $admin->printPrivate();
 $edxApp = new EdxApp();
 $edxCourse = new EdxCourse();
 
-$session_id=$_GET['id'];
-/*
-$USERID=@$_GET['id']*1;
-if(isset($_GET['user_id']))$USERID=$_GET['user_id']*1;
-
-$usr=$edxApp->user($USERID);
-$up =$edxApp->userprofile($USERID);
-
-if (!$usr) {
-    echo "Error : user not found";
-    exit;
+if(isset($_GET['id'])){
+    $session_id=$_GET['id'];
+} else {
+    die("<script>document.location.href='../sessions/';</script>");
 }
-*/
 ?>
 
 <!-- Content Header (Page header) -->
@@ -40,11 +36,15 @@ if (!$usr) {
 </section>
 
 <?php
+// get session data //
 $data=$edxApp->tracking($session_id);
+//echo "<li>".count($data);
 if ($data) {
     $session_date=substr($data[0]['time'], 0, 10);
     $S=$edxApp->tracking_session($session_id);
+    $user_id=$S['user_id'];
     $USR=$edxApp->user($S['user_id']);
+    $username=$USR['username'];
 } else {
     echo "<li>Error : No session data<hr />";
 }
@@ -61,7 +61,8 @@ if ($data) {
 
     <section class="col-sm-3 connectedSortable">
     <?php
-    include "session_info.php";
+    //include "session_info.php";
+    include "more_sessions.php";
     ?>
     </section><!-- /.Col -->
 
@@ -71,9 +72,13 @@ if ($data) {
     <section class="col-sm-9 connectedSortable">
     <!-- Userinfo -->
     <?php
+    include "session_digest.php";
+    include "session_overview.php";
     include "session_details.php";
     ?>
     </section>
 
 
 </div>
+
+<script src='session.js'></script>
