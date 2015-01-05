@@ -41,7 +41,7 @@ $up =$edxApp->userprofile($USERID);
 <?php
 //print_r($usr);
 if (!$usr || !$up) {
-    echo $admin->callout("danger", "<i class='fa fa-ban'></i> Error", "User #$USERID not found or incomplete");
+    echo new Admin\Callout("danger", "<i class='fa fa-ban'></i> Error", "User #$USERID not found or incomplete");
     exit;
 } else {
     echo "<input type=hidden id='userid' value='$USERID'>";
