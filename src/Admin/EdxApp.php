@@ -772,9 +772,11 @@ class EdxApp
 
         $sql = "SELECT * FROM student_courseenrollment ";
         $sql.= "WHERE user_id=$userid ";
+        
         if ($this->org) {
             $sql.= " AND course_id LIKE '".$this->org."%'";
         }
+        
         $sql.= "ORDER BY created DESC;";
         
         $q = $this->db->query($sql);
@@ -1531,6 +1533,13 @@ class EdxApp
         while ($r=$q->fetch(\PDO::FETCH_ASSOC)) {
             //print_r($r);
             $DAT[$r['user_id']][]=$r;
+        }
+        
+        // pad array if no user data
+        foreach($userids as $userid){
+            if(!$DAT[$userid]){
+                $DAT[$userid]=[];
+            }
         }
         return $DAT;
     }
