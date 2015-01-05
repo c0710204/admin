@@ -9,7 +9,7 @@ if ($course_id) {
     $body[]="<h3><i class='fa fa-book'></i> <a href='../course/?id=$course_id'>".ucfirst(strtolower($edxCourse->displayName($course_id)))."</a></h3>";
 }
 
-$body[]="<h3><i class='fa fa-calendar'></i> Session start : $session_start</h3>";
+$body[]="<h3><a href='../user_calendar/?user_id=$user_id'><i class='fa fa-calendar'></i></a> Session start : $session_start</h3>";
 //$body[]="<li>Session end : $session_end";
 $body[]="<h3><i class='fa fa-clock-o'></i> ".round($session_length/60)." minutes</h3>";
 
@@ -18,7 +18,7 @@ $body[]="<h3><i class='fa fa-clock-o'></i> ".round($session_length/60)." minutes
 // Show videos
 if (count($videos)) {
     $body[]="<h3>".count($videos) . " videos</h3>";
-    $body[]="<table class='table table-condensed'>";
+    $body[]="<table class='table table-condensed table-striped'>";
     foreach($videos as $unit_id=>$dat){
         
         $body[]="<tr>";

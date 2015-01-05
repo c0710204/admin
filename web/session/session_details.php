@@ -1,14 +1,6 @@
 <?php
 // Session details
 
-/*
-$where=[];
-$where[]="modified > '$date_from'";
-$where[]="modified < '$date_to'";
-$activitydata=$edxApp->studentCourseActivity($user_id, $where);
-print_r($activitydata);
-*/
-
 //print_r($data);exit;
 
 $body=[];
@@ -21,17 +13,34 @@ $body[]="</thead>";
 
 $body[]="<tbody>";
 
+$last_time='';
+$inactivity=0;// inactivity time in minutes
+
 foreach ($data as $r) {
 
     //print_r($r);exit;
     //if($r['event_type']=='page_close')continue;
+    if ($last_time) {
+        $lap=strtotime($last_time)-strtotime($r['time']);
+        if ($lap>600) {
+            $body[]= "<tr>";
+            $body[]= "<td>";
+            $body[]= "<td>";
+            //$body[]= "<td>Lap : ".$lap;
+            $minutes=round($lap/60);
+            $inactivity+=$minutes;
+            if($minutes>60){
+                $body[]= "<td><i class='fa fa-warning' style='color:#c00'> ".round($minutes/60)." hour(s) of inactivity</i>";
+            } else {
+                $body[]= "<td><i class='fa fa-warning' style='color:#c00'> $minutes minute(s) of inactivity</i>";
+            }
+            
+        }
+    }
 
     $body[]= "<tr>";
     $body[]= "<td>".event_icon($r['event_type']);//$r['event_type']
-    //$body[]= "<td>".str_replace($session_date,'',$r['time']);    
     $body[]= "<td>".substr($r['time'],11,8);    
-    
-
 
     $json=json_decode($r['event']);
     
@@ -39,8 +48,6 @@ foreach ($data as $r) {
     if(isset($json->chapter)){
         $chapters[]=$json->chapter;
     }
-
-
 
     if (isset($json->id)) {
         //$unit_id=str_replace("-", "/", $json->id);
@@ -58,74 +65,30 @@ foreach ($data as $r) {
     } else {
         $body[]= "<td>".$r['event_type'];
     }
-
+    $last_time=$r['time'];
 } 
+
 $body[]= "</tbody>";
 $body[]= "</table>";
+
+$length=(strtotime($S['date_to'])-strtotime($S['date_from']));
+$total_minutes=round($length/60);
+
+$body[]= "<li>Total time : ".round($total_minutes)." minute(s)";
+$body[]= "<li>Inactive time : ".round($inactivity)." minute(s)";
+$body[]= "<li>Active time : ".round($total_minutes-$inactivity)." minute(s)";
 
 
 
 
 $box=new Admin\SolidBox;
+$box->id("sessionDetails");
 $box->title("Session details <small>$session_date</small>");
 $box->icon("fa fa-user");
 $box->type("default");
+//$box->loading(true);
 echo $box->html($body);
 
-
-/*
-if (count($videos)) {
-    $videos=array_unique($videos);
-    echo "<pre>Videos:";
-    print_r($videos);    
-    echo "</pre>";
-}
-
-if (count($chapters)) {
-    $chapters=array_unique($chapters);
-    echo "<pre>Chapters:";
-    print_r($chapters);
-    echo "</pre>";   
-}
-*/
-/*
-$unit_ids=array_unique($unit_ids);
-if (count($unit_ids)) {
-    $unit_id=$unit_ids[0];
-    //echo "$unit_id";
-    //$metadata=$edxCourse->metadata($course_id);
-    $meta = $edxCourse->metadata($unit_id);
-    $displayName=$meta['display_name'];
-    echo "<pre>$displayName</pre>";
-    //echo "<pre>";print_r($meta);echo "</pre>";
-}
-*/
-
-
-/*
-if(preg_match("/^i4x-/",$unit_ids[0])){
-	$x=explode("-",$unit_ids[0]);	
-	$course_id=$x[2]."/".$x[2]."/course";
-} elseif(preg_match("/^i4x\//",$unit_ids[0])) {
-	$x=explode("/",$unit_ids[0]);	
-	$course_id=$x[2]."/".$x[2]."/course";
-}
-*/
-
-//die("course_id=$course_id");
-
-//$course_name=$edxCourse->displayName($course_id);
-
-/*
-echo "<pre>";
-foreach($unit_ids as $unit_id){
-	$unit=$edxCourse->unit($unit_id);
-	echo "$unit_id\n";
-	print_r($unit);
-}
-//print_r($unit_ids);
-echo "</pre>";
-*/
 
 
 

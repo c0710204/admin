@@ -1,9 +1,7 @@
 <?php
 // admin :: Session (Edx Session)
-
 // http://devdata.readthedocs.org/en/latest/internal_data_formats/tracking_logs.html
 // http://devdata.readthedocs.org/en/latest/internal_data_formats/event_list.html
-
 header('Content-Type: text/html; charset=utf-8');
 session_start();
 
