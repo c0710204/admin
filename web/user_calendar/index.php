@@ -25,6 +25,8 @@ $up =$edxApp->userprofile($USERID);
 if (!$usr) {
     echo "Error : user not found";
     exit;
+} else {
+    echo "<input type='hidden' id=user_id value='$USERID'>";
 }
 
 ?>
@@ -54,19 +56,17 @@ if (!$usr) {
     <!-- Userinfo -->
     <?php
     include "box_userinfo.php";
-    
-    include "box_sessions.php";
+    //include "box_sessions.php";
     ?>
     </section>
 
     <section class="col-sm-9 connectedSortable">
     <!-- THE CALENDAR -->
-    
     <?php
     $box = new Admin\SolidBox;
     $box->id("boxcalendar");
     $box->icon("fa fa-calendar");
-    $box->title("Calendar");
+    $box->title("$username calendar");
     echo $box->html("<div id=calendar></div>");
 
     //include "user_course_enrollment.php";

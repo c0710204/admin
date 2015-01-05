@@ -1,4 +1,7 @@
+
 $(function() {
+
+    console.log('calendar.js');
 
     /* initialize the external events
      -----------------------------------------------------------------*/
@@ -23,7 +26,8 @@ $(function() {
 
         });
     }
-    ini_events($('#external-events div.external-event'));
+
+    ini_events($('#external-events div.external-event'));//?
 
     /* initialize the calendar
      -----------------------------------------------------------------*/
@@ -34,11 +38,13 @@ $(function() {
             y = date.getFullYear();
     
     $('#calendar').fullCalendar({
+        
         header: {
             left: 'prev,next today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
+        
         buttonText: {//This is to add icons to the visible buttons
             prev: "<span class='fa fa-caret-left'></span>",
             next: "<span class='fa fa-caret-right'></span>",
@@ -49,6 +55,7 @@ $(function() {
         },
         
         //Random default events
+        /*
         events: [
             {
                 title: 'All Day Event',
@@ -95,9 +102,10 @@ $(function() {
                 borderColor: "#3c8dbc" //Primary (light-blue)
             }
         ],
-        
+        */
         editable: false,
         droppable: true, // this allows things to be dropped onto the calendar !!!
+
         drop: function(date, allDay) { // this function is called when something is dropped
 
             // retrieve the dropped element's stored Event Object
@@ -128,6 +136,7 @@ $(function() {
     /* ADDING EVENTS */
     var currColor = "#f56954"; //Red by default
     //Color chooser button
+   
     var colorChooser = $("#color-chooser-btn");
     $("#color-chooser > li > a").click(function(e) {
         e.preventDefault();
@@ -138,7 +147,10 @@ $(function() {
                 .css({"background-color": currColor, "border-color": currColor})
                 .html($(this).text()+' <span class="caret"></span>');
     });
+    
+
     $("#add-new-event").click(function(e) {
+
         e.preventDefault();
         //Get value and make sure it is not null
         var val = $("#new-event").val();
@@ -150,6 +162,7 @@ $(function() {
         var event = $("<div />");
         event.css({"background-color": currColor, "border-color": currColor, "color": "#fff"}).addClass("external-event");
         event.html(val);
+
         $('#external-events').prepend(event);
 
         //Add draggable funtionality
@@ -159,3 +172,13 @@ $(function() {
         $("#new-event").val("");
     });
 });
+
+
+// http://fullcalendar.io/docs/event_data/Event_Object/
+function addEvent(eventObject){//
+    $('#calendar').fullCalendar('renderEvent', eventObject, true);
+}
+
+
+// remove everything :
+// $('#calendar').fullCalendar('removeEvents');
