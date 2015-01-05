@@ -1537,8 +1537,8 @@ class EdxApp
         
         // pad array if no user data
         foreach($userids as $userid){
-            if(!$DAT[$userid]){
-                $DAT[$userid]=[];
+            if (!isset($DAT[$userid])) {
+                $DAT["$userid"]=[];
             }
         }
         return $DAT;
