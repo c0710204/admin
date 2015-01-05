@@ -155,10 +155,10 @@ class UserDjango
         //echo "djangoSessionRegister( $session_id, $userid);";
         $session_id=session_id();
 
-        $sql = "INSERT INTO django_session ( session_key, session_data, expire_date ) ";
+        $sql = "INSERT IGNORE INTO django_session ( session_key, session_data, expire_date ) ";
         $sql.= "VALUES ('$session_id','$userid', NOW());";
 
-        $this->db->query($sql) or die( $this->db->error );
+        $this->db->query($sql) or die( print_r($this->db->errorInfo()) );
 
         return true;
     }
@@ -175,7 +175,7 @@ class UserDjango
         $sid=session_id();
         $sql = "SELECT * FROM django_session WHERE session_key='$sid';";
         //$q=$this->db->query($sql);// or die( $this->db->)
-        $q=$this->db->query($sql);// or die( $this->db->)
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo()));
         $r=$q->fetch(\PDO::FETCH_ASSOC);
 
         //var_dump($r);
@@ -215,7 +215,7 @@ class UserDjango
 
         $sid=session_id();
         $sql = "DELETE FROM django_session WHERE session_key='$sid';";
-        $q=$this->db->query($sql);// or die( $this->db->)
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo()));
 
         $log = new EdxLog($this->user);
         $log->msg("logout");
@@ -309,7 +309,7 @@ class UserDjango
         }
 
         $sql="SELECT is_staff FROM auth_user WHERE id=$uid LIMIT 1;";
-        $q=$this->db->query($sql);
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo()));
         return $q->fetch(\PDO::FETCH_ASSOC)[0];
     }
 
@@ -321,7 +321,7 @@ class UserDjango
         }
 
         $sql="SELECT is_superuser FROM auth_user WHERE id=$uid LIMIT 1;";
-        $q=$this->db->query($sql);
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo()));
         return $q->fetch(\PDO::FETCH_ASSOC)[0];
     }
 }
