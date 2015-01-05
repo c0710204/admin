@@ -6,7 +6,7 @@
     <div class="col-sm-3 col-xs-6">
         <!-- small box users -->
         <?php
-        $user_sessions=$edxApp->sessions([$USERID])[$USERID];
+        $user_sessions=@$edxApp->sessions([$USERID])[$USERID];
         $smallbox= new Admin\SmallBox;
         $smallbox->color('blue');
         $smallbox->icon("ion ion-person-add");
