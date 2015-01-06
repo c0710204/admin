@@ -12,8 +12,8 @@ $body[]="<table class='table table-condensed table-striped'>";
 $body[]="<thead>";
 //$body[]="<th>#</th>";
 //$body[]="<th>Username</th>";
-$body[]="<th>Email</th>";
-$body[]="<th>Date joined</th>";
+$body[]="<th><i class='fa fa-envelope-o'></i> Email</th>";
+$body[]="<th><i class='fa fa-calendar'></i> Joined</th>";
 $body[]="</thead>";
 $body[]="<tbody>";
 
@@ -26,7 +26,7 @@ while ($r=$q->fetch()) {
     $body[]="<tr class=$class>";
     //$body[]="<td>".$r['id'];
     //$body[]="<td><a href='../user/?id=".$r['id']."'>".$r['username'];
-    $body[]="<td><a href='../user/?id=".$r['id']."'>".$r['email'];
+    $body[]="<td><a href='../user/?id=".$r['id']."'>".strtolower($r['email']);
     //$body[]="<td>".$r['is_active'];
 
     $body[]="<td>".$admin->dateRelative($r['date_joined']);
@@ -42,8 +42,8 @@ $box=new Admin\SolidBox;
 $box->type("primary");
 $box->icon('fa fa-users');
 $box->title("New users");
-$box->body($body);
-$box->footer($foot);
-echo $box->html();
+$box->body_padding(false);
+
+echo $box->html($body,$foot);
 
 

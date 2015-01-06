@@ -24,7 +24,6 @@ foreach ($dat as $r) {
     //print_r($r);
     $class="";
     $body[]="<tr class=$class>";
-    //$body[]="<td>".explode("/", $r['course_id'])[0];
     $body[]="<td><a href='../course/?id=".$r['course_id']."'>".ucfirst(strtolower($edxcourse->displayName($r['course_id'])));
     $body[]="<td style='text-align:right'>".number_format($r['n']);
     //$body[]="<td>".$admin->dateRelative($r['created']);
@@ -40,5 +39,6 @@ $box=new Admin\SolidBox;
 $box->type("danger");
 $box->icon(['fa fa-user', 'fa fa-angle-right', 'fa fa-book']);
 $box->title("Course enrollments");
+$box->body_padding(false);
 
 echo $box->html($body, $foot);//"primary", "<i class='fa fa-file'></i> Recent enrollments", $body, $foot
