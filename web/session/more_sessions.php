@@ -54,4 +54,5 @@ $box=new Admin\SolidBox;
 $box->icon("fa fa-user");
 $box->title("<a href='../user/?id=$user_id'>$username</a>");// <small>$session_id</small>
 $box->type("danger");//
+$box->body_padding(false);//remove padding by adding the no-padding class
 echo $box->html($body,$foot);
