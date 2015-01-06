@@ -6,12 +6,13 @@ session_start();
 require __DIR__."/../../vendor/autoload.php";
 
 use Admin\AdminLte;
-use Admin\EdxApp;
+
 
 $admin = new AdminLte("../config.json");
 $admin->ctrl();
 
-$edxApp=new EdxApp("../config.json");
+$edxApp=new Admin\EdxApp();
+$edxCourse=new Admin\EdxCourse();
 
 
 switch($_POST['do']){
@@ -21,7 +22,6 @@ switch($_POST['do']){
         //print_r($_POST);
         $id=$edxApp->enroll($_POST['course_id'], $_POST['user_id']);
         if ($id) {
-            //die("document.location.href='?id=".$_POST['user_id']."'");
             die("getEnrolls();");
         }
         exit;
@@ -31,7 +31,6 @@ switch($_POST['do']){
         //print_r($_POST);
         $id=$edxApp->disenroll($_POST['course_id'], $_POST['user_id']);
         if ($id) {
-            //die("document.location.href='?id=".$_POST['user_id']."'");
             die("getEnrolls();");
         }
         exit;
@@ -43,6 +42,15 @@ switch($_POST['do']){
         foreach ($courses as $course) {
             $course['name']=ucfirst(strtolower($edxApp->courseName($course['course_id'])));
             $course['created']=substr($course['created'],0,10);
+            
+            $unitCount=$edxCourse->unitCount($course['course_id']);
+            
+            $progress=0;
+            if ($unitCount > 0) {
+                $progress=($edxApp->courseUnitSeen($course['course_id'], $_POST['user_id'])/$unitCount)*100;
+            }
+            
+            $course['progress']=round($progress);
             $dat[]=$course;
         }
         echo json_encode($dat);

@@ -71,14 +71,12 @@ foreach ($data as $r) {
 $body[]= "</tbody>";
 $body[]= "</table>";
 
-$length=(strtotime($S['date_to'])-strtotime($S['date_from']));
+$length=strtotime($session_end)-strtotime($session_start);
 $total_minutes=round($length/60);
 
 $body[]= "<li>Total time : ".round($total_minutes)." minute(s)";
 $body[]= "<li>Inactive time : ".round($inactivity)." minute(s)";
 $body[]= "<li>Active time : ".round($total_minutes-$inactivity)." minute(s)";
-
-
 
 
 $box=new Admin\SolidBox;
@@ -92,7 +90,22 @@ echo $box->html($body);
 
 
 
-// Functions
+/*
+$sql="SELECT * FROM edxapp.courseware_studentmodule WHERE student_id=$user_id ORDER BY modified DESC LIMIT 10;";
+$q=$admin->db()->query($sql) or die(print_r($admin->db()->errorInfo(), true));
+while($r=$q->fetch()){
+    print_r($r);
+}
+*/
+
+
+
+
+
+// Functions //
+// Functions //
+// Functions //
+
 function event_icon($event_type='')
 {
     $ico='';

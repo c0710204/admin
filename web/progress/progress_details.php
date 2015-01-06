@@ -123,5 +123,6 @@ if ($cu && $progressdata) {
 $box=new Admin\SolidBox;
 $box->icon("fa fa-eye");
 $box->title("Progress details");
+//$box->body_padding(false);
 
 echo $box->html($body);

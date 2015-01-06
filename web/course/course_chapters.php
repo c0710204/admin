@@ -8,7 +8,7 @@ $chapters=$edxCourse->chapters($course_id);
 $unitCount=$edxCourse->unitCount($course_id);
 
 //echo "<li>unitCount=$unitCount;<br />";
-
+/*
 if (is_array($chapters) && count($chapters)) {
     $htm[]="<ol>";
     //$htm[]=$chapters;
@@ -22,6 +22,24 @@ if (is_array($chapters) && count($chapters)) {
 } else {
     $htm[]=new Admin\Callout("danger", "Course error: no chapters");
 }
+*/
+
+if (is_array($chapters) && count($chapters)) {
+    $htm[]="<table class='table table-condensed'>";
+    $i=0;
+    foreach ($chapters as $chapter) {
+        $i++;
+        $htm[]="<tr>";
+        $htm[]="<td>$i";
+        $htm[]="<td><a href=../course_chapter/?unit_id=".$chapter[0].">".ucfirst(strtolower($chapter[1]))."</a>";
+        //$htm[]="<td><small class='pull-right'>".explode("/", $chapter[0])[5]."</small>";
+        //$htm[]="</li>";
+    }
+    $htm[]="</table>";
+} else {
+    $htm[]=new Admin\Callout("danger", "Course error: no chapters");
+}
+
 
 
 $foot=[];
@@ -38,5 +56,8 @@ $box = new Admin\SolidBox;
 $box->title("Course chapters $small");
 $box->icon('fa fa-sitemap');
 $box->iconUrl("../course_structure/?id=$course_id");//
-$box->collapsed(true);
+
+$box->body_padding(false);
+//$box->collapsed(true);
+
 echo $box->html($htm, $foot);

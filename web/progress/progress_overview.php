@@ -102,6 +102,7 @@ if ($cu && $progressdata) {
 $box=new Admin\SolidBox;
 $box->icon("fa fa-eye");
 $box->title("Progress overview <small>Course started @ ".substr($cu['created'],0,16)."</small>");
+$box->body_padding(false);
 
 echo $box->html($body,$foot);
 
