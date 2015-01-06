@@ -36,7 +36,7 @@ switch($_POST['do']){
             $R['org']=$o[0];
             $R['course']=$o[1];
             $R['name']=$o[2];
-            $R['display_name']=$meta['display_name'];
+            $R['display_name']=ucfirst(strtolower($meta['display_name']));
 
             if (isset($_POST['search']) && $_POST['search'] && !strpos($meta['display_name'], $_POST['search'])) {
                 //strpos(haystack, needle)
