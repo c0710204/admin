@@ -14,8 +14,8 @@ $body=[];
 $body[]="<table class='table table-condensed table-striped'>";
 $body[]="<thead>";
 //$body[]="<th>Org</th>";
-$body[]="<th>Course</th>";
-$body[]="<th width=80>Enrollments</th>";
+$body[]="<th><i class='fa fa-book'></i> Course</th>";
+$body[]="<th width=80 style='text-align:right' title='Enrollments'>Enrolls</th>";
 $body[]="</thead>";
 $body[]="<tbody>";
 
