@@ -64,7 +64,7 @@ switch($_POST['do']){
             if (preg_match("/not found/i", $courseName)) {
                 $R['courseName']='';
             } else {
-                $R['courseName']=$courseName;
+                $R['courseName']=ucfirst(strtolower($courseName));
             }
 
             $R['author_id']=$r['author_id'];
