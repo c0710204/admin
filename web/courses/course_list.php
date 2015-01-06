@@ -18,6 +18,7 @@ $box->id('boxlist');
 $box->icon('fa fa-list');
 $box->title('Courses');
 $box->body('<div>'.$box->id().'</div>');
+$box->body_padding(false);
 $box->loading(true);
 echo $box->html();
 
