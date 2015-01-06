@@ -73,6 +73,7 @@ $box=new Admin\SolidBox;
 $box->id("boxEnroll");
 $box->icon("fa fa-book");
 $box->title($title);
+$box->body_padding(false);
 $box->loading(true);
 echo $box->html($body, $footer);
 ?>
@@ -96,8 +97,10 @@ function enroll(course_id){
 
 function disEnroll(course_id){
 	
-    if(!confirm("Remove enrollment "+course_id+" ?"))return false;
-	
+    if(!confirm("Remove enrollment " + course_id + " ?")){
+        return false;
+	}
+
     var p = {
         'do':'disenroll',
         'user_id':$('#userid').val(),
@@ -140,7 +143,7 @@ function getEnrolls(){
 }
 
 function dispEnroll(dat){
-        
+    var user_id=$('#userid').val();
     var htm=[];
     htm.push("<table class='table table-condensed table-striped'>");
     htm.push("<thead>");
@@ -153,7 +156,7 @@ function dispEnroll(dat){
     for(var i=0;i<dat.length;i++){
         htm.push("<tr>");
         htm.push("<td><a href='../course/?id="+dat[i].course_id+"'>"+dat[i].name);
-        htm.push("<td>0%");
+        htm.push("<td style='text-align:right'><a href='../progress/?user_id="+user_id+"&course_id="+dat[i].course_id+"'>"+dat[i].progress+"%</a>");
         //htm.push("<td>"+dat[i].created);
         htm.push("<td><a href=# onclick=disEnroll('"+dat[i].course_id+"'); title='DisEnroll'><i class='fa fa-trash-o'></i></a></td>");
         htm.push("</tr>");
