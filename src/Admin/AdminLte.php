@@ -684,6 +684,7 @@ class Box
     private $style='';
     private $title='Box';
     private $body='';
+    private $body_padding=true;//box-body no-padding
     private $footer='';
     private $collapsed=false;
     private $removable=false;
@@ -787,6 +788,21 @@ class Box
         return $this->body;
     }
     
+    /**
+     * Set the body padding (add the class 'no-padding to the box boddy')
+     * Padding is set (true) by default
+     * @param  boolean $padding [description]
+     * @return [type]           [description]
+     */
+    public function body_padding($padding = true)
+    {
+        if ($padding == false) {
+            $this->body_padding=$padding;
+        }
+        return $this->body_padding;
+    }
+
+
     /**
      * Box html footer
      * @param  string $footer [description]
@@ -911,7 +927,11 @@ class Box
         if ($this->collapsed()) {
             $HTML[]='<div class="box-body collapsed-box" style="display:none;">';//
         } else {
-            $HTML[]="<div class='box-body'>";
+            if($this->body_padding()){
+                $HTML[]="<div class='box-body'>";
+            } else {
+                $HTML[]="<div class='box-body no-padding'>";
+            }
         }
         
         if (is_array($this->body)) {
@@ -1011,7 +1031,11 @@ class SolidBox extends Box
         if ($this->collapsed()) {
             $HTML[]='<div class="box-body collapsed-box" style="display:none">';//
         } else {
-            $HTML[]='<div class="box-body">';//
+            if ($this->body_padding()) {
+                $HTML[]='<div class="box-body">';//
+            } else {
+                $HTML[]='<div class="box-body no-padding">';//
+            }
         }
         $HTML[]=$this->body();
         $HTML[]='</div>';//<!-- /.box-body -->
