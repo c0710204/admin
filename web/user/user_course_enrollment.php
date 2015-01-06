@@ -1,10 +1,11 @@
 <?php
 // User courses enrolment
 
-$courses=$edxApp->studentCourseEnrollment($USERID);
+//$courses=$edxApp->studentCourseEnrollment($USERID);
 
 $body=[];
-
+$body[]="Please wait";
+/*
 if (count($courses)) {
 
     $body[]="<table class='table table-condensed table-striped'>";
@@ -16,7 +17,6 @@ if (count($courses)) {
     $body[]= "<th width=30>x</th>";
     $body[]= "</thead>";
     $body[]= "<tbody>";
-    
     foreach ($courses as $k => $r) {
         //print_r($r);
         $body[]= "<tr>";
@@ -46,12 +46,12 @@ if (count($courses)) {
 } else {
     $body[]="<i class='fa fa-warning' style='color:#c00'></i> <b>No course enrollment</b>";
 }
+*/
 
 $footer=[];
-
-
+$footer[]="<a href=# class='btn btn-default' id=btnEnroll><i class='fa fa-arrow-right'></i> Enroll</a>";
+/*
 $footer[]="<div class=row>";
-
 $footer[]='<div class="col-sm-9">';
 $footer[]="<select id=course class='form-control'>";
 $footer[]="<option value=''>Select course to enroll</option>";
@@ -60,49 +60,123 @@ foreach ($edxApp->courseids() as $courseId) {
 }
 $footer[]="</select>";
 $footer[]="</div>";
+*/
+//$footer[]='<div class="col-sm-6">';
+//$footer[]="<a href=#enroll class='btn btn-default pull-right' id=btnEnroll><i class='fa fa-arrow-right'></i> Enroll</a>";
+////$footer[]="</div>";
 
+//$footer[]="</div>";
 
-$footer[]='<div class="col-sm-3">';
-$footer[]="<button class='btn btn-default pull-right' id=btnEnroll><i class='fa fa-arrow-right'></i> Enroll</button>";
-$footer[]="</div>";
-
-$footer[]="</div>";
-
-$title=count($courses)." course enrollment";//student_courseenrollment
+$title="Course enrollment";//student_courseenrollment
 
 $box=new Admin\SolidBox;
+$box->id("boxEnroll");
 $box->icon("fa fa-book");
 $box->title($title);
-//$box->collapsed(true);
+$box->loading(true);
 echo $box->html($body, $footer);
-
 ?>
-<div id='moreEnroll'></div>
+
 
 <script>
-function enroll(){
-    var course_id=$('#course').val();
+function enroll(course_id){
+    //var course_id=$('#course').val();
+    
     if(!course_id)return false;
 	if(!confirm("Enroll with "+course_id+" ?"))return false;
-	var userid=$('#userid').val();
-    $('#moreEnroll').load("ctrl.php",{'do':'enroll','user_id':userid,'course_id':course_id},function(x){
+	
+    $('#myModal').modal('hide');// hide modal window
+
+    var p={'do':'enroll','user_id':$('#userid').val(),'course_id':course_id}
+    $('#boxEnroll .box-body').load("ctrl.php", p, function(x){
         try{eval(x);}
         catch(e){alert(x);}
     })
 }
 
 function disEnroll(course_id){
-	if(!confirm("Remove enrollment "+course_id+" ?"))return false;
-	var userid=$('#userid').val();
-    $('#moreEnroll').load("ctrl.php",{'do':'disenroll','user_id':userid,'course_id':course_id},function(x){
-        try{eval(x);}
-        catch(e){alert(x);}
+	
+    if(!confirm("Remove enrollment "+course_id+" ?"))return false;
+	
+    var p = {
+        'do':'disenroll',
+        'user_id':$('#userid').val(),
+        'course_id':course_id
+    }
+    
+    $("#boxEnroll .overlay, #boxEnroll .loading-img").show();
+    $('#boxEnroll .box-body').load("ctrl.php", p, function(x){
+        try{
+            eval(x);
+        }
+        catch(e){
+            alert(x);
+        }
+        $("#boxEnroll .overlay, #boxEnroll .loading-img").hide();
     })
 }
 
+
+function getEnrolls(){
+    
+    var p = {
+        'do':'enrollList',
+        'user_id':$('#userid').val()
+    };
+    
+    $("#boxEnroll .overlay, #boxEnroll .loading-img").show();
+    $('#boxEnroll .box-body').load("ctrl.php",p,function(x){
+        
+        try{
+            var dat=eval(x);    
+            //console.log(dat.length+" records", dat);
+            dispEnroll(dat);
+        }
+        catch(e){
+            console.log(e);
+        }    
+        $("#boxEnroll .overlay, #boxEnroll .loading-img").hide();
+    });
+}
+
+function dispEnroll(dat){
+        
+    var htm=[];
+    htm.push("<table class='table table-condensed table-striped'>");
+    htm.push("<thead>");
+    htm.push("<th>Course</th>");
+    htm.push("<th>Progress</th>");
+    //htm.push("<th>Created</th>");
+    htm.push("<th>x</th>");
+    htm.push("</thead>");
+    htm.push("<tbody>");
+    for(var i=0;i<dat.length;i++){
+        htm.push("<tr>");
+        htm.push("<td><a href='../course/?id="+dat[i].course_id+"'>"+dat[i].name);
+        htm.push("<td>0%");
+        //htm.push("<td>"+dat[i].created);
+        htm.push("<td><a href=# onclick=disEnroll('"+dat[i].course_id+"'); title='DisEnroll'><i class='fa fa-trash-o'></i></a></td>");
+        htm.push("</tr>");
+    }
+    htm.push("</tbody>");
+    htm.push("</table>");
+    htm.push("<i class='text-muted'>"+dat.length+" enrollment(s)</i>");
+    $('#boxEnroll .box-body').html(htm.join(''));
+    $('#tileEnroll h3').text(dat.length);
+}
+
+
 $(function(){
     $('#btnEnroll').click(function(){
-        enroll();
+        //enroll();
+        $('#myModal').modal();
     });
+    $('a[href="#enroll"]').click(function(o){
+        //console.log(o,o.target,o.target.title);
+        var course_id=o.target.title;
+        //console.log(course_id);
+        enroll(o.target.title);
+    });
+    getEnrolls();
 });
 </script>

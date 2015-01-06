@@ -6,11 +6,12 @@
     <div class="col-sm-3 col-xs-6">
         <!-- small box users -->
         <?php
-        $user_sessions=@$edxApp->sessions([$USERID])[$USERID];
+        //$user_sessions=@$edxApp->sessions([$USERID])[$USERID];
         $smallbox= new Admin\SmallBox;
+        $smallbox->id('tileSession');
         $smallbox->color('blue');
         $smallbox->icon("ion ion-person-add");
-        $smallbox->value(count($user_sessions));
+        $smallbox->value(0);
         $smallbox->title('Sessions');
         $smallbox->url('../users');
         echo $smallbox->html();
@@ -20,11 +21,12 @@
     <div class="col-sm-3 col-xs-6">
         <!-- small box courses -->
         <?php
-        $courses=$edxApp->studentCourseEnrollment($USERID);
+        //$courses=$edxApp->studentCourseEnrollment($USERID);
         $smallbox= new Admin\SmallBox;
+        $smallbox->id('tileEnroll');
         $smallbox->color('red');
         $smallbox->icon("fa fa-book");
-        $smallbox->value(count($courses));
+        $smallbox->value(0);
         $smallbox->title('Course enrollment(s)');
         $smallbox->url("../courses");
         echo $smallbox->html();
