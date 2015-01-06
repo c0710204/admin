@@ -83,6 +83,7 @@ if(!$course_id || !$edxCourse->exist($course_id)){// course selector
         $box->title("List users");
         $box->icon("fa fa-list");
         $box->loading(true);
+        $box->body_padding(false);
         echo $box->html("Search");
         ?>
     </section>
