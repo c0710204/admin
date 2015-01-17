@@ -1,6 +1,12 @@
 # Vendor folder
 vendor/
 
+#composer
+composer.lock
+#idea
+.idea/
+
+
 src/Admin/old/*
 web/backup/archives/*
 web/backup/dump/*
