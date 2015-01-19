@@ -1,0 +1,19 @@
+
+
+Le format du fichier excel c'est : email, nom, prenom, departement (optionel)
+
+
+1) A priori on importera un fichier excel contenant les noms, prénoms, adresses email et entité de chaque user inscrits. 
+
+C'est le client LBP qui va nous l'envoyer. Dès que je l'ai je te l'envoie. 
+
+
+Pour le format du mot de passe : ta proprosition me va (8 caractères / ponctuation en mode aléatoire) - 
+
+de toute façon, il ne s'agit que d'un premier mot de passe, ils pourront le modifier s'ils le souhaitent je suppose ? 
+
+
+Bonus : dans la vue progress, http://admin.fbmx.net/progress/?user_id=40213&course_id=MJ/001/001
+
+remettre le score des users pour chaques quizz
+
