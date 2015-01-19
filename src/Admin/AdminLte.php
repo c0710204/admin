@@ -447,6 +447,25 @@ class AdminLte
         //home
         $HTML[]='<li><a href="'.$this->path.'home/"><i class="fa fa-home"></i> <span>Home</span></a></li>';
 
+
+        // Crm folder
+        $HTML[]='<li class="treeview">';
+            $HTML[]='<a href="#">';
+                $HTML[]='<i class="fa fa-folder"></i> <span>CRM</span>';
+                $HTML[]='<i class="fa fa-angle-left pull-right"></i>';
+            $HTML[]='</a>';
+            $HTML[]='<ul class="treeview-menu">';
+                $HTML[]='<li><a href="'.$this->path.'companies/"><i class="fa fa-home"></i> Companies</a></li>';
+                //$HTML[]='<li><a href="#"><i class="fa fa-angle-double-right"></i> Paiement</a></li>';
+                // paid/products
+                $HTML[]='<li><a href="'.$this->path.'paid/"><i class="fa fa-money"></i> <span>Payments</span></a></li>';
+
+                $HTML[]='<li><a href="'.$this->path.'user_import/"><i class="fa fa-upload"></i> Import users</a></li>';
+            $HTML[]='</ul>';
+        $HTML[]='</li>';
+    
+
+
         //config
         //$HTML[]='<li><a href="'.$this->path.'config/"><i class="fa fa-dashboard"></i> <span>Config</span></a></li>';
 
@@ -463,9 +482,7 @@ class AdminLte
         // $HTML[]='<li><a href="'.$this->path.'files/"><i class="fa fa-folder"></i> <span>Files</span></a></li>';
 
 
-        // paid/products
-        $HTML[]='<li><a href="'.$this->path.'paid/"><i class="fa fa-money"></i> <span>Paid</span></a></li>';
-
+        
 
         // groups
         $HTML[]='<li><a href="'.$this->path.'groups/"><i class="fa fa-users"></i> <span>Groups</span></a></li>';
@@ -475,18 +492,6 @@ class AdminLte
         //$HTML[]='<li><a href="'.$this->path.'icons/"><i class="fa fa-file"></i> <span>Icons</span></a></li>';
 
 
-        /*
-        $HTML[]='<li class="treeview">';
-                $HTML[]='<a href="#">';
-                    $HTML[]='<i class="fa fa-folder"></i> <span>Students</span>';
-                    $HTML[]='<i class="fa fa-angle-left pull-right"></i>';
-                $HTML[]='</a>';
-                $HTML[]='<ul class="treeview-menu">';
-                    $HTML[]='<li><a href="#"><i class="fa fa-angle-double-right"></i> Student A</a></li>';
-                    $HTML[]='<li><a href="#"><i class="fa fa-angle-double-right"></i> Student B</a></li>';
-                $HTML[]='</ul>';
-            $HTML[]='</li>';
-        */
 
         // backup
         $HTML[]='<li><a href="'.$this->path.'backup/"><i class="fa fa-cloud-download"></i> <span>Backup</span></a></li>';
