@@ -13,7 +13,7 @@ $admin = new AdminLte();
 $admin->title("User import");
 echo $admin->printPrivate();
 
-$edxapp = new EdxApp();
+$edxApp = new EdxApp();
 
 ?>
 
@@ -30,6 +30,11 @@ $edxapp = new EdxApp();
 include "box_tools.php";
 
 
+include "box_processing.php";//
+
+
+
+// Temporary list
 $box = new Admin\SolidBox;
 $box->id('boxlist');
 $box->icon("fa fa-users");
@@ -37,16 +42,25 @@ $box->title("Temporary user list");
 $box->loading(true);
 
 $foot=[];
-$foot[]="<a href=# class='btn btn-default'><i class='fa fa-bolt'></i> Import</a>";
-
+$foot[]="<a href=#import class='btn btn-default' id='btnImport'><i class='fa fa-bolt'></i> Import users</a> ";
+$foot[]="<a href=#clear class='btn btn-danger pull-right' onclick='clearList()'><i class='fa fa-trash-o'></i> Clear list</a> ";
 echo $box->html("Please wait...",$foot);
+
+//$sql="SELECT * FROM edxcrm.student_bulk_import WHERE 1;";
+//$q=$admin->db()->query($sql) or die("Error:$sql");
+//while($r=$q->fetch())print_r($r);
+
 
 ?>
 
 <div id='more'></div>
-<div id='results'></div>
 
 </section>
+
+<?php
+include "edit_modal.php";
+include "user_course_enroll_modal.php";
+?>
 
 
 <script src='user_import.js'></script>
