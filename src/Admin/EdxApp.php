@@ -566,6 +566,29 @@ class EdxApp
         return $r['id'];
     }
 
+    
+    /**
+     * return the user id for a given email
+     * @param  string $email [description]
+     * @return [int]        [description]
+     */
+    public function userEmailId($email='')
+    {
+        $email=trim($email);
+        
+        if (!$email) {
+            return false;
+        }
+
+        $sql="SELECT id FROM edxapp.auth_user WHERE email LIKE ".$this->db->quote($email).";";
+        $q=$this->db->query($sql) or die(print_r($this->db->errorInfo(), true));
+        $r=$q->fetch(\PDO::FETCH_ASSOC);
+        if($r){
+            return $r['id'];
+        }
+        return false;
+    }
+
 
 
     /**
