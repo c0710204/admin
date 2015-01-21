@@ -32,7 +32,7 @@ include "box_tools.php";
 
 include "box_processing.php";//
 
-
+	
 
 // Temporary list
 $box = new Admin\SolidBox;
@@ -42,7 +42,7 @@ $box->title("Temporary user list");
 $box->loading(true);
 
 $foot=[];
-$foot[]="<a href=#import class='btn btn-default' id='btnImport'><i class='fa fa-bolt'></i> Import users</a> ";
+$foot[]="<a href=#import class='btn btn-default' id='btnImport'><i class='fa fa-bolt'></i> Import temporary user(s)</a> ";
 $foot[]="<a href=#clear class='btn btn-danger pull-right' onclick='clearList()'><i class='fa fa-trash-o'></i> Clear list</a> ";
 echo $box->html("Please wait...",$foot);
 

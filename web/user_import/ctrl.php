@@ -41,13 +41,13 @@ switch (@$_POST['do']) {
         die('getData();');//reload
         exit;
 
-    case 'getRecord':
+    
+
+    case 'getRecord'://edit user record
         
         $id =$_POST['id']*1;
-        
         $sql="SELECT * FROM edxcrm.student_bulk_import WHERE sbi_id=$id;";
         $q=$admin->db()->query($sql) or die(print_r($admin->db()->errorInfo(), true));
-        
         $r=$q->fetch(PDO::FETCH_ASSOC);
         if($r){
             echo "$('#sbi_id').val($id);\n";
@@ -62,7 +62,7 @@ switch (@$_POST['do']) {
     
     case 'list':// get the list of temporary users
 
-        $sql="SELECT * FROM edxcrm.student_bulk_import WHERE 1;";// LIMIT 300
+        $sql="SELECT * FROM edxcrm.student_bulk_import WHERE sbi_course_id LIKE '';";// LIMIT 300
         $q=$admin->db()->query($sql) or die(print_r($admin->db()->errorInfo(), true));
         //echo "$sql";
         $list=[];
@@ -71,20 +71,17 @@ switch (@$_POST['do']) {
             // emails and logins must be checked before import !!!
             $testmail=$edxApp->userEmailId($r['sbi_email']);
             $testname=$edxApp->usernameId($r['sbi_login']);
-            
             if($testmail)$r['warning_mail']=$testmail;
             if($testname)$r['warning_name']=$testname;
-            
-
-            if(!$r['sbi_first_name'])$r['sbi_first_name']='';
-            if(!$r['sbi_last_name'])$r['sbi_last_name']='';
+            //if(!$r['sbi_first_name'])$r['sbi_first_name']='';
+            //if(!$r['sbi_last_name'])$r['sbi_last_name']='';
             $list[]=$r;
         }
         echo json_encode($list);
         exit;
         break;
 
-    case 'saveSbi':
+    case 'saveSbi':// update temp user record
         
         //print_r($_POST);
         $sbi_id=$_POST['sbi_id']*1;
@@ -106,15 +103,12 @@ switch (@$_POST['do']) {
         exit;
         break;
 
-    case 'confirmEnroll':
-        
+    case 'confirmEnroll':// set desired enrollment for the list of users, before user creation
         //print_r($_POST);
-        
         $course_id=trim($_POST['course_id']);
-        $sql = "UPDATE edxcrm.student_bulk_import SET sbi_course_id=".$admin->db()->quote($course_id)." WHERE 1;";
+        $sql = "UPDATE edxcrm.student_bulk_import SET sbi_course_id=".$admin->db()->quote($course_id)." WHERE sbi_course_id LIKE '';";
         $q=$admin->db()->query($sql) or die(print_r($admin->db()->errorInfo(), true));
-        
-        die("Done");
+        die("document.location.href='?';");//reload
         break;
 
     case 'clearList'://clear tmp user list
@@ -124,12 +118,51 @@ switch (@$_POST['do']) {
         die('getData();');
         break;
 
-    case 'import':
+    case 'import'://final step : user creation and enrollments
+        
         $sql="SELECT * FROM edxcrm.student_bulk_import WHERE 1;";// LIMIT 300
         $q=$admin->db()->query($sql) or die(print_r($admin->db()->errorInfo(), true));
+        $imported=0;
+        $errors=0;
         while($r=$q->fetch(PDO::FETCH_ASSOC)){
-            //import $r
+            
+            //print_r($r);
+            
+            // create user
+            $user_id=$edxApp->userCreate($r['sbi_email'], $r['sbi_login'], $r['sbi_first_name'], $r['sbi_last_name']);
+            
+            if ($user_id) {
+                
+                // set password
+                $password=$admin->django->djangopassword($r['sbi_password']);
+                $edxApp->updatePassword($user_id, $password);
+
+                // enroll
+                $id=$edxApp->enroll($r['sbi_course_id'], $user_id);
+                
+                // send mail
+                // todo..
+                
+                // log as text
+                error_log("User #$user_id created and enrolled to course ".$r['sbi_course_id']." - enroll_id #$id\n", 3, '/tmp/admin_importusers.txt');
+                $imported++;
+            } else {
+                error_log("Error creating user ".print_r($r)."\n", 3, '/tmp/admin_importusers.txt');
+                //die("Error creating user $r");
+                $errors++;
+            }
+            
+            
+            // clear temp record //
+            $sbi_id=$r['sbi_id'];
+            $sql="DELETE FROM edxcrm.student_bulk_import WHERE sbi_id=$sbi_id LIMIT 1;";
+            $admin->db()->query($sql) or die(print_r($admin->db()->errorInfo()."<hr />$sql", true));
+            
         }
+        
+        if($imported>0)echo "alert('$imported user(s) imported successfully');\n";
+        if($errors>0)echo "alert('$errors errors(s), please check import logs !');\n";
+        die("document.location.href='?';");
         break;
 
     default:

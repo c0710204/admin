@@ -54,11 +54,13 @@ echo $box->html($html,$foot);
 <section class="col-md-6">
 <?php
 $box=new Admin\SolidBox;
+$box->type('danger');
 $box->icon('fa fa-warning');
 $box->title('Upload info');
 
 $html=[];
 $html[]="<pre>";
+$html[]="Excel file format is <b>.xls</b>\n\n";
 $html[]="Excel file must contain the following columns :\n\n";
 $html[]=" - email\n";
 $html[]=" - first_name\n";

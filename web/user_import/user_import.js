@@ -98,7 +98,7 @@ function showData(target){
         }
     }
     if(dat.length==0){
-        h.push("<div class='alert'>Temporary user list is empty. Add some users</div>");
+        h.push("<i class='fa fa-warning' style='color:#c00'></i> Temporary user list is empty");
     }
 
     $(target).html(h.join(''));
@@ -172,7 +172,13 @@ function confirmEnroll(course_id){
     $('#editModal').modal('hide');
 
     $('#more').load('ctrl.php',{'do':'confirmEnroll','course_id':course_id},function(x){
-
+        try{
+            eval(x);
+        }
+        catch(e){
+            console.log('error',x);
+            $("#boxlist .overlay, #boxlist .loading-img").hide();
+        }
     });
 }
 
