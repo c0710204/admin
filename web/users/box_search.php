@@ -56,10 +56,14 @@ $htm[]="</div></div>";
 $htm[]="<div class='col-sm-1'>";
 $htm[]="<div class='form-group'>";
 $htm[]="<label>New</label><br />";
-$htm[]="<a href=#create class='btn btn-primary' id=btnCreateUser><i class='fa fa-user'></i> Create a user</a>";
+$htm[]="<a href=#create class='btn btn-primary' id=btnCreateUser><i class='fa fa-user'></i> Create</a>";
 $htm[]="</div></div>";
 
-
+$htm[]="<div class='col-sm-1'>";
+$htm[]="<div class='form-group'>";
+$htm[]="<label>Import</label><br />";
+$htm[]="<a href='../user_import' class='btn btn-primary'><i class='fa fa-user'></i> Import</a>";
+$htm[]="</div></div>";
 
 $htm[]="</div>";//end row
 

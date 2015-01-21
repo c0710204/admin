@@ -40,6 +40,7 @@ $box->id("boxusersession");
 $box->icon("fa fa-bolt");
 $box->type("primary");
 $box->title("Sessions");
+$box->body_padding(false);
 $box->loading(true);
 $foot=[];
 $foot[]="<a href='../user_calendar/?user_id=$USERID' class='btn btn-default'><i class='fa fa-calendar'></i> User calendar</a> ";
@@ -100,7 +101,12 @@ function displaySession(dat){
     }
     htm.push("</tbody>");
     htm.push("</table>");
-    htm.push("<i class=muted>"+dat.length+" session(s)</i>");
+    
+    if(dat.length>0){
+        htm.push("<i class=muted>"+dat.length+" session(s)</i>");
+    }else{
+        htm.push("<br />&nbsp;<i class='fa fa-warning' style='color:#c00'></i> no session data<br /><br />");
+    }
     $("#boxusersession .box-body").html(htm.join(''));
     $("#boxusersession .box-title").html("<i class='fa fa-bolt'></i> "+dat.length+" session(s)");
     $("#tilesession h3").text(dat.length);
