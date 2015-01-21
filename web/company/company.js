@@ -28,7 +28,7 @@ $(function(){
 		if(!confirm("Delete this company and associated data ?"))return false;
 		
 		$("#boxinfo .overlay, #boxinfo .loading-img").show();	
-		$('#boxinfo .box-body').load('ctrl.php',{'do':'delete','id':$('company_id').val()},function(x){
+		$('#boxinfo .box-body').load('ctrl.php',{'do':'delete','id':$('#company_id').val()},function(x){
 			try{
 				eval(x);
 			}

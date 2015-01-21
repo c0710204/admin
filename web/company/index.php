@@ -11,8 +11,16 @@ $admin->title("Company");
 echo $admin->printPrivate();
 
 $edxCrm = new Admin\EdxCrm();
+
+$company_id=$_GET['id']*1;
 $comp=$edxCrm->company($_GET['id']);
-//print_r($comp);
+
+if($comp){
+  echo "<input type=hidden id=company_id value='$company_id'>";  
+} else {
+  die("Error : Company not found");
+}
+
 ?>
 
 <section class="content-header">
