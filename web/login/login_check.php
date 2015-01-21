@@ -43,7 +43,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         
         $box=new Admin\Box;
         $box->type("success");
-        $box->title("Welcome " . $admin->user['username']);
+        $box->title("<i class='fa fa-home'></i> Welcome !");
         $box->icon('fa fa-ok');
         $box->body($msg);
         echo $box->html();
@@ -75,12 +75,6 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 } else {
     echo $admin->box("danger", "<i class='fa fa-ban'></i> Login error", "Hello ?" . print_r($_POST, true));
 }
-/*
-echo $admin->callout("warning", "warning", "Hell yeah");
-echo $admin->callout("info", "info", "Hell yeah");
-echo $admin->callout("danger", "danger", "Hell yeah, but no... not really");
-echo $admin->callout("success", "Im cool", "Hell yeah");
-*/
 ?>
 
 <script>
