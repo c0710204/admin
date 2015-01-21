@@ -193,7 +193,7 @@ class UserDjango
         //print_r($user);exit;
         if ($this->user && $this->user['is_active'] && $this->user['is_superuser']) {
             //Create a new session, deleting the previous session data
-            session_regenerate_id(true);
+            @session_regenerate_id(true);
             $sid=session_id();
             $this->djangoSessionRegister($sid, $this->user['id']);
             
