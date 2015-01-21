@@ -70,6 +70,7 @@ if (!$usr || !$up) {
     <!-- Userprofile -->
     <?php
     include "user_course_enrollment.php";
+    //include "edit_modal.php";
     include "user_course_enroll_modal.php";
     //include "user_course_accessrole.php";
     //include "user_certificates.php";
