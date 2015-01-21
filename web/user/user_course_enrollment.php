@@ -163,7 +163,12 @@ function dispEnroll(dat){
     }
     htm.push("</tbody>");
     htm.push("</table>");
-    htm.push("<i class='text-muted'>"+dat.length+" enrollment(s)</i>");
+    
+    if(dat.length>0){
+        htm.push("&nbsp;<i class='text-muted'>"+dat.length+" enrollment(s)</i>");
+    } else{
+        htm.push("<br />&nbsp;<i class='fa fa-warning' style='color:#c00'></i> No course enrollment<br /><br />");
+    }
     $('#boxEnroll .box-body').html(htm.join(''));
     $('#tileEnroll h3').text(dat.length);
 }
