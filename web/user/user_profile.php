@@ -1,6 +1,9 @@
 <?php
 //user profile
 
+//echo "<pre>";print_r($usr);echo "</pre>";
+//echo "<pre>";print_r($up);echo "</pre>";
+
 $body=[];
 
 
@@ -44,6 +47,68 @@ $body[]='</div>';
 $body[]='</div>';
 
 
+///////////////////////////////
+// Gender - Year of birth
+///////////////////////////////
+$body[]='<div class="row">';
+
+$body[]='<div class="col-sm-6">';
+$body[]='<div class=form-group><label>Gender</label>';
+$body[]='<input type="text" class="form-control" id="gender" value="'.$up['gender'].'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='<div class="col-sm-6">';
+$body[]='<div class=form-group><label>Year of birth</label>';
+$body[]='<input type="text" class="form-control" id="year_of_birth" maxlength=4 value="'.$up['year_of_birth'].'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='</div>';
+
+///////////////////////////////
+// Language - Country
+///////////////////////////////
+$body[]='<div class="row">';
+
+$body[]='<div class="col-sm-6">';
+$body[]='<div class=form-group><label>Language</label>';
+$body[]='<input type="text" class="form-control" id="language" value="'.$up['language'].'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='<div class="col-sm-6">';
+$body[]='<div class=form-group><label>Country code</label>';
+$body[]='<input type="text" class="form-control" id="country" maxlength=2 value="'.$up['country'].'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='</div>';
+
+
+///////////////////////////////
+// City
+///////////////////////////////
+$body[]='<div class="row">';
+$body[]='<div class="col-sm-12">';
+$body[]='<div class=form-group><label>City</label>';
+$body[]='<input type="text" class="form-control" id="city" value="'.$up['city'].'">';
+$body[]='</div>';
+$body[]='</div>';
+$body[]='</div>';
+
+///////////////////////////////
+// Mailing address
+///////////////////////////////
+$body[]='<div class="row">';
+
+$body[]='<div class="col-sm-12">';
+$body[]='<div class=form-group><label>Mailing address</label>';
+$body[]='<input type="text" class="form-control" id="mailing_address" value="'.$up['mailing_address'].'">';
+$body[]='</div>';
+$body[]='</div>';
+
+$body[]='</div>';
 
 ///////////////////////////////
 // Date joined - Last login
@@ -151,6 +216,14 @@ function saveUserInfo(){
         'email':$('#email').val(),
         'first_name':$('#first_name').val(),
         'last_name':$('#last_name').val(),
+        
+        'gender':$('#gender').val(),
+        'year_of_birth':$('#year_of_birth').val(),
+        'language':$('#language').val(),
+        'country':$('#country').val(),
+        'city':$('#city').val(),
+        'mailing_address':$('#mailing_address').val(),
+        
         'is_active':$('#is_active:checked').val(),
         'user_id':userid
     };
