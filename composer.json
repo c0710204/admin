@@ -5,6 +5,11 @@
             "name": "Jambonbill",
             "email": "jambonbill@gmail.com",
             "homepage": "https://github.com/jambonbill"
+        },
+        {
+            "name": "Xiang Gu",
+            "email": "c0710204@gmail.com",
+            "homepage": "https://github.com/c0710204"
         }
     ],
     "autoload": {
@@ -13,7 +18,8 @@
         }
     },
     "require": {
-    	"php": ">=5.5.9",
-        "monolog/monolog": "~1.1"
+    	"php": ">=5.5",
+        "monolog/monolog": "~1.1",
+		"symfony/yaml": "~2.6"
     }
 }
