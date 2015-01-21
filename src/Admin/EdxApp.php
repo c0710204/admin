@@ -456,6 +456,7 @@ class EdxApp
             return false;
         }
 
+        //print_r($data);exit;
 
         $sql ="UPDATE edxapp.auth_user SET ";
 
@@ -475,7 +476,13 @@ class EdxApp
 
         // todo : username should aslo be changed in edxapp.auth_userprofile
         $sql ="UPDATE edxapp.auth_userprofile SET ";
-        $sql.="name=".$this->db->quote($data['username'])." ";
+        $sql.="name=".$this->db->quote($data['username']).", ";
+        $sql.="gender=".$this->db->quote($data['gender']).", ";
+        $sql.="year_of_birth=".$this->db->quote($data['year_of_birth']).", ";
+        $sql.="language=".$this->db->quote($data['language']).", ";
+        $sql.="country=".$this->db->quote($data['country']).", ";
+        $sql.="city=".$this->db->quote($data['city']).", ";
+        $sql.="mailing_address=".$this->db->quote($data['mailing_address'])." ";
         $sql.="WHERE user_id='$user_id' LIMIT 1;";
 
         $q=$this->db->query($sql) or die($this->db->errorInfo()[2]);
